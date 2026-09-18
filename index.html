@@ -554,7 +554,29 @@ function openMovie(index){
 
 let movies = [];
 
-fetch("./movies.json")
+let movies = [];
+
+async function loadMovies() {
+
+  const { data, error } =
+    await supabaseClient
+      .from("movies")
+      .select("*")
+      .order("created_at", {
+        ascending: false
+      });
+
+  if (error) {
+    console.error("Movie database error:", error);
+    return;
+  }
+
+  movies = data || [];
+
+  displayMovies(movies);
+}
+
+loadMovies();
   .then(response => response.json())
   .then(data => {
 
