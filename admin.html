@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>NEX BOX Admin</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+background:#080808;
+color:#fff;
+font-family:Arial,sans-serif;
+}
+
+header{
+background:#111;
+padding:18px 20px;
+border-bottom:1px solid #292929;
+}
+
+.logo{
+font-size:24px;
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#e50914;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:25px 20px;
+}
+
+h1{
+margin-bottom:25px;
+}
+
+.card{
+background:#151515;
+border:1px solid #292929;
+border-radius:10px;
+padding:20px;
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin-bottom:7px;
+color:#bbb;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:12px;
+margin-bottom:18px;
+background:#0d0d0d;
+border:1px solid #333;
+border-radius:6px;
+color:white;
+outline:none;
+}
+
+textarea{
+min-height:100px;
+resize:vertical;
+}
+
+button{
+border:0;
+border-radius:6px;
+padding:12px 18px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.add{
+background:#e50914;
+color:white;
+}
+
+.back{
+background:#222;
+color:white;
+margin-bottom:20px;
+}
+
+#message{
+margin-top:15px;
+color:#aaa;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+NEX<span>BOX</span>
+</div>
+
+</header>
+
+
+<div class="container">
+
+<a href="./index.html">
+
+<button class="back">
+← Back to NEX BOX
+</button>
+
+</a>
+
+
+<h1>Content Manager</h1>
+
+
+<div class="card">
+
+<h2>Add Movie</h2>
+
+<label>
+Movie Title
+</label>
+
+<input
+id="title"
+type="text"
+placeholder="Movie title"
+>
+
+
+<label>
+Year
+</label>
+
+<input
+id="year"
+type="number"
+placeholder="2026"
+>
+
+
+<label>
+Genre
+</label>
+
+<select id="genre">
+
+<option>Action</option>
+<option>Comedy</option>
+<option>Drama</option>
+<option>Animation</option>
+<option>Adventure</option>
+<option>Documentary</option>
+
+</select>
+
+
+<label>
+Poster URL
+</label>
+
+<input
+id="poster"
+type="url"
+placeholder="https://..."
+>
+
+
+<label>
+Video URL
+</label>
+
+<input
+id="video"
+type="url"
+placeholder="https://..."
+>
+
+
+<label>
+Description
+</label>
+
+<textarea
+id="description"
+placeholder="Movie description"
+></textarea>
+
+
+<button
+class="add"
+onclick="createMovie()"
+>
+Add Movie
+</button>
+
+
+<div id="message"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+function createMovie(){
+
+const title =
+document.getElementById("title").value.trim();
+
+const year =
+document.getElementById("year").value.trim();
+
+const genre =
+document.getElementById("genre").value;
+
+const poster =
+document.getElementById("poster").value.trim();
+
+const video =
+document.getElementById("video").value.trim();
+
+const description =
+document.getElementById("description").value.trim();
+
+
+if(!title || !year || !poster || !video){
+
+document.getElementById("message").textContent =
+"Please fill in all required fields.";
+
+return;
+
+}
+
+
+const movie = {
+
+title:title,
+year:year,
+genre:genre,
+poster:poster,
+video:video,
+description:description,
+featured:false
+
+};
+
+
+document.getElementById("message").textContent =
+"Movie information prepared successfully.";
+
+console.log(movie);
+
+}
+
+</script>
+
+</body>
+  </html>
