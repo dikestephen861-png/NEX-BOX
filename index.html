@@ -656,7 +656,45 @@ navigator.serviceWorker.register("./sw.js")
 
 }
 
-</script>
+</script>function showHome(){
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function showMovies(){
+
+  const movieSection =
+    document.getElementById("movieList");
+
+  if(movieSection){
+
+    movieSection.scrollIntoView({
+      behavior:"smooth"
+    });
+
+  }
+
+}
+
+
+function focusSearch(){
+
+  const search =
+    document.getElementById("searchBox");
+
+  search.focus();
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
 
 </body>
   </html>
