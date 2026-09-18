@@ -139,22 +139,33 @@ section h2{
 margin-bottom:18px;
 }
 
-.categories{
-display:flex;
-gap:10px;
-overflow-x:auto;
-padding-bottom:10px;
-}
+<div class="categories" id="categories">
 
-.category{
-flex:0 0 auto;
-padding:10px 17px;
-border-radius:20px;
-background:#181818;
-border:1px solid #333;
-color:#ccc;
-cursor:pointer;
-}
+  <button class="category active" onclick="filterCategory('All')">
+    All
+  </button>
+
+  <button class="category" onclick="filterCategory('Action')">
+    Action
+  </button>
+
+  <button class="category" onclick="filterCategory('Comedy')">
+    Comedy
+  </button>
+
+  <button class="category" onclick="filterCategory('Drama')">
+    Drama
+  </button>
+
+  <button class="category" onclick="filterCategory('Animation')">
+    Animation
+  </button>
+
+  <button class="category" onclick="filterCategory('Adventure')">
+    Adventure
+  </button>
+
+</div>
 
 .movies{
 display:grid;
