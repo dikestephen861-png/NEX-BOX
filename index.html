@@ -466,7 +466,87 @@ description:"A fictional action movie created for the NEX BOX demo."
 
 function openMovie(index){
 
-const movie=movies[index];
+let movies = [];
+
+fetch("./movies.json")
+  .then(response => response.json())
+  .then(data => {
+    movies = data;
+    displayMovies(movies);
+  })
+  .catch(error => {
+    console.error("Could not load movies:", error);
+  });
+
+
+function displayMovies(movieData) {
+
+  const movieList = document.getElementById("movieList");
+
+  movieList.innerHTML = "";
+
+  movieData.forEach((movie, index) => {
+
+    const card = document.createElement("div");
+
+    card.className = "movie";
+
+    card.innerHTML = `
+      <div class="poster">
+        <img src="${movie.poster}" alt="${movie.title}">
+      </div>
+
+      <div class="movie-info">
+
+        <div class="movie-title">
+          ${movie.title}
+        </div>
+
+        <div class="movie-meta">
+          ${movie.year} • ${movie.genre}
+        </div>
+
+      </div>
+    `;
+
+    card.onclick = function() {
+      window.location.href = "./movie.html?id=" + index;
+    };
+
+    movieList.appendChild(card);
+
+  });
+}
+
+
+document
+  .getElementById("searchBox")
+  .addEventListener("input", function() {
+
+    const search =
+      this.value.toLowerCase();
+
+    const filtered =
+      movies.filter(movie =>
+        movie.title.toLowerCase().includes(search)
+      );
+
+    displayMovies(filtered);
+
+  });
+
+
+if ("serviceWorker" in navigator) {
+
+  navigator.serviceWorker.register("./sw.js")
+    .then(() =>
+      console.log("NEX BOX Service Worker registered")
+    )
+    .catch(error =>
+      console.error(error)
+    );
+
+  }
 
 document.getElementById("home").style.display="none";
 
