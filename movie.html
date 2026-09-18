@@ -1,26 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 
 <meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+content="width=device-width,initial-scale=1.0">
 
-<title>NEX BOX Movie</title>
+<meta name="theme-color" content="#080808">
+
+<title>NEX BOX</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
+
+*{
+box-sizing:border-box;
+}
 
 body{
 margin:0;
 background:#080808;
-color:white;
+color:#fff;
 font-family:Arial,sans-serif;
 }
 
 header{
 padding:18px 20px;
-border-bottom:1px solid #222;
+background:#111;
+border-bottom:1px solid #292929;
 }
 
 .logo{
@@ -34,35 +44,46 @@ color:#e50914;
 }
 
 .container{
-max-width:900px;
+max-width:1100px;
 margin:auto;
-padding:25px 20px;
+padding:25px 20px 60px;
 }
 
 .back{
 display:inline-block;
-padding:10px 17px;
 background:#222;
-color:white;
+color:#fff;
 text-decoration:none;
+padding:11px 18px;
 border-radius:6px;
-margin-bottom:20px;
+margin-bottom:25px;
+}
+
+.movie-layout{
+display:flex;
+gap:30px;
 }
 
 .poster{
-width:200px;
-height:290px;
+width:240px;
+height:350px;
 object-fit:cover;
-border-radius:8px;
+border-radius:10px;
+background:#151515;
+}
+
+.info{
+flex:1;
 }
 
 h1{
-font-size:32px;
+font-size:38px;
+margin-top:0;
 }
 
 .meta{
 color:#999;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
 .description{
@@ -70,18 +91,57 @@ color:#bbb;
 line-height:1.7;
 }
 
+.watch{
+display:inline-block;
+margin-top:15px;
+background:#e50914;
+color:#fff;
+padding:14px 24px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.player{
+margin-top:35px;
+}
+
 video{
 width:100%;
-margin-top:25px;
-border-radius:8px;
+max-height:650px;
 background:#000;
+border-radius:10px;
+}
+
+.error{
+color:#aaa;
+padding:40px 0;
+}
+
+@media(max-width:700px){
+
+.movie-layout{
+flex-direction:column;
+}
+
+.poster{
+width:190px;
+height:280px;
+}
+
+h1{
+font-size:29px;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -91,80 +151,179 @@ NEX<span>BOX</span>
 
 </header>
 
+
 <div class="container">
 
-<a href="./index.html" class="back">
+<a
+href="./index.html"
+class="back">
+
 ← Back
+
 </a>
 
-<img id="poster" class="poster">
 
-<h1 id="title"></h1>
+<div id="content">
 
-<div id="meta" class="meta"></div>
-
-<p id="description" class="description"></p>
-
-<video id="player" controls playsinline></video>
+<div class="error">
+Loading movie...
+</div>
 
 </div>
 
+</div>
+
+
 <script>
 
+const SUPABASE_URL =
+"https://jacxlmcwwedertcaizdj.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
 const params =
-new URLSearchParams(window.location.search);
+new URLSearchParams(
+window.location.search
+);
 
-const movieIndex =
-parseInt(params.get("id")) || 0;
+const movieId =
+params.get("id");
 
-fetch("./movies.json")
 
-.then(response => response.json())
+async function loadMovie(){
 
-.then(movies => {
+if(!movieId){
 
-const movie = movies[movieIndex];
-
-if(!movie){
-
-document.getElementById("title").textContent =
-"Movie not found";
+showError("Movie not found.");
 
 return;
 
 }
 
-document.getElementById("title")
-.textContent = movie.title;
 
-document.getElementById("meta")
-.textContent =
-movie.year + " • " + movie.genre;
+const {data,error} =
+await supabaseClient
+.from("movies")
+.select("*")
+.eq("id",movieId)
+.single();
 
-document.getElementById("description")
-.textContent = movie.description;
 
-document.getElementById("poster")
-.src = movie.poster;
-
-document.getElementById("player")
-.src = movie.video;
-
-document.title =
-movie.title + " - NEX BOX";
-
-})
-
-.catch(error => {
-
-document.getElementById("title")
-.textContent = "Unable to load movie";
+if(error || !data){
 
 console.error(error);
 
-});
+showError("Movie not found.");
+
+return;
+
+}
+
+
+document.title =
+data.title+" - NEX BOX";
+
+
+document.getElementById("content")
+.innerHTML=`
+
+<div class="movie-layout">
+
+<img
+class="poster"
+src="${data.poster_url || ''}"
+alt="${escapeHtml(data.title)}">
+
+<div class="info">
+
+<h1>
+${escapeHtml(data.title)}
+</h1>
+
+<div class="meta">
+${data.year || ""}
+•
+${escapeHtml(data.genre || "")}
+</div>
+
+<p class="description">
+${escapeHtml(
+data.description ||
+"No description available."
+)}
+</p>
+
+<a
+href="#player"
+class="watch">
+
+▶ Watch Full Movie
+
+</a>
+
+</div>
+
+</div>
+
+
+<div
+class="player"
+id="player">
+
+<video
+controls
+playsinline
+preload="metadata">
+
+<source
+src="${data.video_url || ''}"
+type="video/mp4">
+
+Your browser does not support video playback.
+
+</video>
+
+</div>
+
+`;
+
+}
+
+
+function showError(message){
+
+document.getElementById("content")
+.innerHTML=
+"<div class='error'>"+message+"</div>";
+
+}
+
+
+function escapeHtml(text){
+
+const div =
+document.createElement("div");
+
+div.textContent=text || "";
+
+return div.innerHTML;
+
+}
+
+
+loadMovie();
 
 </script>
 
+
 </body>
-  </html>
+
+</html>
