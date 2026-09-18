@@ -545,11 +545,23 @@ let movies = [];
 fetch("./movies.json")
   .then(response => response.json())
   .then(data => {
+
     movies = data;
+
+    const savedMovies =
+      JSON.parse(
+        localStorage.getItem("nexboxMovies") || "[]"
+      );
+
+    movies = movies.concat(savedMovies);
+
     displayMovies(movies);
+
   })
   .catch(error => {
+
     console.error("Could not load movies:", error);
+
   });
 
 
