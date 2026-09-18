@@ -3,24 +3,54 @@
     "title": "The Adventure",
     "year": "2026",
     "genre": "Adventure",
-    "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80",
+    "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=600&q=80",
     "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
-    "description": "A demonstration adventure movie for NEX BOX."
+    "description": "A demonstration adventure movie for NEX BOX.",
+    "featured": true
   },
   {
     "title": "Night City",
     "year": "2026",
     "genre": "Drama",
-    "poster": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=500&q=80",
+    "poster": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=600&q=80",
     "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
-    "description": "A demonstration drama movie for NEX BOX."
+    "description": "A demonstration drama movie for NEX BOX.",
+    "featured": false
   },
   {
     "title": "The Journey",
     "year": "2026",
     "genre": "Adventure",
-    "poster": "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=500&q=80",
+    "poster": "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=600&q=80",
     "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
-    "description": "A demonstration movie for NEX BOX."
+    "description": "A demonstration adventure movie for NEX BOX.",
+    "featured": false
+  },
+  {
+    "title": "Final Mission",
+    "year": "2026",
+    "genre": "Action",
+    "poster": "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=600&q=80",
+    "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+    "description": "A demonstration action movie for NEX BOX.",
+    "featured": false
+  },
+  {
+    "title": "Funny Day",
+    "year": "2026",
+    "genre": "Comedy",
+    "poster": "https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=600&q=80",
+    "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+    "description": "A demonstration comedy movie for NEX BOX.",
+    "featured": false
+  },
+  {
+    "title": "Little Heroes",
+    "year": "2026",
+    "genre": "Animation",
+    "poster": "https://images.unsplash.com/photo-1606112219348-204d7d8b94ee?auto=format&fit=crop&w=600&q=80",
+    "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+    "description": "A demonstration animation movie for NEX BOX.",
+    "featured": false
   }
 ]
