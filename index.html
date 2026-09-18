@@ -7,49 +7,280 @@
   <title>NEX BOX</title>
 
   <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#000000">
+  <meta name="theme-color" content="#080808">
 
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      background: #000;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      text-align: center;
+      padding: 0;
+    }
+
+    body {
+      background: #080808;
+      color: white;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     header {
-      padding: 25px;
-      font-size: 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 8, 8, 0.96);
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: 2px;
+    }
+
+    .logo span {
+      color: #e50914;
+    }
+
+    .search {
+      background: #171717;
+      border: 1px solid #333;
+      color: white;
+      border-radius: 25px;
+      padding: 11px 15px;
+      width: 170px;
+      outline: none;
+    }
+
+    .hero {
+      min-height: 420px;
+      padding: 45px 22px;
+      display: flex;
+      align-items: flex-end;
+      background:
+        linear-gradient(to top, #080808 5%, transparent 75%),
+        linear-gradient(to right, #080808 0%, rgba(8,8,8,.65), transparent);
+    }
+
+    .hero-content {
+      max-width: 600px;
+    }
+
+    .hero h1 {
+      font-size: 42px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      color: #ccc;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .watch-btn {
+      border: none;
+      background: #e50914;
+      color: white;
+      padding: 13px 23px;
+      border-radius: 6px;
       font-weight: bold;
+      cursor: pointer;
     }
 
-    .welcome {
-      margin-top: 100px;
-      padding: 20px;
+    section {
+      padding: 25px 20px;
     }
 
-    h1 {
-      font-size: 45px;
+    section h2 {
+      margin-bottom: 18px;
+      font-size: 22px;
     }
 
-    p {
-      color: #aaa;
-      font-size: 18px;
+    .movies {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .movie {
+      background: #151515;
+      border-radius: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform .2s;
+    }
+
+    .movie:hover {
+      transform: translateY(-4px);
+    }
+
+    .poster {
+      height: 220px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #252525, #111);
+      color: #888;
+      font-size: 14px;
+    }
+
+    .movie-info {
+      padding: 12px;
+    }
+
+    .movie-title {
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .movie-meta {
+      color: #999;
+      font-size: 13px;
+    }
+
+    .categories {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .category {
+      flex: 0 0 auto;
+      padding: 10px 17px;
+      border-radius: 20px;
+      background: #1b1b1b;
+      color: #ccc;
+      border: 1px solid #333;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 40px 20px 80px;
+      border-top: 1px solid #222;
+      margin-top: 20px;
+    }
+
+    @media (min-width: 700px) {
+      .movies {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .hero {
+        min-height: 520px;
+        padding-left: 60px;
+      }
+
+      section {
+        padding-left: 60px;
+        padding-right: 60px;
+      }
+
+      .search {
+        width: 250px;
+      }
     }
   </style>
 </head>
 
 <body>
 
-  <header>NEX BOX</header>
+  <header>
+    <div class="logo">NEX<span>BOX</span></div>
 
-  <div class="welcome">
-    <h1>Welcome to NEX BOX</h1>
-    <p>Your entertainment starts here.</p>
-  </div>
+    <input
+      class="search"
+      type="search"
+      placeholder="Search..."
+      id="searchBox"
+    >
+  </header>
+
+  <main>
+
+    <div class="hero">
+      <div class="hero-content">
+        <h1>Welcome to NEX BOX</h1>
+
+        <p>
+          Discover movies, series and entertainment
+          in one simple place.
+        </p>
+
+        <button class="watch-btn" onclick="showMessage()">
+          ▶ Watch Now
+        </button>
+      </div>
+    </div>
+
+    <section>
+      <h2>Categories</h2>
+
+      <div class="categories">
+        <div class="category">All</div>
+        <div class="category">Action</div>
+        <div class="category">Comedy</div>
+        <div class="category">Drama</div>
+        <div class="category">Animation</div>
+        <div class="category">Documentary</div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Trending</h2>
+
+      <div class="movies">
+
+        <div class="movie">
+          <div class="poster">POSTER</div>
+          <div class="movie-info">
+            <div class="movie-title">Demo Movie 1</div>
+            <div class="movie-meta">2026 • Action</div>
+          </div>
+        </div>
+
+        <div class="movie">
+          <div class="poster">POSTER</div>
+          <div class="movie-info">
+            <div class="movie-title">Demo Movie 2</div>
+            <div class="movie-meta">2026 • Drama</div>
+          </div>
+        </div>
+
+        <div class="movie">
+          <div class="poster">POSTER</div>
+          <div class="movie-info">
+            <div class="movie-title">Demo Movie 3</div>
+            <div class="movie-meta">2026 • Comedy</div>
+          </div>
+        </div>
+
+        <div class="movie">
+          <div class="poster">POSTER</div>
+          <div class="movie-info">
+            <div class="movie-title">Demo Movie 4</div>
+            <div class="movie-meta">2026 • Animation</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2026 NEX BOX</p>
+    <p>Entertainment platform</p>
+  </footer>
 
   <script>
+    function showMessage() {
+      alert("NEX BOX player coming next.");
+    }
+
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js")
         .then(() => console.log("NEX BOX Service Worker registered"))
