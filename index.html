@@ -1,292 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>NEX BOX</title>
+<title>NEX BOX</title>
 
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#080808">
+<link rel="manifest" href="./manifest.json">
+<meta name="theme-color" content="#080808">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<style>
 
-    body {
-      background: #080808;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-    }
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
 
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(8, 8, 8, 0.96);
-      padding: 18px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid #222;
-    }
+body{
+background:#080808;
+color:white;
+font-family:Arial,Helvetica,sans-serif;
+}
 
-    .logo {
-      font-size: 25px;
-      font-weight: 900;
-      letter-spacing: 2px;
-    }
+header{
+position:sticky;
+top:0;
+z-index:100;
+background:#080808;
+padding:16px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+border-bottom:1px solid #222;
+}
 
-    .logo span {
-      color: #e50914;
-    }
+.logo{
+font-size:25px;
+font-weight:900;
+letter-spacing:2px;
+}
 
-    .search {
-      background: #171717;
-      border: 1px solid #333;
-      color: white;
-      border-radius: 25px;
-      padding: 11px 15px;
-      width: 170px;
-      outline: none;
-    }
+.logo span{
+color:#e50914;
+}
 
-    .hero {
-      min-height: 420px;
-      padding: 45px 22px;
-      display: flex;
-      align-items: flex-end;
-      background:
-        linear-gradient(to top, #080808 5%, transparent 75%),
-        linear-gradient(to right, #080808 0%, rgba(8,8,8,.65), transparent);
-    }
+.search{
+background:#181818;
+border:1px solid #333;
+color:white;
+border-radius:25px;
+padding:11px 15px;
+width:170px;
+outline:none;
+}
 
-    .hero-content {
-      max-width: 600px;
-    }
+.hero{
+height:440px;
+display:flex;
+align-items:flex-end;
+padding:30px 22px;
 
-    .hero h1 {
-      font-size: 42px;
-      margin-bottom: 12px;
-    }
+background:
+linear-gradient(to top,#080808 5%,transparent 75%),
+linear-gradient(to right,#080808,rgba(8,8,8,.65),transparent),
+url("https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=1400&q=80");
 
-    .hero p {
-      color: #ccc;
-      line-height: 1.6;
-      margin-bottom: 20px;
-    }
+background-size:cover;
+background-position:center;
+}
 
-    .watch-btn {
-      border: none;
-      background: #e50914;
-      color: white;
-      padding: 13px 23px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+.hero-content{
+max-width:600px;
+}
 
-    section {
-      padding: 25px 20px;
-    }
+.hero h1{
+font-size:42px;
+margin-bottom:12px;
+}
 
-    section h2 {
-      margin-bottom: 18px;
-      font-size: 22px;
-    }
+.hero p{
+color:#ccc;
+line-height:1.6;
+margin-bottom:20px;
+}
 
-    .movies {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 15px;
-    }
+.watch-btn{
+border:none;
+background:#e50914;
+color:white;
+padding:13px 23px;
+border-radius:6px;
+font-weight:bold;
+cursor:pointer;
+}
 
-    .movie {
-      background: #151515;
-      border-radius: 8px;
-      overflow: hidden;
-      cursor: pointer;
-      transition: transform .2s;
-    }
+section{
+padding:25px 20px;
+}
 
-    .movie:hover {
-      transform: translateY(-4px);
-    }
+section h2{
+margin-bottom:18px;
+}
 
-    .poster {
-      height: 220px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #252525, #111);
-      color: #888;
-      font-size: 14px;
-    }
+.categories{
+display:flex;
+gap:10px;
+overflow-x:auto;
+padding-bottom:10px;
+}
 
-    .movie-info {
-      padding: 12px;
-    }
+.category{
+flex:0 0 auto;
+padding:10px 17px;
+border-radius:20px;
+background:#181818;
+border:1px solid #333;
+color:#ccc;
+cursor:pointer;
+}
 
-    .movie-title {
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
+.movies{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:15px;
+}
 
-    .movie-meta {
-      color: #999;
-      font-size: 13px;
-    }
+.movie{
+background:#151515;
+border-radius:8px;
+overflow:hidden;
+cursor:pointer;
+transition:.2s;
+}
 
-    .categories {
-      display: flex;
-      gap: 10px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-    }
+.movie:hover{
+transform:translateY(-5px);
+}
 
-    .category {
-      flex: 0 0 auto;
-      padding: 10px 17px;
-      border-radius: 20px;
-      background: #1b1b1b;
-      color: #ccc;
-      border: 1px solid #333;
-    }
+.poster{
+height:230px;
+overflow:hidden;
+}
 
-    footer {
-      text-align: center;
-      color: #777;
-      padding: 40px 20px 80px;
-      border-top: 1px solid #222;
-      margin-top: 20px;
-    }
+.poster img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
 
-    @media (min-width: 700px) {
-      .movies {
-        grid-template-columns: repeat(4, 1fr);
-      }
+.movie-info{
+padding:12px;
+}
 
-      .hero {
-        min-height: 520px;
-        padding-left: 60px;
-      }
+.movie-title{
+font-weight:bold;
+margin-bottom:6px;
+}
 
-      section {
-        padding-left: 60px;
-        padding-right: 60px;
-      }
+.movie-meta{
+font-size:13px;
+color:#999;
+}
 
-      .search {
-        width: 250px;
-      }
-    }
-  </style>
+#details{
+display:none;
+padding:25px 20px;
+}
+
+.back{
+background:#222;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:6px;
+margin-bottom:20px;
+}
+
+.details-poster{
+width:180px;
+height:260px;
+object-fit:cover;
+border-radius:8px;
+margin-bottom:20px;
+}
+
+.details-title{
+font-size:30px;
+margin-bottom:10px;
+}
+
+.details-description{
+color:#aaa;
+line-height:1.6;
+margin-bottom:20px;
+}
+
+footer{
+text-align:center;
+color:#777;
+padding:40px 20px 80px;
+border-top:1px solid #222;
+margin-top:20px;
+}
+
+@media(min-width:700px){
+
+.movies{
+grid-template-columns:repeat(4,1fr);
+}
+
+.hero{
+height:550px;
+padding-left:60px;
+}
+
+section{
+padding-left:60px;
+padding-right:60px;
+}
+
+.search{
+width:250px;
+}
+
+}
+
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">NEX<span>BOX</span></div>
+<header>
 
-    <input
-      class="search"
-      type="search"
-      placeholder="Search..."
-      id="searchBox"
-    >
-  </header>
+<div class="logo">
+NEX<span>BOX</span>
+</div>
 
-  <main>
+<input
+class="search"
+id="searchBox"
+type="search"
+placeholder="Search movies..."
+>
 
-    <div class="hero">
-      <div class="hero-content">
-        <h1>Welcome to NEX BOX</h1>
+</header>
 
-        <p>
-          Discover movies, series and entertainment
-          in one simple place.
-        </p>
 
-        <button class="watch-btn" onclick="showMessage()">
-          ▶ Watch Now
-        </button>
-      </div>
-    </div>
+<main id="home">
 
-    <section>
-      <h2>Categories</h2>
+<div class="hero">
 
-      <div class="categories">
-        <div class="category">All</div>
-        <div class="category">Action</div>
-        <div class="category">Comedy</div>
-        <div class="category">Drama</div>
-        <div class="category">Animation</div>
-        <div class="category">Documentary</div>
-      </div>
-    </section>
+<div class="hero-content">
 
-    <section>
-      <h2>Trending</h2>
+<h1>NEX BOX</h1>
 
-      <div class="movies">
+<p>
+Your entertainment hub for movies,
+series and more.
+</p>
 
-        <div class="movie">
-          <div class="poster">POSTER</div>
-          <div class="movie-info">
-            <div class="movie-title">Demo Movie 1</div>
-            <div class="movie-meta">2026 • Action</div>
-          </div>
-        </div>
+<button class="watch-btn" onclick="openMovie(0)">
+▶ Watch Now
+</button>
 
-        <div class="movie">
-          <div class="poster">POSTER</div>
-          <div class="movie-info">
-            <div class="movie-title">Demo Movie 2</div>
-            <div class="movie-meta">2026 • Drama</div>
-          </div>
-        </div>
+</div>
 
-        <div class="movie">
-          <div class="poster">POSTER</div>
-          <div class="movie-info">
-            <div class="movie-title">Demo Movie 3</div>
-            <div class="movie-meta">2026 • Comedy</div>
-          </div>
-        </div>
+</div>
 
-        <div class="movie">
-          <div class="poster">POSTER</div>
-          <div class="movie-info">
-            <div class="movie-title">Demo Movie 4</div>
-            <div class="movie-meta">2026 • Animation</div>
-          </div>
-        </div>
 
-      </div>
-    </section>
+<section>
 
-  </main>
+<h2>Categories</h2>
 
-  <footer>
-    <p>© 2026 NEX BOX</p>
-    <p>Entertainment platform</p>
-  </footer>
+<div class="categories">
 
-  <script>
-    function showMessage() {
-      alert("NEX BOX player coming next.");
-    }
+<div class="category">All</div>
+<div class="category">Action</div>
+<div class="category">Comedy</div>
+<div class="category">Drama</div>
+<div class="category">Animation</div>
+<div class="category">Documentary</div>
 
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("./sw.js")
-        .then(() => console.log("NEX BOX Service Worker registered"))
-        .catch(error => console.error("SW registration failed:", error));
-    }
-  </script>
+</div>
+
+</section>
+
+
+<section>
+
+<h2>Trending Movies</h2>
+
+<div class="movies" id="movieList">
+
+
+<div class="movie"
+data-title="The Adventure"
+onclick="openMovie(0)">
+
+<div class="poster">
+
+<img src="https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80">
+
+</div>
+
+<div class="movie-info">
+
+<div class="movie-title">
+The Adventure
+</div>
+
+<div class="movie-meta">
+2026 • Adventure
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="movie"
+data-title="Night City"
+onclick="openMovie(1)">
+
+<div class="poster">
+
+<img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=500&q=80">
+
+</div>
+
+<div class="movie-info">
+
+<div class="movie-title">
+Night City
+</div>
+
+<div class="movie-meta">
+2026 • Drama
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="movie"
+data-title="The Journey"
+onclick="openMovie(2)">
+
+<div class="poster">
+
+<img src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=500&q=80">
+
+</div>
+
+<div class="movie-info">
+
+<div class="movie-title">
+The Journey
+</div>
+
+<div class="movie-meta">
+2026 • Adventure
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="movie"
+data-title="Final Mission"
+onclick="openMovie(3)">
+
+<div class="poster">
+
+<img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=500&q=80">
+
+</div>
+
+<div class="movie-info">
+
+<div class="movie-title">
+Final Mission
+</div>
+
+<div class="movie-meta">
+2026 • Action
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</section>
+
+</main>
+
+
+<section id="details">
+
+<button class="back" onclick="goHome()">
+← Back
+</button>
+
+<img id="detailPoster" class="details-poster">
+
+<h1 id="detailTitle" class="details-title"></h1>
+
+<p id="detailDescription" class="details-description"></p>
+
+<button class="watch-btn" onclick="playMovie()">
+▶ Play Movie
+</button>
+
+</section>
+
+
+<footer>
+
+<p>© 2026 NEX BOX</p>
+
+<p>Entertainment platform</p>
+
+</footer>
+
+
+<script>
+
+const movies=[
+
+{
+title:"The Adventure",
+poster:"https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80",
+description:"A fictional adventure movie for the NEX BOX demonstration."
+},
+
+{
+title:"Night City",
+poster:"https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=500&q=80",
+description:"A fictional drama set in a mysterious city."
+},
+
+{
+title:"The Journey",
+poster:"https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=500&q=80",
+description:"A fictional story about an unforgettable journey."
+},
+
+{
+title:"Final Mission",
+poster:"https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=500&q=80",
+description:"A fictional action movie created for the NEX BOX demo."
+}
+
+];
+
+
+function openMovie(index){
+
+const movie=movies[index];
+
+document.getElementById("home").style.display="none";
+
+document.getElementById("details").style.display="block";
+
+document.getElementById("detailPoster").src=movie.poster;
+
+document.getElementById("detailTitle").textContent=movie.title;
+
+document.getElementById("detailDescription").textContent=movie.description;
+
+window.scrollTo(0,0);
+
+}
+
+
+function goHome(){
+
+document.getElementById("details").style.display="none";
+
+document.getElementById("home").style.display="block";
+
+window.scrollTo(0,0);
+
+}
+
+
+function playMovie(){
+
+alert("The NEX BOX video player will be connected in the next step.");
+
+}
+
+
+document.getElementById("searchBox").addEventListener("input",function(){
+
+const search=this.value.toLowerCase();
+
+document.querySelectorAll(".movie").forEach(movie=>{
+
+const title=movie.dataset.title.toLowerCase();
+
+movie.style.display=
+title.includes(search) ? "block" : "none";
+
+});
+
+});
+
+
+if("serviceWorker" in navigator){
+
+navigator.serviceWorker.register("./sw.js")
+.then(()=>console.log("NEX BOX Service Worker registered"))
+.catch(error=>console.error(error));
+
+}
+
+</script>
 
 </body>
-</html>
+  </html>
