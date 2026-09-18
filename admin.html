@@ -1,410 +1,585 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<meta name="theme-color" content="#080808">
 
 <title>NEX BOX Admin</title>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <style>
+
 *{
-  box-sizing:border-box;
+box-sizing:border-box;
 }
 
 body{
-  margin:0;
-  background:#080808;
-  color:white;
-  font-family:Arial,sans-serif;
+margin:0;
+background:#080808;
+color:#fff;
+font-family:Arial,sans-serif;
 }
 
 header{
-  background:#111;
-  padding:18px 20px;
-  border-bottom:1px solid #292929;
+background:#111;
+padding:18px 20px;
+border-bottom:1px solid #292929;
 }
 
 .logo{
-  font-size:24px;
-  font-weight:bold;
-  letter-spacing:2px;
+font-size:24px;
+font-weight:bold;
+letter-spacing:2px;
 }
 
 .logo span{
-  color:#e50914;
+color:#e50914;
 }
 
 .container{
-  max-width:900px;
-  margin:auto;
-  padding:25px 20px 80px;
+max-width:950px;
+margin:auto;
+padding:25px 20px 80px;
 }
 
 .back{
-  display:inline-block;
-  background:#222;
-  color:white;
-  text-decoration:none;
-  padding:11px 18px;
-  border-radius:6px;
-  margin-bottom:25px;
+display:inline-block;
+background:#222;
+color:#fff;
+text-decoration:none;
+padding:11px 18px;
+border-radius:6px;
+margin-bottom:25px;
 }
 
 .card{
-  background:#151515;
-  border:1px solid #292929;
-  border-radius:10px;
-  padding:20px;
-}
-
-h1{
-  margin-top:0;
-}
-
-h2{
-  margin-top:0;
+background:#151515;
+border:1px solid #292929;
+border-radius:10px;
+padding:20px;
+margin-bottom:20px;
 }
 
 label{
-  display:block;
-  margin-bottom:7px;
-  color:#bbb;
+display:block;
+color:#bbb;
+margin-bottom:7px;
 }
 
 input,
 textarea,
 select{
-  width:100%;
-  padding:13px;
-  margin-bottom:18px;
-  background:#0d0d0d;
-  border:1px solid #333;
-  border-radius:6px;
-  color:white;
-  outline:none;
+width:100%;
+padding:13px;
+margin-bottom:17px;
+background:#0d0d0d;
+border:1px solid #333;
+border-radius:6px;
+color:#fff;
+outline:none;
 }
 
 textarea{
-  min-height:110px;
-  resize:vertical;
+min-height:110px;
+resize:vertical;
 }
 
 button{
-  border:0;
-  border-radius:6px;
-  padding:13px 18px;
-  cursor:pointer;
-  font-weight:bold;
+border:0;
+border-radius:6px;
+padding:13px 18px;
+cursor:pointer;
+font-weight:bold;
 }
 
 .add{
-  background:#e50914;
-  color:white;
-  width:100%;
+width:100%;
+background:#e50914;
+color:white;
 }
 
 .clear{
-  background:#333;
-  color:white;
-  width:100%;
-  margin-top:10px;
+width:100%;
+margin-top:10px;
+background:#333;
+color:white;
 }
 
-#message{
-  margin-top:15px;
-  color:#5ee17a;
-  line-height:1.5;
+.message{
+margin-top:15px;
+line-height:1.5;
 }
 
-.movie-item{
-  margin-top:20px;
-  padding:15px;
-  background:#101010;
-  border:1px solid #292929;
-  border-radius:8px;
+.movie{
+display:flex;
+gap:15px;
+align-items:center;
+padding:15px 0;
+border-bottom:1px solid #292929;
 }
 
-.movie-item strong{
-  font-size:18px;
+.movie img{
+width:65px;
+height:90px;
+object-fit:cover;
+border-radius:5px;
+}
+
+.movie-info{
+flex:1;
+}
+
+.movie-title{
+font-weight:bold;
+}
+
+.movie-meta{
+color:#888;
+font-size:13px;
+margin-top:5px;
 }
 
 .delete{
-  background:#b00000;
-  color:white;
-  margin-top:10px;
+background:#a00000;
+color:#fff;
+padding:9px 13px;
 }
 
-.poster-preview{
-  width:80px;
-  height:110px;
-  object-fit:cover;
-  border-radius:5px;
-  margin-top:10px;
+.empty{
+color:#888;
+padding:20px 0;
 }
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <header>
-  <div class="logo">
-    NEX<span>BOX</span>
-  </div>
+
+<div class="logo">
+NEX<span>BOX</span>
+</div>
+
 </header>
+
 
 <div class="container">
 
-<a href="./index.html" class="back">
+
+<a
+href="./index.html"
+class="back">
+
 ← Back to NEX BOX
+
 </a>
 
+
 <h1>Content Manager</h1>
+
 
 <div class="card">
 
 <h2>Add Movie</h2>
 
+
 <label>Movie Title</label>
-<input id="title" type="text" placeholder="Enter movie title">
+
+<input
+id="title"
+type="text"
+placeholder="Movie title">
+
 
 <label>Year</label>
-<input id="year" type="number" placeholder="2026">
+
+<input
+id="year"
+type="number"
+placeholder="2026">
+
 
 <label>Genre</label>
 
 <select id="genre">
+
 <option>Action</option>
+
 <option>Comedy</option>
+
 <option>Drama</option>
+
 <option>Animation</option>
+
 <option>Adventure</option>
+
 <option>Documentary</option>
+
 </select>
 
+
 <label>Poster URL</label>
-<input id="poster" type="url" placeholder="https://...">
+
+<input
+id="poster"
+type="url"
+placeholder="https://...">
+
 
 <label>Video URL</label>
-<input id="video" type="url" placeholder="https://...">
+
+<input
+id="video"
+type="url"
+placeholder="https://...">
+
 
 <label>Description</label>
 
 <textarea
 id="description"
-placeholder="Enter movie description">
+placeholder="Movie description">
 </textarea>
 
-<button class="add" onclick="addMovie()">
+
+<button
+class="add"
+onclick="addMovie()">
+
 + Add Movie
+
 </button>
 
-<button class="clear" onclick="clearForm()">
+
+<button
+class="clear"
+onclick="clearForm()">
+
 Clear Form
+
 </button>
 
-<div id="message"></div>
+
+<div
+id="message"
+class="message">
+</div>
 
 </div>
 
 
-<div class="card" style="margin-top:20px;">
+<div class="card">
 
-<h2>Saved Movies</h2>
+<h2>Online Movie Library</h2>
 
-<div id="movieList"></div>
+<div id="movieList">
+
+<div class="empty">
+Loading movies...
+</div>
 
 </div>
+
+</div>
+
 
 </div>
 
 
 <script>
 
-function getMovies(){
+const SUPABASE_URL =
+"https://jacxlmcwwedertcaizdj.supabase.co";
 
-  const saved =
-    localStorage.getItem("nexboxMovies");
+const SUPABASE_KEY =
+"sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
 
-  if(!saved){
+const supabaseClient =
+window.supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
 
-    return [];
 
-  }
+async function loadMovies(){
 
-  return JSON.parse(saved);
+const {data,error} =
+await supabaseClient
+.from("movies")
+.select("*")
+.order("created_at",{ascending:false});
+
+
+if(error){
+
+console.error(error);
+
+document.getElementById("movieList")
+.innerHTML =
+"<div class='empty'>Unable to load movies.</div>";
+
+return;
 
 }
 
 
-function saveMovies(movies){
+const list =
+document.getElementById("movieList");
 
-  localStorage.setItem(
-    "nexboxMovies",
-    JSON.stringify(movies)
-  );
+list.innerHTML="";
+
+
+if(!data.length){
+
+list.innerHTML =
+"<div class='empty'>No movies yet.</div>";
+
+return;
 
 }
 
 
-function addMovie(){
+data.forEach(movie=>{
 
-  const title =
-    document.getElementById("title").value.trim();
+const item =
+document.createElement("div");
 
-  const year =
-    document.getElementById("year").value.trim();
-
-  const genre =
-    document.getElementById("genre").value;
-
-  const poster =
-    document.getElementById("poster").value.trim();
-
-  const video =
-    document.getElementById("video").value.trim();
-
-  const description =
-    document.getElementById("description").value.trim();
+item.className="movie";
 
 
-  if(!title || !year || !poster || !video){
+item.innerHTML=`
 
-    document.getElementById("message").textContent =
-      "Please enter the title, year, poster URL and video URL.";
+<img
+src="${movie.poster_url || ''}"
+alt="${escapeHtml(movie.title)}">
 
-    return;
+<div class="movie-info">
 
-  }
+<div class="movie-title">
+${escapeHtml(movie.title)}
+</div>
 
+<div class="movie-meta">
+${movie.year || ""}
+•
+${escapeHtml(movie.genre || "")}
+</div>
 
-  const movie = {
+</div>
 
-    title:title,
+<button
+class="delete"
+onclick="deleteMovie('${movie.id}')">
 
-    year:year,
+Delete
 
-    genre:genre,
+</button>
 
-    poster:poster,
-
-    video:video,
-
-    description:description,
-
-    featured:false
-
-  };
-
-
-  const movies = getMovies();
-
-  movies.push(movie);
-
-  saveMovies(movies);
+`;
 
 
-  document.getElementById("message").textContent =
-    "✓ Movie added successfully!";
+list.appendChild(item);
+
+});
+
+}
 
 
-  clearForm();
+async function addMovie(){
 
-  displayMovies();
+const title =
+document.getElementById("title")
+.value.trim();
+
+const year =
+document.getElementById("year")
+.value.trim();
+
+const genre =
+document.getElementById("genre")
+.value;
+
+const poster =
+document.getElementById("poster")
+.value.trim();
+
+const video =
+document.getElementById("video")
+.value.trim();
+
+const description =
+document.getElementById("description")
+.value.trim();
+
+
+if(!title ||
+!year ||
+!poster ||
+!video){
+
+setMessage(
+"Please fill in the title, year, poster URL and video URL.",
+false
+);
+
+return;
+
+}
+
+
+setMessage(
+"Adding movie...",
+false
+);
+
+
+const {error} =
+await supabaseClient
+.from("movies")
+.insert({
+
+title:title,
+
+year:parseInt(year),
+
+genre:genre,
+
+poster_url:poster,
+
+video_url:video,
+
+description:description,
+
+downloadable:false
+
+});
+
+
+if(error){
+
+console.error(error);
+
+setMessage(
+"Could not add movie: "+error.message,
+false
+);
+
+return;
+
+}
+
+
+setMessage(
+"✓ Movie added successfully.",
+true
+);
+
+
+clearForm();
+
+loadMovies();
+
+}
+
+
+async function deleteMovie(id){
+
+if(!confirm(
+"Delete this movie from NEX BOX?"
+)){
+
+return;
+
+}
+
+
+const {error} =
+await supabaseClient
+.from("movies")
+.delete()
+.eq("id",id);
+
+
+if(error){
+
+console.error(error);
+
+setMessage(
+"Could not delete movie.",
+false
+);
+
+return;
+
+}
+
+
+setMessage(
+"Movie deleted.",
+true
+);
+
+loadMovies();
 
 }
 
 
 function clearForm(){
 
-  document.getElementById("title").value = "";
+document.getElementById("title").value="";
 
-  document.getElementById("year").value = "";
+document.getElementById("year").value="";
 
-  document.getElementById("poster").value = "";
+document.getElementById("poster").value="";
 
-  document.getElementById("video").value = "";
+document.getElementById("video").value="";
 
-  document.getElementById("description").value = "";
-
-}
-
-
-function displayMovies(){
-
-  const movies = getMovies();
-
-  const list =
-    document.getElementById("movieList");
-
-  list.innerHTML = "";
-
-
-  if(movies.length === 0){
-
-    list.innerHTML =
-      "<p style='color:#888'>No movies added yet.</p>";
-
-    return;
-
-  }
-
-
-  movies.forEach((movie,index) => {
-
-    const item =
-      document.createElement("div");
-
-    item.className = "movie-item";
-
-
-    item.innerHTML = `
-
-      <strong>${movie.title}</strong>
-
-      <div style="color:#999;margin-top:5px">
-        ${movie.year} • ${movie.genre}
-      </div>
-
-      <img
-        class="poster-preview"
-        src="${movie.poster}"
-        alt="${movie.title}"
-      >
-
-      <br>
-
-      <button
-        class="delete"
-        onclick="deleteMovie(${index})">
-        Delete
-      </button>
-
-    `;
-
-
-    list.appendChild(item);
-
-  });
+document.getElementById("description").value="";
 
 }
 
 
-function deleteMovie(index){
+function setMessage(message,success){
 
-  const movies = getMovies();
+const element =
+document.getElementById("message");
 
-  movies.splice(index,1);
+element.textContent=message;
 
-  saveMovies(movies);
-
-  displayMovies();
+element.style.color =
+success ? "#5ee17a" : "#aaa";
 
 }
 
 
-displayMovies();
+function escapeHtml(text){
+
+const div =
+document.createElement("div");
+
+div.textContent=text || "";
+
+return div.innerHTML;
+
+}
+
+
+loadMovies();
 
 </script>
 
+
 </body>
-</html>
+
+  </html>
