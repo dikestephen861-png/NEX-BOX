@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>NEX BOX Movie</title>
+
+<style>
+
+body{
+margin:0;
+background:#080808;
+color:white;
+font-family:Arial,sans-serif;
+}
+
+header{
+padding:18px 20px;
+border-bottom:1px solid #222;
+}
+
+.logo{
+font-size:25px;
+font-weight:bold;
+letter-spacing:2px;
+}
+
+.logo span{
+color:#e50914;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:25px 20px;
+}
+
+.back{
+display:inline-block;
+padding:10px 17px;
+background:#222;
+color:white;
+text-decoration:none;
+border-radius:6px;
+margin-bottom:20px;
+}
+
+.poster{
+width:200px;
+height:290px;
+object-fit:cover;
+border-radius:8px;
+}
+
+h1{
+font-size:32px;
+}
+
+.meta{
+color:#999;
+margin-bottom:15px;
+}
+
+.description{
+color:#bbb;
+line-height:1.7;
+}
+
+video{
+width:100%;
+margin-top:25px;
+border-radius:8px;
+background:#000;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+NEX<span>BOX</span>
+</div>
+
+</header>
+
+<div class="container">
+
+<a href="./index.html" class="back">
+← Back
+</a>
+
+<img id="poster" class="poster">
+
+<h1 id="title"></h1>
+
+<div id="meta" class="meta"></div>
+
+<p id="description" class="description"></p>
+
+<video id="player" controls playsinline></video>
+
+</div>
+
+<script>
+
+const params =
+new URLSearchParams(window.location.search);
+
+const movieIndex =
+parseInt(params.get("id")) || 0;
+
+fetch("./movies.json")
+
+.then(response => response.json())
+
+.then(movies => {
+
+const movie = movies[movieIndex];
+
+if(!movie){
+
+document.getElementById("title").textContent =
+"Movie not found";
+
+return;
+
+}
+
+document.getElementById("title")
+.textContent = movie.title;
+
+document.getElementById("meta")
+.textContent =
+movie.year + " • " + movie.genre;
+
+document.getElementById("description")
+.textContent = movie.description;
+
+document.getElementById("poster")
+.src = movie.poster;
+
+document.getElementById("player")
+.src = movie.video;
+
+document.title =
+movie.title + " - NEX BOX";
+
+})
+
+.catch(error => {
+
+document.getElementById("title")
+.textContent = "Unable to load movie";
+
+console.error(error);
+
+});
+
+</script>
+
+</body>
+  </html>
