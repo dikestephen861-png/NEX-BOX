@@ -1,0 +1,26 @@
+[
+  {
+    "title": "The Adventure",
+    "year": "2026",
+    "genre": "Adventure",
+    "poster": "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=500&q=80",
+    "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+    "description": "A demonstration adventure movie for NEX BOX."
+  },
+  {
+    "title": "Night City",
+    "year": "2026",
+    "genre": "Drama",
+    "poster": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=500&q=80",
+    "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+    "description": "A demonstration drama movie for NEX BOX."
+  },
+  {
+    "title": "The Journey",
+    "year": "2026",
+    "genre": "Adventure",
+    "poster": "https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=500&q=80",
+    "video": "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+    "description": "A demonstration movie for NEX BOX."
+  }
+]
