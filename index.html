@@ -597,7 +597,19 @@ document
 
     displayMovies(filtered);
 
-  });
+  });function filterCategory(category) {
+
+  if (category === "All") {
+    displayMovies(movies);
+    return;
+  }
+
+  const filtered = movies.filter(movie =>
+    movie.genre.toLowerCase() === category.toLowerCase()
+  );
+
+  displayMovies(filtered);
+  }
 
 
 if ("serviceWorker" in navigator) {
