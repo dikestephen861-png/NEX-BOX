@@ -9,7 +9,43 @@
 <link rel="manifest" href="./manifest.json">
 <meta name="theme-color" content="#080808">
 
-<style>
+<style>.bottom-nav{
+  position:fixed;
+  bottom:0;
+  left:0;
+  right:0;
+  height:65px;
+  background:#111;
+  border-top:1px solid #292929;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+  z-index:999;
+}
+
+.bottom-nav button{
+  background:none;
+  border:0;
+  color:#999;
+  font-size:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  cursor:pointer;
+}
+
+.bottom-nav button span{
+  font-size:11px;
+}
+
+.bottom-nav button:hover{
+  color:#fff;
+}
+
+footer{
+  padding-bottom:100px;
+}
 
 *{
 box-sizing:border-box;
