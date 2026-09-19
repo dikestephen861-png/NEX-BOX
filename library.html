@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0"
+>
+
+<meta
+  name="theme-color"
+  content="#08090c"
+>
+
+<title>NEX BOX - Library</title>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #08090c;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+.topbar {
+  height: 62px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 15px;
+  background: #08090c;
+  border-bottom: 1px solid #20232b;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.back {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #171a21;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 25px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+}
+
+.logo span {
+  color: #e50914;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 18px 15px;
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 900;
+}
+
+.subtitle {
+  color: #8f949f;
+  font-size: 13px;
+  margin-top: 7px;
+}
+
+.tabs {
+  display: flex;
+  gap: 9px;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.tab {
+  border: 0;
+  border-radius: 20px;
+  background: #171a21;
+  color: #aaa;
+  padding: 10px 17px;
+  white-space: nowrap;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.tab.active {
+  background: #e50914;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 11px;
+  margin-top: 20px;
+}
+
+.card {
+  background: #111318;
+  border-radius: 11px;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  display: block;
+  background: #171a21;
+}
+
+.info {
+  padding: 9px;
+}
+
+.card-title {
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  color: #858a94;
+  font-size: 10px;
+  margin-top: 5px;
+}
+
+.remove {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 31px;
+  height: 31px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,.75);
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.empty {
+  text-align: center;
+  color: #858a94;
+  padding: 70px 20px;
+  grid-column: 1 / -1;
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 67px;
+  background: rgba(12,13,17,.97);
+  border-top: 1px solid #20232b;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 200;
+}
+
+.nav-item {
+  border: 0;
+  background: transparent;
+  color: #858a94;
+  text-decoration: none;
+  font-size: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+.nav-icon {
+  font-size: 19px;
+}
+
+.nav-item.active {
+  color: white;
+}
+
+.nav-item.active .nav-icon {
+  color: #e50914;
+}
+
+@media (min-width: 700px) {
+
+  .grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+<a
+  href="./index.html"
+  class="back"
+>
+  ‹
+</a>
+
+<div class="logo">
+NEX<span>BOX</span>
+</div>
+
+</header>
+
+
+<main class="container">
+
+<h1 class="title">
+Your Library
+</h1>
+
+<p class="subtitle">
+Movies you've saved and made available for download.
+</p>
+
+
+<div class="tabs">
+
+<button
+  class="tab active"
+  id="listTab"
+  onclick="showTab('list')"
+>
+❤️ My List
+</button>
+
+<button
+  class="tab"
+  id="downloadTab"
+  onclick="showTab('downloads')"
+>
+📥 Downloads
+</button>
+
+</div>
+
+
+<div
+  id="movieGrid"
+  class="grid"
+></div>
+
+</main>
+
+
+<nav class="bottom-nav">
+
+<a
+  class="nav-item"
+  href="./index.html"
+>
+
+<span class="nav-icon">
+🏠
+</span>
+
+<span>
+Home
+</span>
+
+</a>
+
+
+<a
+  class="nav-item active"
+  href="./library.html"
+>
+
+<span class="nav-icon">
+❤️
+</span>
+
+<span>
+Library
+</span>
+
+</a>
+
+
+<a
+  class="nav-item"
+  href="./index.html#movies"
+>
+
+<span class="nav-icon">
+🎬
+</span>
+
+<span>
+Movies
+</span>
+
+</a>
+
+</nav>
+
+
+<script>
+
+let currentTab = "list";
+
+
+function getMyList() {
+
+  try {
+
+    return JSON.parse(
+      localStorage.getItem(
+        "nexbox_my_list"
+      ) || "[]"
+    );
+
+  } catch {
+
+    return [];
+
+  }
+
+}
+
+
+function showTab(tab) {
+
+  currentTab = tab;
+
+
+  document
+    .getElementById("listTab")
+    .classList.toggle(
+      "active",
+      tab === "list"
+    );
+
+
+  document
+    .getElementById("downloadTab")
+    .classList.toggle(
+      "active",
+      tab === "downloads"
+    );
+
+
+  render();
+
+}
+
+
+function render() {
+
+  const grid =
+    document.getElementById(
+      "movieGrid"
+    );
+
+
+  grid.innerHTML = "";
+
+
+  const list =
+    getMyList();
+
+
+  let movies = list;
+
+
+  if (currentTab === "downloads") {
+
+    movies =
+      list.filter(
+        movie =>
+          movie.downloadable === true
+      );
+
+  }
+
+
+  if (!movies.length) {
+
+    grid.innerHTML = `
+
+      <div class="empty">
+
+        ${
+          currentTab === "list"
+            ? "❤️ Your My List is empty."
+            : "📥 No downloadable movies saved yet."
+        }
+
+        <br><br>
+
+        <a
+          href="./index.html"
+          style="color:#e50914;text-decoration:none;font-weight:bold;"
+        >
+          Browse Movies
+        </a>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  movies.forEach(movie => {
+
+    const card =
+      document.createElement(
+        "div"
+      );
+
+
+    card.className =
+      "card";
+
+
+    const poster =
+      movie.poster_url ||
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba";
+
+
+    card.innerHTML = `
+
+      <img
+        src="${escapeHTML(poster)}"
+        alt="${escapeHTML(movie.title || "Movie")}"
+      >
+
+      <button
+        class="remove"
+        title="Remove"
+      >
+        ×
+      </button>
+
+      <div class="info">
+
+        <div class="card-title">
+          ${escapeHTML(movie.title || "Untitled Movie")}
+        </div>
+
+        <div class="meta">
+          ${escapeHTML(String(movie.year || ""))}
+          ${
+            movie.year && movie.genre
+              ? " • "
+              : ""
+          }
+          ${escapeHTML(movie.genre || "")}
+        </div>
+
+      </div>
+
+    `;
+
+
+    card.addEventListener(
+      "click",
+      function(e) {
+
+        if (
+          e.target.classList.contains(
+            "remove"
+          )
+        ) {
+          return;
+        }
+
+
+        window.location.href =
+          "./watch.html?movie=" +
+          encodeURIComponent(
+            movie.id
+          );
+
+      }
+    );
+
+
+    card
+      .querySelector(".remove")
+      .addEventListener(
+        "click",
+        function() {
+
+          removeMovie(
+            movie.id
+          );
+
+        }
+      );
+
+
+    grid.appendChild(card);
+
+  });
+
+}
+
+
+function removeMovie(id) {
+
+  let list =
+    getMyList();
+
+
+  list =
+    list.filter(
+      movie =>
+        String(movie.id) !==
+        String(id)
+    );
+
+
+  localStorage.setItem(
+    "nexbox_my_list",
+    JSON.stringify(list)
+  );
+
+
+  render();
+
+}
+
+
+function escapeHTML(value) {
+
+  return String(
+    value || ""
+  )
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+render();
+
+</script>
+
+</body>
+  </html>
