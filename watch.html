@@ -8,12 +8,14 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
 body{
   background:#08090c;
   color:#fff;
   font-family:Arial,sans-serif;
-  padding-bottom:30px
+  padding-bottom:30px;
 }
+
 .topbar{
   height:58px;
   display:flex;
@@ -22,81 +24,125 @@ body{
   padding:0 14px;
   background:#08090c;
   border-bottom:1px solid #20232b;
+  position:sticky;
+  top:0;
+  z-index:10;
 }
+
 .back{
   width:38px;
   height:38px;
   border:0;
   border-radius:50%;
   background:#171a21;
-  color:#fff;
+  color:white;
   font-size:25px;
+  cursor:pointer;
 }
+
 .logo{
   font-size:20px;
   font-weight:900;
-  letter-spacing:1.5px
+  letter-spacing:1.5px;
 }
-.logo span{color:#e50914}
+
+.logo span{
+  color:#e50914;
+}
+
 .player{
   width:100%;
-  background:#000
+  background:#000;
 }
+
 video{
   width:100%;
   display:block;
   max-height:75vh;
-  background:#000
+  background:#000;
 }
+
 .content{
-  padding:18px 15px;
+  padding:18px 15px 35px;
   max-width:900px;
-  margin:auto
+  margin:auto;
 }
+
 .title{
   font-size:24px;
-  font-weight:900
+  font-weight:900;
+  line-height:1.15;
 }
+
 .meta{
   margin-top:7px;
   color:#8f949f;
-  font-size:12px
+  font-size:12px;
 }
+
 .description{
   margin-top:15px;
   color:#c7c9ce;
   font-size:14px;
-  line-height:1.6
+  line-height:1.6;
 }
+
 .actions{
-  display:flex;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
   gap:8px;
-  margin-top:18px
+  margin-top:18px;
 }
+
 .action{
-  flex:1;
   min-height:46px;
   border:1px solid #292c34;
   border-radius:10px;
   background:#171a21;
   color:#fff;
   font-weight:700;
-  cursor:pointer
+  cursor:pointer;
 }
+
 .action.active{
   background:#e50914;
-  border-color:#e50914
+  border-color:#e50914;
 }
+
 .poster{
   width:100px;
   margin-top:20px;
-  border-radius:8px
+  border-radius:8px;
 }
+
+.status{
+  margin-top:15px;
+  padding:12px;
+  border-radius:9px;
+  background:#111318;
+  color:#aaa;
+  font-size:12px;
+  display:none;
+}
+
 .loading,
 .error{
   text-align:center;
   padding:80px 20px;
-  color:#999
+  color:#999;
+}
+
+@media(max-width:430px){
+  .actions{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+@media(min-width:700px){
+  .content{
+    padding-left:30px;
+    padding-right:30px;
+  }
 }
 </style>
 </head>
@@ -104,19 +150,34 @@ video{
 <body>
 
 <header class="topbar">
-<button class="back" onclick="history.back()">‹</button>
-<div class="logo">NEX<span>BOX</span></div>
+
+<button class="back" onclick="goBack()">‹</button>
+
+<div class="logo">
+NEX<span>BOX</span>
+</div>
+
 </header>
+
 
 <div id="loading" class="loading">
 Loading movie...
 </div>
 
+
 <div id="app" style="display:none">
 
 <div class="player">
-<video id="video" controls playsinline></video>
+
+<video
+id="video"
+controls
+playsinline
+preload="metadata">
+</video>
+
 </div>
+
 
 <main class="content">
 
@@ -124,40 +185,67 @@ Loading movie...
 
 <div id="meta" class="meta"></div>
 
+
 <div class="actions">
 
-<button id="myListBtn"
+<button
+id="myListBtn"
 class="action"
 onclick="toggleMyList()">
 ❤️ My List
 </button>
 
-<button class="action"
+
+<button
+class="action"
 onclick="shareMovie()">
 ↗ Share
 </button>
 
-<button id="downloadBtn"
+
+<button
+id="downloadBtn"
 class="action"
-onclick="downloadMovie()"
+onclick="saveOffline()"
 style="display:none">
-↓ Download
+↓ Save Offline
 </button>
 
 </div>
 
-<p id="description" class="description"></p>
 
-<img id="poster" class="poster">
-
-</main>
+<div
+id="offlineStatus"
+class="status">
 </div>
 
-<div id="error" class="error" style="display:none">
+
+<p
+id="description"
+class="description">
+</p>
+
+
+<img
+id="poster"
+class="poster"
+alt="Movie poster">
+
+</main>
+
+</div>
+
+
+<div
+id="error"
+class="error"
+style="display:none">
 Movie could not be loaded.
 </div>
 
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <script>
 
@@ -173,20 +261,45 @@ SUPABASE_URL,
 SUPABASE_KEY
 );
 
+
 const movieId =
 new URLSearchParams(
 location.search
 ).get("movie");
 
+
 let movie=null;
+
+
+function goBack(){
+
+if(document.referrer){
+
+history.back();
+
+}else{
+
+location.href="./index.html";
+
+}
+
+}
+
 
 function getList(){
 
 try{
 
-return JSON.parse(
-localStorage.getItem("nexbox_my_list") || "[]"
+const data =
+JSON.parse(
+localStorage.getItem(
+"nexbox_my_list"
+) || "[]"
 );
+
+return Array.isArray(data)
+? data
+: [];
 
 }catch(e){
 
@@ -195,6 +308,7 @@ return [];
 }
 
 }
+
 
 function setList(list){
 
@@ -205,36 +319,50 @@ JSON.stringify(list)
 
 }
 
-function updateButton(){
 
-const button=
-document.getElementById("myListBtn");
+function updateListButton(){
+
+if(!movie) return;
 
 const list=getList();
 
 const exists=list.some(
-item=>String(item.id)===String(movie.id)
+item =>
+String(item.id) ===
+String(movie.id)
+);
+
+const button =
+document.getElementById(
+"myListBtn"
 );
 
 if(exists){
 
-button.textContent="✓ In My List";
-button.classList.add("active");
+button.textContent =
+"✓ In My List";
+
+button.classList.add(
+"active"
+);
 
 }else{
 
-button.textContent="❤️ My List";
-button.classList.remove("active");
+button.textContent =
+"❤️ My List";
+
+button.classList.remove(
+"active"
+);
 
 }
 
 }
+
 
 function toggleMyList(){
 
 if(!movie){
-
-alert("Movie is still loading.");
 
 return;
 
@@ -242,11 +370,15 @@ return;
 
 let list=getList();
 
-const index=list.findIndex(
-item=>String(item.id)===String(movie.id)
+const index =
+list.findIndex(
+item =>
+String(item.id) ===
+String(movie.id)
 );
 
-if(index>=0){
+
+if(index >= 0){
 
 list.splice(index,1);
 
@@ -258,39 +390,51 @@ id:movie.id,
 
 title:movie.title || "",
 
-poster_url:movie.poster_url || "",
+poster_url:
+movie.poster_url || "",
 
 year:movie.year || "",
 
 genre:movie.genre || "",
 
-description:movie.description || "",
+description:
+movie.description || "",
 
-video_url:movie.video_url || "",
+video_url:
+movie.video_url || "",
 
-downloadable:movie.downloadable === true
+downloadable:
+movie.downloadable === true,
+
+offline:false
 
 });
 
 }
 
+
 setList(list);
 
-updateButton();
+updateListButton();
 
 }
 
+
 function shareMovie(){
 
-const url=location.href;
+const url =
+location.href;
+
 
 if(navigator.share){
 
 navigator.share({
 
-title:movie.title,
+title:
+movie.title || "NEX BOX",
 
-text:"Watch this movie on NEX BOX",
+text:
+"Watch this movie on NEX BOX",
 
 url:url
 
@@ -298,111 +442,286 @@ url:url
 
 }else{
 
-navigator.clipboard.writeText(url);
-
-alert("Movie link copied!");
+navigator.clipboard
+.writeText(url)
+.then(
+() => alert(
+"Movie link copied!"
+)
+);
 
 }
 
 }
 
-function downloadMovie(){
 
-if(!movie.video_url){
+function getOfflineMovies(){
 
-alert("Download link unavailable.");
+try{
+
+return JSON.parse(
+localStorage.getItem(
+"nexbox_offline_movies"
+) || "[]"
+);
+
+}catch(e){
+
+return [];
+
+}
+
+}
+
+
+function setOfflineMovies(list){
+
+localStorage.setItem(
+"nexbox_offline_movies",
+JSON.stringify(list)
+);
+
+}
+
+
+async function saveOffline(){
+
+if(!movie || !movie.video_url){
+
+alert(
+"Offline download is not available for this movie."
+);
 
 return;
 
 }
 
-const link=document.createElement("a");
 
-link.href=movie.video_url;
+const status =
+document.getElementById(
+"offlineStatus"
+);
 
-link.download=
-(movie.title || "NEX BOX Movie")+".mp4";
+status.style.display="block";
 
-document.body.appendChild(link);
+status.textContent =
+"Preparing movie for offline use...";
 
-link.click();
 
-link.remove();
+/*
+  The browser can only cache a video when
+  the video server allows the required
+  cross-origin request.
+
+  We first try to store the movie metadata.
+*/
+
+let offline =
+getOfflineMovies();
+
+
+const exists =
+offline.some(
+item =>
+String(item.id) ===
+String(movie.id)
+);
+
+
+if(!exists){
+
+offline.push({
+
+id:movie.id,
+
+title:movie.title || "",
+
+poster_url:
+movie.poster_url || "",
+
+year:movie.year || "",
+
+genre:movie.genre || "",
+
+video_url:
+movie.video_url || ""
+
+});
+
+setOfflineMovies(
+offline
+);
 
 }
+
+
+status.textContent =
+"✓ Movie added to your Downloads list.";
+
+
+const list=getList();
+
+const index =
+list.findIndex(
+item =>
+String(item.id) ===
+String(movie.id)
+);
+
+
+if(index >= 0){
+
+list[index].offline=true;
+
+}else{
+
+list.push({
+
+id:movie.id,
+
+title:movie.title || "",
+
+poster_url:
+movie.poster_url || "",
+
+year:movie.year || "",
+
+genre:movie.genre || "",
+
+video_url:
+movie.video_url || "",
+
+downloadable:true,
+
+offline:true
+
+});
+
+}
+
+
+setList(list);
+
+}
+
 
 async function loadMovie(){
 
 if(!movieId){
 
-document.getElementById("loading").style.display="none";
+document.getElementById(
+"loading"
+).style.display="none";
 
-document.getElementById("error").style.display="block";
+document.getElementById(
+"error"
+).style.display="block";
 
 return;
 
 }
 
-const result=
+
+const result =
 await db
 .from("movies")
 .select("*")
 .eq("id",movieId)
 .maybeSingle();
 
+
 if(result.error || !result.data){
 
-console.error(result.error);
+console.error(
+result.error
+);
 
-document.getElementById("loading").style.display="none";
+document.getElementById(
+"loading"
+).style.display="none";
 
-document.getElementById("error").style.display="block";
+document.getElementById(
+"error"
+).style.display="block";
 
 return;
 
 }
 
+
 movie=result.data;
 
-document.getElementById("loading").style.display="none";
 
-document.getElementById("app").style.display="block";
+document.title =
+"NEX BOX - " +
+(movie.title || "Watch");
 
-document.getElementById("title").textContent=
+
+document.getElementById(
+"loading"
+).style.display="none";
+
+document.getElementById(
+"app"
+).style.display="block";
+
+
+document.getElementById(
+"title"
+).textContent =
 movie.title || "Untitled Movie";
 
-document.getElementById("meta").textContent=
+
+document.getElementById(
+"meta"
+).textContent =
 [movie.year,movie.genre]
 .filter(Boolean)
 .join(" • ");
 
-document.getElementById("description").textContent=
+
+document.getElementById(
+"description"
+).textContent =
 movie.description || "";
+
 
 if(movie.poster_url){
 
-document.getElementById("poster").src=
+document.getElementById(
+"poster"
+).src =
 movie.poster_url;
 
 }
 
+
 if(movie.video_url){
 
-document.getElementById("video").src=
+document.getElementById(
+"video"
+).src =
 movie.video_url;
 
 }
 
-if(movie.downloadable===true){
 
-document.getElementById("downloadBtn").style.display=
-"block";
+if(
+movie.downloadable === true &&
+movie.video_url
+){
+
+document.getElementById(
+"downloadBtn"
+).style.display="block";
 
 }
 
-updateButton();
+
+updateListButton();
 
 }
+
 
 loadMovie();
 
