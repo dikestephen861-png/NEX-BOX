@@ -1,235 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-  name="viewport"
-  content="width=device-width, initial-scale=1.0"
->
-
-<meta
-  name="theme-color"
-  content="#08090c"
->
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08090c">
 <title>NEX BOX - Library</title>
 
 <style>
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+*{
+box-sizing:border-box;
+margin:0;
+padding:0
 }
 
-body {
-  background: #08090c;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
-  min-height: 100vh;
-  padding-bottom: 80px;
+body{
+background:#08090c;
+color:#fff;
+font-family:Arial,sans-serif;
+min-height:100vh;
+padding-bottom:80px
 }
 
-.topbar {
-  height: 62px;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 0 15px;
-  background: #08090c;
-  border-bottom: 1px solid #20232b;
-  position: sticky;
-  top: 0;
-  z-index: 100;
+.topbar{
+height:60px;
+display:flex;
+align-items:center;
+gap:12px;
+padding:0 15px;
+border-bottom:1px solid #20232b;
+background:#08090c;
+position:sticky;
+top:0;
+z-index:10
 }
 
-.back {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  background: #171a21;
-  color: white;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 25px;
+.back{
+width:38px;
+height:38px;
+border:0;
+border-radius:50%;
+background:#171a21;
+color:white;
+font-size:25px;
+text-decoration:none;
+display:flex;
+align-items:center;
+justify-content:center
 }
 
-.logo {
-  font-size: 20px;
-  font-weight: 900;
-  letter-spacing: 1.5px;
+.logo{
+font-size:20px;
+font-weight:900;
+letter-spacing:1.5px
 }
 
-.logo span {
-  color: #e50914;
+.logo span{
+color:#e50914
 }
 
-.container {
-  max-width: 1000px;
-  margin: auto;
-  padding: 18px 15px;
+.container{
+padding:20px 15px;
+max-width:1000px;
+margin:auto
 }
 
-.title {
-  font-size: 25px;
-  font-weight: 900;
+h1{
+font-size:25px
 }
 
-.subtitle {
-  color: #8f949f;
-  font-size: 13px;
-  margin-top: 7px;
+.subtitle{
+margin-top:7px;
+font-size:13px;
+color:#8f949f
 }
 
-.tabs {
-  display: flex;
-  gap: 9px;
-  margin-top: 20px;
-  overflow-x: auto;
+.tabs{
+display:flex;
+gap:9px;
+margin-top:20px
 }
 
-.tab {
-  border: 0;
-  border-radius: 20px;
-  background: #171a21;
-  color: #aaa;
-  padding: 10px 17px;
-  white-space: nowrap;
-  cursor: pointer;
-  font-weight: 700;
+.tab{
+border:0;
+border-radius:20px;
+padding:10px 17px;
+background:#171a21;
+color:#aaa;
+font-weight:700
 }
 
-.tab.active {
-  background: #e50914;
-  color: white;
+.tab.active{
+background:#e50914;
+color:#fff
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 11px;
-  margin-top: 20px;
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:11px;
+margin-top:20px
 }
 
-.card {
-  background: #111318;
-  border-radius: 11px;
-  overflow: hidden;
-  cursor: pointer;
-  position: relative;
+.card{
+background:#111318;
+border-radius:11px;
+overflow:hidden;
+position:relative;
+cursor:pointer
 }
 
-.card img {
-  width: 100%;
-  aspect-ratio: 2 / 3;
-  object-fit: cover;
-  display: block;
-  background: #171a21;
+.card img{
+width:100%;
+aspect-ratio:2/3;
+object-fit:cover;
+display:block
 }
 
-.info {
-  padding: 9px;
+.info{
+padding:9px
 }
 
-.card-title {
-  font-size: 12px;
-  font-weight: 800;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.card-title{
+font-size:12px;
+font-weight:800;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis
 }
 
-.meta {
-  color: #858a94;
-  font-size: 10px;
-  margin-top: 5px;
+.meta{
+font-size:10px;
+color:#858a94;
+margin-top:5px
 }
 
-.remove {
-  position: absolute;
-  top: 7px;
-  right: 7px;
-  width: 31px;
-  height: 31px;
-  border: 0;
-  border-radius: 50%;
-  background: rgba(0,0,0,.75);
-  color: white;
-  cursor: pointer;
-  font-size: 15px;
+.remove{
+position:absolute;
+top:7px;
+right:7px;
+width:30px;
+height:30px;
+border:0;
+border-radius:50%;
+background:rgba(0,0,0,.8);
+color:white;
+font-size:18px
 }
 
-.empty {
-  text-align: center;
-  color: #858a94;
-  padding: 70px 20px;
-  grid-column: 1 / -1;
+.empty{
+grid-column:1/-1;
+text-align:center;
+color:#858a94;
+padding:70px 20px
 }
 
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 67px;
-  background: rgba(12,13,17,.97);
-  border-top: 1px solid #20232b;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 200;
+.empty a{
+display:inline-block;
+margin-top:20px;
+color:#e50914;
+text-decoration:none;
+font-weight:bold
 }
 
-.nav-item {
-  border: 0;
-  background: transparent;
-  color: #858a94;
-  text-decoration: none;
-  font-size: 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+height:67px;
+background:#0c0d11;
+border-top:1px solid #20232b;
+display:flex;
+justify-content:space-around;
+align-items:center
 }
 
-.nav-icon {
-  font-size: 19px;
+.nav-item{
+color:#858a94;
+text-decoration:none;
+font-size:10px;
+display:flex;
+flex-direction:column;
+align-items:center;
+gap:5px
 }
 
-.nav-item.active {
-  color: white;
+.nav-icon{
+font-size:19px
 }
 
-.nav-item.active .nav-icon {
-  color: #e50914;
+.nav-item.active{
+color:white
 }
 
-@media (min-width: 700px) {
-
-  .grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
+@media(min-width:700px){
+.grid{
+grid-template-columns:repeat(6,1fr)
 }
-
+}
 </style>
-
 </head>
 
 <body>
 
 <header class="topbar">
 
-<a
-  href="./index.html"
-  class="back"
->
-  ‹
-</a>
+<a href="./index.html" class="back">‹</a>
 
 <div class="logo">
 NEX<span>BOX</span>
@@ -237,366 +213,248 @@ NEX<span>BOX</span>
 
 </header>
 
-
 <main class="container">
 
-<h1 class="title">
-Your Library
-</h1>
+<h1>Your Library</h1>
 
 <p class="subtitle">
-Movies you've saved and made available for download.
+Your saved movies
 </p>
-
 
 <div class="tabs">
 
 <button
-  class="tab active"
-  id="listTab"
-  onclick="showTab('list')"
->
+id="listTab"
+class="tab active"
+onclick="showTab('list')">
 ❤️ My List
 </button>
 
 <button
-  class="tab"
-  id="downloadTab"
-  onclick="showTab('downloads')"
->
+id="downloadTab"
+class="tab"
+onclick="showTab('downloads')">
 📥 Downloads
 </button>
 
 </div>
 
-
-<div
-  id="movieGrid"
-  class="grid"
-></div>
+<div id="grid" class="grid"></div>
 
 </main>
 
-
 <nav class="bottom-nav">
 
-<a
-  class="nav-item"
-  href="./index.html"
->
-
-<span class="nav-icon">
-🏠
-</span>
-
-<span>
-Home
-</span>
-
+<a class="nav-item" href="./index.html">
+<span class="nav-icon">🏠</span>
+<span>Home</span>
 </a>
 
-
-<a
-  class="nav-item active"
-  href="./library.html"
->
-
-<span class="nav-icon">
-❤️
-</span>
-
-<span>
-Library
-</span>
-
+<a class="nav-item active" href="./library.html">
+<span class="nav-icon">❤️</span>
+<span>Library</span>
 </a>
 
-
-<a
-  class="nav-item"
-  href="./index.html#movies"
->
-
-<span class="nav-icon">
-🎬
-</span>
-
-<span>
-Movies
-</span>
-
+<a class="nav-item" href="./index.html#movies">
+<span class="nav-icon">🎬</span>
+<span>Movies</span>
 </a>
 
 </nav>
 
-
 <script>
 
-let currentTab = "list";
+let currentTab="list";
 
+function getList(){
 
-function getMyList() {
+try{
 
-  try {
+const saved=
+localStorage.getItem("nexbox_my_list");
 
-    return JSON.parse(
-      localStorage.getItem(
-        "nexbox_my_list"
-      ) || "[]"
-    );
+if(!saved){
+return [];
+}
 
-  } catch {
+const parsed=JSON.parse(saved);
 
-    return [];
+return Array.isArray(parsed) ? parsed : [];
 
-  }
+}catch(error){
+
+console.error(
+"My List error:",
+error
+);
+
+return [];
 
 }
 
+}
 
-function showTab(tab) {
+function showTab(tab){
 
-  currentTab = tab;
+currentTab=tab;
 
+document
+.getElementById("listTab")
+.classList.toggle(
+"active",
+tab==="list"
+);
 
-  document
-    .getElementById("listTab")
-    .classList.toggle(
-      "active",
-      tab === "list"
-    );
+document
+.getElementById("downloadTab")
+.classList.toggle(
+"active",
+tab==="downloads"
+);
 
-
-  document
-    .getElementById("downloadTab")
-    .classList.toggle(
-      "active",
-      tab === "downloads"
-    );
-
-
-  render();
+render();
 
 }
 
+function render(){
 
-function render() {
+const grid=
+document.getElementById("grid");
 
-  const grid =
-    document.getElementById(
-      "movieGrid"
-    );
+grid.innerHTML="";
 
+let movies=getList();
 
-  grid.innerHTML = "";
+if(currentTab==="downloads"){
 
-
-  const list =
-    getMyList();
-
-
-  let movies = list;
-
-
-  if (currentTab === "downloads") {
-
-    movies =
-      list.filter(
-        movie =>
-          movie.downloadable === true
-      );
-
-  }
-
-
-  if (!movies.length) {
-
-    grid.innerHTML = `
-
-      <div class="empty">
-
-        ${
-          currentTab === "list"
-            ? "❤️ Your My List is empty."
-            : "📥 No downloadable movies saved yet."
-        }
-
-        <br><br>
-
-        <a
-          href="./index.html"
-          style="color:#e50914;text-decoration:none;font-weight:bold;"
-        >
-          Browse Movies
-        </a>
-
-      </div>
-
-    `;
-
-    return;
-
-  }
-
-
-  movies.forEach(movie => {
-
-    const card =
-      document.createElement(
-        "div"
-      );
-
-
-    card.className =
-      "card";
-
-
-    const poster =
-      movie.poster_url ||
-      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba";
-
-
-    card.innerHTML = `
-
-      <img
-        src="${escapeHTML(poster)}"
-        alt="${escapeHTML(movie.title || "Movie")}"
-      >
-
-      <button
-        class="remove"
-        title="Remove"
-      >
-        ×
-      </button>
-
-      <div class="info">
-
-        <div class="card-title">
-          ${escapeHTML(movie.title || "Untitled Movie")}
-        </div>
-
-        <div class="meta">
-          ${escapeHTML(String(movie.year || ""))}
-          ${
-            movie.year && movie.genre
-              ? " • "
-              : ""
-          }
-          ${escapeHTML(movie.genre || "")}
-        </div>
-
-      </div>
-
-    `;
-
-
-    card.addEventListener(
-      "click",
-      function(e) {
-
-        if (
-          e.target.classList.contains(
-            "remove"
-          )
-        ) {
-          return;
-        }
-
-
-        window.location.href =
-          "./watch.html?movie=" +
-          encodeURIComponent(
-            movie.id
-          );
-
-      }
-    );
-
-
-    card
-      .querySelector(".remove")
-      .addEventListener(
-        "click",
-        function() {
-
-          removeMovie(
-            movie.id
-          );
-
-        }
-      );
-
-
-    grid.appendChild(card);
-
-  });
+movies=movies.filter(
+movie=>movie.downloadable===true
+);
 
 }
 
+if(movies.length===0){
 
-function removeMovie(id) {
+grid.innerHTML=`
 
-  let list =
-    getMyList();
+<div class="empty">
 
+${currentTab==="list"
+?"❤️ No movies in My List yet."
+:"📥 No downloadable movies yet."
+}
 
-  list =
-    list.filter(
-      movie =>
-        String(movie.id) !==
-        String(id)
-    );
+<br>
 
+<a href="./index.html">
+Browse Movies
+</a>
 
-  localStorage.setItem(
-    "nexbox_my_list",
-    JSON.stringify(list)
-  );
+</div>
 
+`;
 
-  render();
+return;
 
 }
 
+movies.forEach(movie=>{
 
-function escapeHTML(value) {
+const card=
+document.createElement("div");
 
-  return String(
-    value || ""
-  )
+card.className="card";
 
-    .replace(
-      /&/g,
-      "&amp;"
-    )
+const poster=
+movie.poster_url ||
+"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba";
 
-    .replace(
-      /</g,
-      "&lt;"
-    )
+card.innerHTML=`
 
-    .replace(
-      />/g,
-      "&gt;"
-    )
+<img
+src="${poster}"
+alt="${movie.title || "Movie"}">
 
-    .replace(
-      /"/g,
-      "&quot;"
-    )
+<button
+class="remove">
+×
+</button>
 
-    .replace(
-      /'/g,
-      "&#039;"
-    );
+<div class="info">
+
+<div class="card-title">
+${movie.title || "Untitled Movie"}
+</div>
+
+<div class="meta">
+${movie.year || ""}
+${movie.year && movie.genre ? " • " : ""}
+${movie.genre || ""}
+</div>
+
+</div>
+
+`;
+
+card.addEventListener(
+"click",
+function(event){
+
+if(
+event.target.classList.contains("remove")
+){
+return;
+}
+
+window.location.href=
+"./watch.html?movie="+
+encodeURIComponent(movie.id);
+
+}
+);
+
+card
+.querySelector(".remove")
+.addEventListener(
+"click",
+function(){
+
+removeMovie(movie.id);
+
+}
+);
+
+grid.appendChild(card);
+
+});
 
 }
 
+function removeMovie(id){
+
+let movies=getList();
+
+movies=movies.filter(
+movie=>String(movie.id)!==String(id)
+);
+
+localStorage.setItem(
+"nexbox_my_list",
+JSON.stringify(movies)
+);
+
+render();
+
+}
+
+window.addEventListener(
+"storage",
+render
+);
 
 render();
 
 </script>
 
 </body>
-  </html>
+</html>
