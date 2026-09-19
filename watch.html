@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>NEX BOX Movies</title>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-  <meta name="theme-color" content="#08090c">
+  <meta
+    name="theme-color"
+    content="#08090c"
+  >
+
+  <title>NEX BOX - Watch</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -22,374 +31,949 @@
       color: #fff;
       font-family: Arial, Helvetica, sans-serif;
       min-height: 100vh;
+      padding-bottom: 30px;
     }
 
     .topbar {
-      height: 64px;
+      height: 62px;
       display: flex;
       align-items: center;
-      padding: 0 18px;
-      border-bottom: 1px solid #1d1f25;
-      background: #08090c;
+      gap: 14px;
+      padding: 0 15px;
+      background: rgba(8,9,12,.97);
+      border-bottom: 1px solid #20232b;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
+      backdrop-filter: blur(12px);
     }
 
     .back {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #171a21;
       color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-decoration: none;
       font-size: 25px;
-      margin-right: 15px;
     }
 
     .brand {
-      font-size: 18px;
-      font-weight: 800;
-      letter-spacing: 1px;
+      font-size: 19px;
+      font-weight: 900;
+      letter-spacing: 1.3px;
+    }
+
+    .brand span {
+      color: #e50914;
     }
 
     .container {
       max-width: 900px;
       margin: auto;
-      padding: 18px;
+      padding: 15px;
     }
 
-    .poster {
-      width: 100%;
-      max-height: 480px;
-      object-fit: cover;
-      border-radius: 14px;
-      display: block;
-      background: #15171d;
-    }
-
-    .title {
-      font-size: 28px;
-      font-weight: 800;
-      margin-top: 20px;
-    }
-
-    .meta {
-      margin-top: 10px;
-      color: #a8abb4;
-      font-size: 14px;
-    }
-
-    .description {
-      color: #c9cbd1;
-      line-height: 1.6;
-      margin-top: 16px;
-      font-size: 15px;
-    }
+    /* VIDEO */
 
     .player {
       width: 100%;
-      margin-top: 20px;
       background: #000;
       border-radius: 14px;
       overflow: hidden;
+      margin-top: 5px;
+      box-shadow: 0 10px 35px rgba(0,0,0,.35);
     }
 
     video {
       width: 100%;
       display: block;
       background: #000;
+      max-height: 70vh;
     }
 
-    .buttons {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    /* MOVIE INFO */
+
+    .title {
+      font-size: 27px;
+      line-height: 1.15;
+      font-weight: 900;
       margin-top: 20px;
     }
 
-    button,
-    .button {
+    .meta {
+      margin-top: 9px;
+      color: #999fa9;
+      font-size: 13px;
+    }
+
+    .description {
+      margin-top: 15px;
+      color: #c6c9cf;
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    /* BUTTONS */
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      margin-top: 18px;
+    }
+
+    .action {
+      min-height: 45px;
       border: 0;
       border-radius: 10px;
-      padding: 13px 18px;
-      background: #20232b;
+      background: #191c23;
       color: white;
-      font-size: 14px;
-      font-weight: 700;
-      text-decoration: none;
+      font-size: 13px;
+      font-weight: 800;
       cursor: pointer;
     }
 
-    button:hover,
-    .button:hover {
-      background: #30343e;
+    .action:active {
+      transform: scale(.98);
     }
 
     .primary {
       background: #e50914;
     }
 
-    .primary:hover {
-      background: #f01823;
+    .download {
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
+
+    /* POSTER */
+
+    .poster {
+      width: 100%;
+      max-height: 430px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-top: 20px;
+      background: #15171d;
+    }
+
+    /* CONTINUE */
+
+    .continue-box {
+      margin-top: 18px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #111318;
+      border: 1px solid #20232b;
+      color: #aeb2ba;
+      font-size: 12px;
+      display: none;
+    }
+
+    .continue-box strong {
+      color: white;
+    }
+
+    /* MESSAGE */
 
     .message {
       text-align: center;
       padding: 70px 20px;
-      color: #aaa;
+      color: #969ba5;
     }
 
     .error {
       color: #ff6972;
     }
 
-    .loading {
-      color: #aaa;
+    /* DESKTOP */
+
+    @media (min-width: 700px) {
+
+      .buttons {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .poster {
+        max-height: 500px;
+      }
+
     }
+
   </style>
+
 </head>
 
 <body>
 
-  <header class="topbar">
-    <a class="back" href="./index.html">‹</a>
-    <div class="brand">NEX BOX MOVIES</div>
-  </header>
 
-  <main class="container">
+<header class="topbar">
 
-    <div id="loading" class="message loading">
-      Loading movie...
+  <a
+    href="./index.html"
+    class="back"
+  >
+    ‹
+  </a>
+
+  <div class="brand">
+    NEX<span>BOX</span>
+  </div>
+
+</header>
+
+
+<main class="container">
+
+
+  <div
+    id="loading"
+    class="message"
+  >
+    Loading movie...
+  </div>
+
+
+  <div
+    id="error"
+    class="message error"
+    style="display:none;"
+  ></div>
+
+
+  <section
+    id="movieContent"
+    style="display:none;"
+  >
+
+
+    <!-- VIDEO -->
+
+    <div class="player">
+
+      <video
+        id="video"
+        controls
+        playsinline
+        preload="metadata"
+      >
+        Your browser does not support video playback.
+      </video>
+
     </div>
 
-    <div id="movieContent" style="display:none;">
 
-      <img id="poster" class="poster" src="" alt="Movie poster">
+    <!-- CONTINUE WATCHING -->
 
-      <h1 id="title" class="title"></h1>
+    <div
+      id="continueBox"
+      class="continue-box"
+    >
+      <strong>Continue watching</strong>
+      — your position is saved automatically.
+    </div>
 
-      <div id="meta" class="meta"></div>
 
-      <div class="player">
-        <video id="video" controls playsinline preload="metadata">
-          Your browser does not support video playback.
-        </video>
-      </div>
+    <!-- TITLE -->
 
-      <div class="buttons">
-        <button id="listButton" class="primary">
-          ＋ My List
-        </button>
+    <h1
+      id="title"
+      class="title"
+    ></h1>
 
-        <button id="shareButton">
-          Share
-        </button>
 
-        <a id="downloadButton"
-           class="button"
-           href="#"
-           download
-           style="display:none;">
-          Download
-        </a>
-      </div>
+    <div
+      id="meta"
+      class="meta"
+    ></div>
 
-      <p id="description" class="description"></p>
+
+    <!-- ACTIONS -->
+
+    <div class="buttons">
+
+      <button
+        id="listButton"
+        class="action primary"
+      >
+        ＋ My List
+      </button>
+
+
+      <button
+        id="shareButton"
+        class="action"
+      >
+        📤 Share
+      </button>
+
+
+      <a
+        id="downloadButton"
+        class="action download"
+        href="#"
+        download
+        style="display:none;"
+      >
+        📥 Download
+      </a>
+
+
+      <button
+        class="action"
+        onclick="goHome()"
+      >
+        🏠 Home
+      </button>
 
     </div>
 
-    <div id="error" class="message error" style="display:none;"></div>
 
-  </main>
+    <!-- POSTER -->
+
+    <img
+      id="poster"
+      class="poster"
+      src=""
+      alt="Movie poster"
+    >
+
+
+    <!-- DESCRIPTION -->
+
+    <p
+      id="description"
+      class="description"
+    ></p>
+
+
+  </section>
+
+
+</main>
+
 
 <script>
+
 const SUPABASE_URL =
   "https://jacxlmcwwedertcaizdj.supabase.co";
 
 const SUPABASE_KEY =
   "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
 
-const db = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
 
-const params = new URLSearchParams(window.location.search);
-const movieId = params.get("movie");
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-const loading = document.getElementById("loading");
-const content = document.getElementById("movieContent");
-const errorBox = document.getElementById("error");
 
-const poster = document.getElementById("poster");
-const title = document.getElementById("title");
-const meta = document.getElementById("meta");
-const description = document.getElementById("description");
-const video = document.getElementById("video");
+const params =
+  new URLSearchParams(
+    window.location.search
+  );
 
-const listButton = document.getElementById("listButton");
-const shareButton = document.getElementById("shareButton");
-const downloadButton = document.getElementById("downloadButton");
+
+const movieId =
+  params.get("movie");
+
+
+const loading =
+  document.getElementById(
+    "loading"
+  );
+
+
+const errorBox =
+  document.getElementById(
+    "error"
+  );
+
+
+const content =
+  document.getElementById(
+    "movieContent"
+  );
+
+
+const video =
+  document.getElementById(
+    "video"
+  );
+
+
+const title =
+  document.getElementById(
+    "title"
+  );
+
+
+const meta =
+  document.getElementById(
+    "meta"
+  );
+
+
+const description =
+  document.getElementById(
+    "description"
+  );
+
+
+const poster =
+  document.getElementById(
+    "poster"
+  );
+
+
+const listButton =
+  document.getElementById(
+    "listButton"
+  );
+
+
+const shareButton =
+  document.getElementById(
+    "shareButton"
+  );
+
+
+const downloadButton =
+  document.getElementById(
+    "downloadButton"
+  );
+
+
+const continueBox =
+  document.getElementById(
+    "continueBox"
+  );
+
 
 let currentMovie = null;
 
+
+/* =========================
+   ERROR
+========================= */
+
 function showError(message) {
-  loading.style.display = "none";
-  content.style.display = "none";
-  errorBox.style.display = "block";
-  errorBox.textContent = message;
+
+  loading.style.display =
+    "none";
+
+  content.style.display =
+    "none";
+
+  errorBox.style.display =
+    "block";
+
+  errorBox.textContent =
+    message;
+
 }
 
-function getSavedMovies() {
+
+/* =========================
+   MY LIST
+========================= */
+
+function getMyList() {
+
   try {
+
     return JSON.parse(
-      localStorage.getItem("nexbox_my_list") || "[]"
+      localStorage.getItem(
+        "nexbox_my_list"
+      ) || "[]"
     );
+
   } catch {
+
     return [];
+
   }
+
 }
 
-function saveMovies(list) {
+
+function saveMyList(list) {
+
   localStorage.setItem(
     "nexbox_my_list",
     JSON.stringify(list)
   );
+
 }
+
 
 function updateListButton() {
-  if (!currentMovie) return;
 
-  const list = getSavedMovies();
+  if (!currentMovie)
+    return;
 
-  const exists = list.some(
-    movie => movie.id === currentMovie.id
-  );
+
+  const list =
+    getMyList();
+
+
+  const exists =
+    list.some(
+      item =>
+        String(item.id) ===
+        String(currentMovie.id)
+    );
+
 
   listButton.textContent =
-    exists ? "✓ In My List" : "＋ My List";
+    exists
+      ? "✓ In My List"
+      : "＋ My List";
+
 }
 
-listButton.addEventListener("click", () => {
 
-  if (!currentMovie) return;
+listButton.addEventListener(
+  "click",
+  function () {
 
-  let list = getSavedMovies();
+    if (!currentMovie)
+      return;
 
-  const exists = list.some(
-    movie => movie.id === currentMovie.id
+
+    let list =
+      getMyList();
+
+
+    const exists =
+      list.some(
+        item =>
+          String(item.id) ===
+          String(currentMovie.id)
+      );
+
+
+    if (exists) {
+
+      list =
+        list.filter(
+          item =>
+            String(item.id) !==
+            String(currentMovie.id)
+        );
+
+    } else {
+
+      list.push({
+
+        id: currentMovie.id,
+
+        title:
+          currentMovie.title,
+
+        poster_url:
+          currentMovie.poster_url,
+
+        year:
+          currentMovie.year,
+
+        genre:
+          currentMovie.genre
+
+      });
+
+    }
+
+
+    saveMyList(list);
+
+    updateListButton();
+
+  }
+);
+
+
+/* =========================
+   SHARE
+========================= */
+
+shareButton.addEventListener(
+  "click",
+  async function () {
+
+    const url =
+      window.location.href;
+
+
+    if (
+      navigator.share
+    ) {
+
+      try {
+
+        await navigator.share({
+
+          title:
+            currentMovie
+              ? currentMovie.title
+              : "NEX BOX",
+
+          text:
+            "Watch on NEX BOX",
+
+          url:
+            url
+
+        });
+
+        return;
+
+      } catch {
+
+      }
+
+    }
+
+
+    try {
+
+      await navigator.clipboard
+        .writeText(url);
+
+
+      shareButton.textContent =
+        "✓ Link Copied";
+
+
+      setTimeout(
+        () => {
+
+          shareButton.textContent =
+            "📤 Share";
+
+        },
+        2000
+      );
+
+
+    } catch {
+
+      alert(
+        "Copy this page link to share the movie."
+      );
+
+    }
+
+  }
+);
+
+
+/* =========================
+   CONTINUE WATCHING
+========================= */
+
+function progressKey() {
+
+  if (!currentMovie)
+    return null;
+
+
+  return (
+    "nexbox_progress_" +
+    currentMovie.id
   );
 
-  if (exists) {
-    list = list.filter(
-      movie => movie.id !== currentMovie.id
-    );
-  } else {
-    list.push(currentMovie);
+}
+
+
+function saveProgress() {
+
+  if (
+    !currentMovie ||
+    !video.duration ||
+    !isFinite(video.duration)
+  ) {
+    return;
   }
 
-  saveMovies(list);
-  updateListButton();
-});
 
-shareButton.addEventListener("click", async () => {
+  const progress = {
+
+    currentTime:
+      video.currentTime,
+
+    duration:
+      video.duration,
+
+    updatedAt:
+      Date.now()
+
+  };
+
+
+  localStorage.setItem(
+    progressKey(),
+    JSON.stringify(progress)
+  );
+
+}
+
+
+function loadProgress() {
+
+  if (!currentMovie)
+    return;
+
 
   try {
 
-    await navigator.clipboard.writeText(
-      window.location.href
-    );
+    const saved =
+      JSON.parse(
+        localStorage.getItem(
+          progressKey()
+        ) || "null"
+      );
 
-    shareButton.textContent = "Link Copied";
 
-    setTimeout(() => {
-      shareButton.textContent = "Share";
-    }, 2000);
+    if (
+      !saved ||
+      !saved.currentTime ||
+      !saved.duration
+    ) {
+      return;
+    }
+
+
+    if (
+      saved.currentTime <
+      saved.duration - 15
+    ) {
+
+      video.currentTime =
+        saved.currentTime;
+
+
+      continueBox.style.display =
+        "block";
+
+    }
 
   } catch {
 
-    alert("Copy this page link to share the movie.");
   }
-});
+
+}
+
+
+video.addEventListener(
+  "timeupdate",
+  saveProgress
+);
+
+
+video.addEventListener(
+  "pause",
+  saveProgress
+);
+
+
+video.addEventListener(
+  "ended",
+  function () {
+
+    if (currentMovie) {
+
+      localStorage.removeItem(
+        progressKey()
+      );
+
+    }
+
+  }
+);
+
+
+video.addEventListener(
+  "loadedmetadata",
+  loadProgress
+);
+
+
+/* =========================
+   LOAD MOVIE
+========================= */
 
 async function loadMovie() {
 
   if (!movieId) {
-    showError("Movie ID is missing.");
+
+    showError(
+      "Movie ID is missing."
+    );
+
     return;
+
   }
+
 
   try {
 
-    const { data, error } = await db
-      .from("movies")
-      .select("*")
-      .eq("id", movieId)
-      .maybeSingle();
+    const {
+      data,
+      error
+    } =
+      await db
+        .from("movies")
+        .select("*")
+        .eq("id", movieId)
+        .maybeSingle();
+
 
     if (error) {
-      console.error(error);
-      showError("Unable to load this movie.");
+
+      console.error(
+        error
+      );
+
+      showError(
+        "Unable to load this movie."
+      );
+
       return;
+
     }
+
 
     if (!data) {
-      showError("Movie not found.");
+
+      showError(
+        "Movie not found."
+      );
+
       return;
+
     }
 
-    currentMovie = data;
+
+    currentMovie =
+      data;
+
 
     title.textContent =
-      data.title || "Untitled Movie";
+      data.title ||
+      "Untitled Movie";
+
 
     description.textContent =
-      data.description || "No description available.";
+      data.description ||
+      "No description available.";
+
 
     poster.src =
       data.poster_url ||
       "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba";
 
+
     const information = [];
 
-    if (data.genre) {
-      information.push(data.genre);
-    }
 
     if (data.year) {
-      information.push(data.year);
+
+      information.push(
+        data.year
+      );
+
     }
+
+
+    if (data.genre) {
+
+      information.push(
+        data.genre
+      );
+
+    }
+
 
     meta.textContent =
-      information.join(" • ");
+      information.join(
+        " • "
+      );
+
 
     if (data.video_url) {
-      video.src = data.video_url;
+
+      video.src =
+        data.video_url;
+
     }
+
 
     if (
       data.downloadable === true &&
       data.video_url
     ) {
 
-      downloadButton.href = data.video_url;
-      downloadButton.style.display = "inline-block";
+      downloadButton.href =
+        data.video_url;
+
+      downloadButton.download =
+        data.title ||
+        "NEX BOX Movie";
+
+      downloadButton.style.display =
+        "flex";
 
     }
 
+
     updateListButton();
 
-    loading.style.display = "none";
-    content.style.display = "block";
 
-  } catch (err) {
+    loading.style.display =
+      "none";
 
-    console.error(err);
+
+    content.style.display =
+      "block";
+
+
+  } catch (error) {
+
+    console.error(
+      error
+    );
 
     showError(
       "Something went wrong while loading the movie."
     );
+
   }
+
 }
 
+
+/* =========================
+   HOME
+========================= */
+
+function goHome() {
+
+  window.location.href =
+    "./index.html";
+
+}
+
+
 loadMovie();
+
 </script>
 
 </body>
