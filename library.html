@@ -1,460 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#08090c">
-<title>NEX BOX - Library</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#050505">
 
-<style>
-*{
-box-sizing:border-box;
-margin:0;
-padding:0
-}
+  <title>NEX BOX — My List</title>
 
-body{
-background:#08090c;
-color:#fff;
-font-family:Arial,sans-serif;
-min-height:100vh;
-padding-bottom:80px
-}
+  <link rel="manifest" href="./manifest.json">
+  <link rel="stylesheet" href="./style.css">
 
-.topbar{
-height:60px;
-display:flex;
-align-items:center;
-gap:12px;
-padding:0 15px;
-border-bottom:1px solid #20232b;
-background:#08090c;
-position:sticky;
-top:0;
-z-index:10
-}
+  <style>
+    body {
+      margin: 0;
+      background: #050505;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
 
-.back{
-width:38px;
-height:38px;
-border:0;
-border-radius:50%;
-background:#171a21;
-color:white;
-font-size:25px;
-text-decoration:none;
-display:flex;
-align-items:center;
-justify-content:center
-}
+    .library-page {
+      padding: 18px;
+      padding-bottom: 100px;
+    }
 
-.logo{
-font-size:20px;
-font-weight:900;
-letter-spacing:1.5px
-}
+    .library-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
 
-.logo span{
-color:#e50914
-}
+    .library-header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
 
-.container{
-padding:20px 15px;
-max-width:1000px;
-margin:auto
-}
+    .count {
+      font-size: 13px;
+      color: #aaa;
+    }
 
-h1{
-font-size:25px
-}
+    #empty {
+      text-align: center;
+      padding: 70px 20px;
+      color: #aaa;
+    }
 
-.subtitle{
-margin-top:7px;
-font-size:13px;
-color:#8f949f
-}
+    #empty h2 {
+      color: white;
+      margin-bottom: 10px;
+    }
 
-.tabs{
-display:flex;
-gap:9px;
-margin-top:20px
-}
+    .movie-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
 
-.tab{
-border:0;
-border-radius:20px;
-padding:10px 17px;
-background:#171a21;
-color:#aaa;
-font-weight:700
-}
+    .movie-card {
+      background: #111;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+    }
 
-.tab.active{
-background:#e50914;
-color:#fff
-}
+    .movie-card img {
+      width: 100%;
+      aspect-ratio: 2 / 3;
+      object-fit: cover;
+      display: block;
+      background: #222;
+    }
 
-.grid{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:11px;
-margin-top:20px
-}
+    .movie-info {
+      padding: 10px;
+    }
 
-.card{
-background:#111318;
-border-radius:11px;
-overflow:hidden;
-position:relative;
-cursor:pointer
-}
+    .movie-title {
+      font-size: 14px;
+      font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-.card img{
-width:100%;
-aspect-ratio:2/3;
-object-fit:cover;
-display:block
-}
+    .movie-meta {
+      color: #999;
+      font-size: 11px;
+      margin-top: 5px;
+    }
 
-.info{
-padding:9px
-}
+    .remove-btn {
+      width: 100%;
+      border: 0;
+      margin-top: 8px;
+      padding: 8px;
+      border-radius: 7px;
+      background: #222;
+      color: #ff4d4d;
+      font-size: 12px;
+    }
 
-.card-title{
-font-size:12px;
-font-weight:800;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis
-}
+    .watch-btn {
+      display: block;
+      text-decoration: none;
+      text-align: center;
+      margin-top: 8px;
+      padding: 9px;
+      border-radius: 7px;
+      background: white;
+      color: black;
+      font-size: 12px;
+      font-weight: bold;
+    }
 
-.meta{
-font-size:10px;
-color:#858a94;
-margin-top:5px
-}
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 68px;
+      background: rgba(10,10,10,.97);
+      border-top: 1px solid #222;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 1000;
+    }
 
-.remove{
-position:absolute;
-top:7px;
-right:7px;
-width:30px;
-height:30px;
-border:0;
-border-radius:50%;
-background:rgba(0,0,0,.8);
-color:white;
-font-size:18px
-}
+    .bottom-nav a {
+      color: #888;
+      text-decoration: none;
+      font-size: 11px;
+      text-align: center;
+    }
 
-.empty{
-grid-column:1/-1;
-text-align:center;
-color:#858a94;
-padding:70px 20px
-}
+    .bottom-nav a.active {
+      color: white;
+    }
 
-.empty a{
-display:inline-block;
-margin-top:20px;
-color:#e50914;
-text-decoration:none;
-font-weight:bold
-}
+    .bottom-nav span {
+      display: block;
+      font-size: 21px;
+      margin-bottom: 3px;
+    }
 
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-height:67px;
-background:#0c0d11;
-border-top:1px solid #20232b;
-display:flex;
-justify-content:space-around;
-align-items:center
-}
+    @media (min-width: 700px) {
+      .movie-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
 
-.nav-item{
-color:#858a94;
-text-decoration:none;
-font-size:10px;
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:5px
-}
-
-.nav-icon{
-font-size:19px
-}
-
-.nav-item.active{
-color:white
-}
-
-@media(min-width:700px){
-.grid{
-grid-template-columns:repeat(6,1fr)
-}
-}
-</style>
+      .library-page {
+        max-width: 1100px;
+        margin: auto;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<header class="topbar">
+  <main class="library-page">
 
-<a href="./index.html" class="back">‹</a>
+    <div class="library-header">
+      <div>
+        <h1>My List</h1>
+        <div class="count" id="movieCount">0 saved movies</div>
+      </div>
+    </div>
 
-<div class="logo">
-NEX<span>BOX</span>
-</div>
+    <div id="empty">
+      <h2>Your list is empty</h2>
+      <p>Movies you add to My List will appear here.</p>
+      <a href="./index.html" class="watch-btn">Browse Movies</a>
+    </div>
 
-</header>
+    <div id="movieGrid" class="movie-grid"></div>
 
-<main class="container">
+  </main>
 
-<h1>Your Library</h1>
+  <nav class="bottom-nav">
+    <a href="./index.html">
+      <span>⌂</span>
+      Home
+    </a>
 
-<p class="subtitle">
-Your saved movies
-</p>
+    <a href="./index.html#movies">
+      <span>🎬</span>
+      Movies
+    </a>
+
+    <a href="./library.html" class="active">
+      <span>♡</span>
+      My List
+    </a>
+  </nav>
+
+  <script>
+    const STORAGE_KEY = "nexbox_my_list";
+
+    function getMovies() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
 
-<div class="tabs">
+        if (!saved) {
+          return [];
+        }
 
-<button
-id="listTab"
-class="tab active"
-onclick="showTab('list')">
-❤️ My List
-</button>
+        const movies = JSON.parse(saved);
 
-<button
-id="downloadTab"
-class="tab"
-onclick="showTab('downloads')">
-📥 Downloads
-</button>
+        if (!Array.isArray(movies)) {
+          return [];
+        }
 
-</div>
+        return movies;
+      } catch (error) {
+        console.error("NEX BOX My List error:", error);
+        return [];
+      }
+    }
 
-<div id="grid" class="grid"></div>
-
-</main>
-
-<nav class="bottom-nav">
-
-<a class="nav-item" href="./index.html">
-<span class="nav-icon">🏠</span>
-<span>Home</span>
-</a>
-
-<a class="nav-item active" href="./library.html">
-<span class="nav-icon">❤️</span>
-<span>Library</span>
-</a>
-
-<a class="nav-item" href="./index.html#movies">
-<span class="nav-icon">🎬</span>
-<span>Movies</span>
-</a>
-
-</nav>
-
-<script>
-
-let currentTab="list";
-
-function getList(){
-
-try{
-
-const saved=
-localStorage.getItem("nexbox_my_list");
-
-if(!saved){
-return [];
-}
-
-const parsed=JSON.parse(saved);
-
-return Array.isArray(parsed) ? parsed : [];
-
-}catch(error){
-
-console.error(
-"My List error:",
-error
-);
-
-return [];
-
-}
-
-}
-
-function showTab(tab){
-
-currentTab=tab;
-
-document
-.getElementById("listTab")
-.classList.toggle(
-"active",
-tab==="list"
-);
-
-document
-.getElementById("downloadTab")
-.classList.toggle(
-"active",
-tab==="downloads"
-);
-
-render();
-
-}
-
-function render(){
-
-const grid=
-document.getElementById("grid");
-
-grid.innerHTML="";
-
-let movies=getList();
-
-if(currentTab==="downloads"){
-
-movies=movies.filter(
-movie=>movie.downloadable===true
-);
-
-}
-
-if(movies.length===0){
-
-grid.innerHTML=`
-
-<div class="empty">
-
-${currentTab==="list"
-?"❤️ No movies in My List yet."
-:"📥 No downloadable movies yet."
-}
-
-<br>
-
-<a href="./index.html">
-Browse Movies
-</a>
-
-</div>
-
-`;
-
-return;
-
-}
-
-movies.forEach(movie=>{
-
-const card=
-document.createElement("div");
-
-card.className="card";
-
-const poster=
-movie.poster_url ||
-"https://images.unsplash.com/photo-1489599849927-2ee91cede3ba";
-
-card.innerHTML=`
-
-<img
-src="${poster}"
-alt="${movie.title || "Movie"}">
-
-<button
-class="remove">
-×
-</button>
-
-<div class="info">
-
-<div class="card-title">
-${movie.title || "Untitled Movie"}
-</div>
-
-<div class="meta">
-${movie.year || ""}
-${movie.year && movie.genre ? " • " : ""}
-${movie.genre || ""}
-</div>
-
-</div>
-
-`;
-
-card.addEventListener(
-"click",
-function(event){
-
-if(
-event.target.classList.contains("remove")
-){
-return;
-}
-
-window.location.href=
-"./watch.html?movie="+
-encodeURIComponent(movie.id);
-
-}
-);
-
-card
-.querySelector(".remove")
-.addEventListener(
-"click",
-function(){
-
-removeMovie(movie.id);
-
-}
-);
-
-grid.appendChild(card);
-
-});
-
-}
-
-function removeMovie(id){
-
-let movies=getList();
-
-movies=movies.filter(
-movie=>String(movie.id)!==String(id)
-);
-
-localStorage.setItem(
-"nexbox_my_list",
-JSON.stringify(movies)
-);
-
-render();
-
-}
-
-window.addEventListener(
-"storage",
-render
-);
-
-render();
-
-</script>
+    function renderMovies() {
+
+      const movies = getMovies();
+
+      const grid = document.getElementById("movieGrid");
+      const empty = document.getElementById("empty");
+      const count = document.getElementById("movieCount");
+
+      count.textContent =
+        movies.length === 1
+          ? "1 saved movie"
+          : movies.length + " saved movies";
+
+      grid.innerHTML = "";
+
+      if (movies.length === 0) {
+        empty.style.display = "block";
+        return;
+      }
+
+      empty.style.display = "none";
+
+      movies.forEach(movie => {
+
+        const card = document.createElement("div");
+        card.className = "movie-card";
+
+        const poster =
+          movie.poster_url ||
+          "https://via.placeholder.com/400x600/111111/ffffff?text=NEX+BOX";
+
+        const title =
+          movie.title || "Untitled Movie";
+
+        const year =
+          movie.year || "";
+
+        const genre =
+          movie.genre || "";
+
+        card.innerHTML = `
+          <img
+            src="${poster}"
+            alt="${escapeHTML(title)}"
+            onerror="this.src='https://via.placeholder.com/400x600/111111/ffffff?text=NEX+BOX'"
+          >
+
+          <div class="movie-info">
+
+            <div class="movie-title">
+              ${escapeHTML(title)}
+            </div>
+
+            <div class="movie-meta">
+              ${escapeHTML(String(year))}
+              ${year && genre ? " • " : ""}
+              ${escapeHTML(genre)}
+            </div>
+
+            <a
+              class="watch-btn"
+              href="./watch.html?movie=${encodeURIComponent(movie.id)}"
+            >
+              ▶ Watch
+            </a>
+
+            <button
+              class="remove-btn"
+              onclick="removeMovie('${escapeJS(movie.id)}')"
+            >
+              Remove from My List
+            </button>
+
+          </div>
+        `;
+
+        grid.appendChild(card);
+      });
+    }
+
+    function removeMovie(id) {
+
+      let movies = getMovies();
+
+      movies = movies.filter(movie =>
+        String(movie.id) !== String(id)
+      );
+
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(movies)
+      );
+
+      renderMovies();
+    }
+
+    function escapeHTML(value) {
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeJS(value) {
+      return String(value)
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'");
+    }
+
+    renderMovies();
+
+    window.addEventListener("pageshow", renderMovies);
+
+    window.addEventListener("storage", renderMovies);
+  </script>
 
 </body>
 </html>
