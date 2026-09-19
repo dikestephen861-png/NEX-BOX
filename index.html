@@ -1,418 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
-<meta charset="UTF-8">
+  <meta charset="UTF-8">
 
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-<meta name="theme-color" content="#080808">
+  <meta
+    name="theme-color"
+    content="#08090c"
+  >
 
-<title>NEX BOX - Watch Movies</title>
+  <meta
+    name="description"
+    content="NEX BOX movie library"
+  >
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>NEX BOX</title>
 
-<style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-background:#080808;
-color:#fff;
-font-family:Arial,sans-serif;
-padding-bottom:80px;
-}
-
-header{
-position:sticky;
-top:0;
-z-index:1000;
-background:#111;
-border-bottom:1px solid #292929;
-padding:15px;
-}
-
-.header{
-max-width:1200px;
-margin:auto;
-display:flex;
-align-items:center;
-gap:20px;
-}
-
-.logo{
-font-size:25px;
-font-weight:bold;
-letter-spacing:2px;
-white-space:nowrap;
-}
-
-.logo span{
-color:#e50914;
-}
-
-.search{
-flex:1;
-}
-
-.search input{
-width:100%;
-padding:12px 16px;
-background:#202020;
-border:1px solid #333;
-border-radius:25px;
-color:white;
-outline:none;
-font-size:15px;
-}
-
-.container{
-max-width:1200px;
-margin:auto;
-padding:20px;
-}
-
-.hero{
-min-height:320px;
-border-radius:15px;
-background:
-linear-gradient(90deg,#080808 10%,rgba(8,8,8,.75),rgba(8,8,8,.2)),
-url("https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=1400&q=80")
-center/cover;
-display:flex;
-align-items:end;
-padding:30px;
-margin-bottom:30px;
-}
-
-.hero-content{
-max-width:600px;
-}
-
-.hero h1{
-font-size:42px;
-margin:0 0 10px;
-}
-
-.hero p{
-color:#ccc;
-line-height:1.6;
-}
-
-.hero-button{
-display:inline-block;
-background:#e50914;
-color:#fff;
-padding:13px 22px;
-border-radius:6px;
-text-decoration:none;
-font-weight:bold;
-margin-top:10px;
-}
-
-.categories{
-display:flex;
-gap:10px;
-overflow-x:auto;
-padding-bottom:15px;
-}
-
-.category{
-background:#181818;
-color:#ccc;
-border:1px solid #333;
-padding:9px 16px;
-border-radius:20px;
-white-space:nowrap;
-cursor:pointer;
-}
-
-.category.active,
-.category:hover{
-background:#e50914;
-color:#fff;
-border-color:#e50914;
-}
-
-.section-title{
-margin-top:25px;
-margin-bottom:15px;
-}
-
-.movies{
-display:grid;
-grid-template-columns:
-repeat(auto-fill,minmax(150px,1fr));
-gap:15px;
-}
-
-.movie{
-background:#141414;
-border-radius:9px;
-overflow:hidden;
-cursor:pointer;
-transition:.2s;
-}
-
-.movie:hover{
-transform:translateY(-4px);
-}
-
-.poster{
-width:100%;
-height:220px;
-background:#222;
-}
-
-.poster img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.movie-info{
-padding:10px;
-}
-
-.movie-title{
-font-weight:bold;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-}
-
-.movie-meta{
-font-size:12px;
-color:#888;
-margin-top:6px;
-}
-
-.loading{
-text-align:center;
-padding:50px;
-color:#888;
-}
-
-.empty{
-padding:40px;
-text-align:center;
-color:#888;
-}
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-height:65px;
-background:#111;
-border-top:1px solid #292929;
-display:flex;
-justify-content:space-around;
-align-items:center;
-z-index:2000;
-}
-
-.bottom-nav button{
-background:none;
-border:0;
-color:#aaa;
-font-size:20px;
-cursor:pointer;
-}
-
-.bottom-nav span{
-display:block;
-font-size:11px;
-margin-top:3px;
-}
-
-@media(max-width:600px){
-
-.header{
-gap:10px;
-}
-
-.logo{
-font-size:20px;
-}
-
-.hero{
-min-height:300px;
-padding:20px;
-}
-
-.hero h1{
-font-size:30px;
-}
-
-.movies{
-grid-template-columns:
-repeat(2,1fr);
-}
-
-.poster{
-height:230px;
-}
-
-}
-
-</style>
+  <link rel="stylesheet" href="style.css">
 
 </head>
 
-
 <body>
 
+<header class="topbar">
 
-<header>
+  <div class="logo">
+    NEX<span>BOX</span>
+  </div>
 
-<div class="header">
+  <div class="top-actions">
 
-<div class="logo">
-NEX<span>BOX</span>
-</div>
+    <button
+      class="icon-btn"
+      onclick="focusSearch()"
+      aria-label="Search"
+    >
+      🔎
+    </button>
 
-<div class="search">
+    <a
+      href="./admin.html"
+      class="icon-btn"
+      aria-label="Admin"
+      style="text-decoration:none;"
+    >
+      ⚙️
+    </a>
 
-<input
-id="searchBox"
-type="search"
-placeholder="Search movies..."
-autocomplete="off">
-
-</div>
-
-</div>
+  </div>
 
 </header>
 
 
-<main class="container">
+<main>
+
+  <!-- HERO -->
+
+  <section class="hero">
+
+    <div class="hero-box">
+
+      <div class="hero-content">
+
+        <div class="hero-label">
+          NEX BOX
+        </div>
+
+        <h1 class="hero-title">
+          Watch Movies
+        </h1>
+
+        <p class="hero-description">
+          Discover movies available in your NEX BOX library.
+          Select a movie to watch.
+        </p>
+
+        <div class="hero-buttons">
+
+          <button
+            class="hero-btn watch-btn"
+            onclick="goMovies()"
+          >
+            ▶ Browse Movies
+          </button>
+
+          <button
+            class="hero-btn info-btn"
+            onclick="focusSearch()"
+          >
+            🔎 Search
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
-<section class="hero">
+  <!-- SEARCH -->
 
-<div class="hero-content">
+  <section class="search-box">
 
-<h1>Watch Movies</h1>
+    <input
+      id="searchBox"
+      class="search-input"
+      type="search"
+      placeholder="Search movies..."
+      autocomplete="off"
+    >
 
-<p>
-Discover movies and watch authorized
-full-length content on NEX BOX.
-</p>
-
-<a
-href="#movies"
-class="hero-button">
-
-▶ Browse Movies
-
-</a>
-
-</div>
-
-</section>
+  </section>
 
 
-<div class="categories">
+  <!-- CATEGORIES -->
 
-<button
-class="category active"
-onclick="filterCategory('All',this)">
-All
-</button>
+  <section class="section">
 
-<button
-class="category"
-onclick="filterCategory('Action',this)">
-Action
-</button>
+    <div class="categories">
 
-<button
-class="category"
-onclick="filterCategory('Comedy',this)">
-Comedy
-</button>
+      <button
+        class="category active"
+        onclick="filterCategory('All', this)"
+      >
+        All
+      </button>
 
-<button
-class="category"
-onclick="filterCategory('Drama',this)">
-Drama
-</button>
+      <button
+        class="category"
+        onclick="filterCategory('Action', this)"
+      >
+        Action
+      </button>
 
-<button
-class="category"
-onclick="filterCategory('Animation',this)">
-Animation
-</button>
+      <button
+        class="category"
+        onclick="filterCategory('Comedy', this)"
+      >
+        Comedy
+      </button>
 
-<button
-class="category"
-onclick="filterCategory('Adventure',this)">
-Adventure
-</button>
+      <button
+        class="category"
+        onclick="filterCategory('Drama', this)"
+      >
+        Drama
+      </button>
 
-</div>
+      <button
+        class="category"
+        onclick="filterCategory('Animation', this)"
+      >
+        Animation
+      </button>
+
+      <button
+        class="category"
+        onclick="filterCategory('Adventure', this)"
+      >
+        Adventure
+      </button>
+
+    </div>
+
+  </section>
 
 
-<h2
-class="section-title"
-id="movies">
+  <!-- MOVIES -->
 
-Latest Movies
+  <section
+    class="section"
+    id="movies"
+  >
 
-</h2>
+    <div class="section-header">
+
+      <h2 class="section-title">
+        Latest Movies
+      </h2>
+
+      <span
+        class="section-more"
+        id="movieCount"
+      >
+        Movies
+      </span>
+
+    </div>
 
 
-<div
-class="movies"
-id="movieList">
+    <div
+      id="movieList"
+      class="movies"
+    >
 
-<div class="loading">
-Loading movies...
-</div>
+      <div class="loading">
+        Loading movies...
+      </div>
 
-</div>
+    </div>
 
+  </section>
 
 </main>
 
 
-<nav <a href="admin.html" style="color:#e50914;text-decoration:none;text-align:center;font-size:20px;min-width:65px;">
-⚙️
-<span style="display:block;font-size:11px;margin-top:3px;">
-Admin
-</span>
-</a>
+<!-- BOTTOM NAV -->
 
-⚙️
+<nav class="bottom-nav">
 
-<span>
-Admin
-</span>
+  <button
+    class="nav-item active"
+    onclick="goHome()"
+  >
 
-</button>
+    <span class="nav-icon">
+      🏠
+    </span>
 
-<button onclick="goHome()">
-🏠
-<span>Home</span>
-</button>
+    <span>
+      Home
+    </span>
 
-<button onclick="goMovies()">
-🎬
-<span>Movies</span>
-</button>
+  </button>
 
-<button onclick="focusSearch()">
-🔎
-<span>Search</span>
-</button>
+
+  <button
+    class="nav-item"
+    onclick="goMovies()"
+  >
+
+    <span class="nav-icon">
+      🎬
+    </span>
+
+    <span>
+      Movies
+    </span>
+
+  </button>
+
+
+  <button
+    class="nav-item"
+    onclick="focusSearch()"
+  >
+
+    <span class="nav-icon">
+      🔎
+    </span>
+
+    <span>
+      Search
+    </span>
+
+  </button>
+
+
+  <a
+    href="./admin.html"
+    class="nav-item"
+    style="text-decoration:none;"
+  >
+
+    <span class="nav-icon">
+      ⚙️
+    </span>
+
+    <span>
+      Admin
+    </span>
+
+  </a>
 
 </nav>
 
@@ -420,227 +288,466 @@ Admin
 <script>
 
 const SUPABASE_URL =
-"https://jacxlmcwwedertcaizdj.supabase.co";
+  "https://jacxlmcwwedertcaizdj.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+  "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
 
-const supabaseClient =
-window.supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
-);
+const db =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
 
 let movies = [];
 
-
-async function loadMovies(){
-
-const {data,error} =
-await supabaseClient
-.from("movies")
-.select("*")
-.order("created_at",{ascending:false});
+let activeCategory = "All";
 
 
-if(error){
+/* =========================
+   LOAD MOVIES
+========================= */
 
-console.error(error);
+async function loadMovies() {
 
-document.getElementById("movieList").innerHTML =
-"<div class='empty'>Unable to load movies.</div>";
+  const movieList =
+    document.getElementById("movieList");
 
-return;
+  movieList.innerHTML =
+    '<div class="loading">Loading movies...</div>';
 
-}
+  try {
 
-movies=data || [];
-
-displayMovies(movies);
-
-}
-
-
-function displayMovies(list){
-
-const movieList =
-document.getElementById("movieList");
-
-movieList.innerHTML="";
-
-
-if(!list.length){
-
-movieList.innerHTML =
-"<div class='empty'>No movies found.</div>";
-
-return;
-
-}
+    const { data, error } =
+      await db
+        .from("movies")
+        .select("*")
+        .order(
+          "created_at",
+          {
+            ascending: false
+          }
+        );
 
 
-list.forEach(movie=>{
+    if (error) {
 
-const card =
-document.createElement("div");
+      console.error(
+        "Supabase error:",
+        error
+      );
 
-card.className="movie";
+      movieList.innerHTML =
+        '<div class="loading">Unable to load movies.</div>';
 
-
-card.innerHTML=`
-
-<div class="poster">
-
-<img
-src="${movie.poster_url || ''}"
-alt="${escapeHtml(movie.title)}"
-loading="lazy">
-
-</div>
-
-<div class="movie-info">
-
-<div class="movie-title">
-${escapeHtml(movie.title)}
-</div>
-
-<div class="movie-meta">
-${movie.year || ""} • ${escapeHtml(movie.genre || "")}
-</div>
-
-</div>
-
-`;
+      return;
+    }
 
 
-card.onclick=()=>{
+    movies = data || [];
 
-window.location.href =
-"./movie.html?id="+movie.id;
+    console.log(
+      "NEX BOX Movies found:",
+      movies.length
+    );
 
-};
 
+    displayMovies(movies);
 
-movieList.appendChild(card);
+  } catch (error) {
 
-});
+    console.error(
+      "Movie loading error:",
+      error
+    );
+
+    movieList.innerHTML =
+      '<div class="loading">Something went wrong.</div>';
+  }
 
 }
 
 
-function filterCategory(category,button){
+/* =========================
+   DISPLAY MOVIES
+========================= */
+
+function displayMovies(list) {
+
+  const movieList =
+    document.getElementById("movieList");
+
+  const movieCount =
+    document.getElementById("movieCount");
+
+
+  movieList.innerHTML = "";
+
+
+  if (movieCount) {
+
+    movieCount.textContent =
+      list.length +
+      (list.length === 1
+        ? " Movie"
+        : " Movies");
+
+  }
+
+
+  if (!list.length) {
+
+    movieList.innerHTML =
+      '<div class="loading">No movies found.</div>';
+
+    return;
+  }
+
+
+  list.forEach(movie => {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "movie-card";
+
+
+    const poster =
+      movie.poster_url ||
+      "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba";
+
+
+    const title =
+      movie.title ||
+      "Untitled Movie";
+
+
+    const year =
+      movie.year ||
+      "";
+
+
+    const genre =
+      movie.genre ||
+      "";
+
+
+    card.innerHTML = `
+
+      <img
+        class="movie-poster"
+        src="${escapeHTML(poster)}"
+        alt="${escapeHTML(title)}"
+        loading="lazy"
+      >
+
+      <div class="movie-info">
+
+        <div class="movie-title">
+          ${escapeHTML(title)}
+        </div>
+
+        <div class="movie-meta">
+          ${escapeHTML(String(year))}
+          ${
+            year && genre
+              ? " • "
+              : ""
+          }
+          ${escapeHTML(genre)}
+        </div>
+
+      </div>
+
+    `;
+
+
+    card.addEventListener(
+      "click",
+      () => {
+
+        if (!movie.id) {
+
+          alert(
+            "This movie does not have a valid ID."
+          );
+
+          return;
+        }
+
+
+        window.location.href =
+          "./watch.html?movie=" +
+          encodeURIComponent(movie.id);
+
+      }
+    );
+
+
+    movieList.appendChild(card);
+
+  });
+
+}
+
+
+/* =========================
+   CATEGORY FILTER
+========================= */
+
+function filterCategory(
+  category,
+  button
+) {
+
+  activeCategory =
+    category;
+
+
+  document
+    .querySelectorAll(".category")
+    .forEach(btn => {
+
+      btn.classList.remove(
+        "active"
+      );
+
+    });
+
+
+  if (button) {
+
+    button.classList.add(
+      "active"
+    );
+
+  }
+
+
+  applyFilters();
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
 
 document
-.querySelectorAll(".category")
-.forEach(btn=>{
-btn.classList.remove("active");
-});
+  .getElementById("searchBox")
+  .addEventListener(
+    "input",
+    function () {
+
+      applyFilters();
+
+    }
+  );
 
 
-button.classList.add("active");
+function applyFilters() {
+
+  const searchInput =
+    document.getElementById(
+      "searchBox"
+    );
 
 
-if(category==="All"){
+  const search =
+    (
+      searchInput.value ||
+      ""
+    )
+      .toLowerCase()
+      .trim();
 
-displayMovies(movies);
 
-return;
+  let filtered =
+    [...movies];
+
+
+  /* CATEGORY */
+
+  if (
+    activeCategory !==
+    "All"
+  ) {
+
+    filtered =
+      filtered.filter(
+        movie =>
+          String(
+            movie.genre || ""
+          )
+            .toLowerCase()
+            .includes(
+              activeCategory
+                .toLowerCase()
+            )
+      );
+
+  }
+
+
+  /* SEARCH */
+
+  if (search) {
+
+    filtered =
+      filtered.filter(
+        movie => {
+
+          const title =
+            String(
+              movie.title || ""
+            )
+              .toLowerCase();
+
+
+          const genre =
+            String(
+              movie.genre || ""
+            )
+              .toLowerCase();
+
+
+          const description =
+            String(
+              movie.description || ""
+            )
+              .toLowerCase();
+
+
+          return (
+            title.includes(search) ||
+            genre.includes(search) ||
+            description.includes(search)
+          );
+
+        }
+      );
+
+  }
+
+
+  displayMovies(
+    filtered
+  );
 
 }
 
 
-const filtered =
-movies.filter(movie=>
-(movie.genre || "").toLowerCase()
-===
-category.toLowerCase()
-);
+/* =========================
+   SEARCH BUTTON
+========================= */
 
-displayMovies(filtered);
+function focusSearch() {
 
-}
-
-
-document
-.getElementById("searchBox")
-.addEventListener("input",function(){
-
-const search =
-this.value.toLowerCase().trim();
-
-const filtered =
-movies.filter(movie=>
-(movie.title || "")
-.toLowerCase()
-.includes(search)
-);
-
-displayMovies(filtered);
-
-});
+  const searchBox =
+    document.getElementById(
+      "searchBox"
+    );
 
 
-function focusSearch(){
+  searchBox.focus();
 
-document
-.getElementById("searchBox")
-.focus();
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+  window.scrollTo({
+
+    top: 0,
+
+    behavior: "smooth"
+
+  });
 
 }
 
 
-function goHome(){
+/* =========================
+   HOME
+========================= */
 
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+function goHome() {
 
-}
+  window.scrollTo({
 
+    top: 0,
 
-function goMovies(){
+    behavior: "smooth"
 
-document
-.getElementById("movies")
-.scrollIntoView({
-behavior:"smooth"
-});
+  });
 
 }
 
 
-function escapeHtml(text){
+/* =========================
+   MOVIES
+========================= */
 
-const div =
-document.createElement("div");
+function goMovies() {
 
-div.textContent=text || "";
+  const moviesSection =
+    document.getElementById(
+      "movies"
+    );
 
-return div.innerHTML;
+
+  moviesSection.scrollIntoView({
+
+    behavior: "smooth"
+
+  });
 
 }
 
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHTML(value) {
+
+  return String(
+    value || ""
+  )
+
+    .replace(
+      /&/g,
+      "&amp;"
+    )
+
+    .replace(
+      /</g,
+      "&lt;"
+    )
+
+    .replace(
+      />/g,
+      "&gt;"
+    )
+
+    .replace(
+      /"/g,
+      "&quot;"
+    )
+
+    .replace(
+      /'/g,
+      "&#039;"
+    );
+
+}
+
+
+/* =========================
+   START APP
+========================= */
 
 loadMovies();
 
 </script>
-  function openAdmin(){
 
-window.location.href =
-"./admin.html";
-
-}
-
-
-</body><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js"></script>
-
-  </html>
-</admin>
+</body>
+      </html>
