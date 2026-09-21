@@ -1,752 +1,338 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NEX BOX Movies</title>
 
-  <title>NEX BOX Player</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <style>
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      min-height: 100%;
-      background: #050505;
-      color: white;
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    body {
-      overflow-x: hidden;
-    }
-
-    .topbar {
-      height: 58px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 0 14px;
-      background: #080808;
-      border-bottom: 1px solid #1b1b1b;
-      position: sticky;
-      top: 0;
-      z-index: 20;
-    }
-
-    .back {
-      width: 40px;
-      height: 40px;
-      border: 0;
-      border-radius: 50%;
-      background: #181818;
-      color: white;
-      font-size: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .brand {
-      font-size: 20px;
-      font-weight: 900;
-      letter-spacing: .5px;
-    }
-
-    .brand span {
-      color: #e50914;
-    }
-
-    .player {
-      width: 100%;
-      background: #000;
-      position: relative;
-    }
-
-    video {
-      display: block;
-      width: 100%;
-      height: auto;
-      min-height: 210px;
-      max-height: 72vh;
-      background: #000;
-      object-fit: contain;
-    }
-
-    .loading {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-      background: #000;
-      z-index: 5;
-      text-align: center;
-      padding: 25px;
-    }
-
-    .spinner {
-      width: 38px;
-      height: 38px;
-      border: 4px solid #333;
-      border-top-color: #e50914;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .error {
-      position: absolute;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      gap: 12px;
-      background: #050505;
-      text-align: center;
-      padding: 25px;
-      z-index: 6;
-    }
-
-    .error-icon {
-      font-size: 42px;
-    }
-
-    .error h2 {
-      margin: 0;
-      font-size: 20px;
-    }
-
-    .error p {
-      margin: 0;
-      color: #aaa;
-      line-height: 1.5;
-      max-width: 350px;
-    }
-
-    .retry {
-      border: 0;
-      background: #e50914;
-      color: white;
-      padding: 12px 22px;
-      border-radius: 8px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .info {
-      padding: 18px 15px 30px;
-    }
-
-    .title {
-      font-size: 24px;
-      font-weight: 800;
-      margin: 0 0 8px;
-    }
-
-    .meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .pill {
-      background: #181818;
-      color: #bbb;
-      border-radius: 20px;
-      padding: 6px 10px;
-      font-size: 12px;
-    }
-
-    .description {
-      color: #aaa;
-      font-size: 14px;
-      line-height: 1.6;
-      margin-bottom: 18px;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .action {
-      border: 1px solid #292929;
-      background: #151515;
-      color: white;
-      border-radius: 9px;
-      padding: 11px 15px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .action.primary {
-      background: #e50914;
-      border-color: #e50914;
-    }
-
-    .status {
-      margin-top: 15px;
-      color: #777;
-      font-size: 12px;
-      word-break: break-word;
-    }
-
-    .archive {
-      margin-top: 15px;
-      padding: 12px;
-      border-radius: 8px;
-      background: #111;
-      color: #888;
-      font-size: 12px;
-      display: none;
-    }
-  </style>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ background:#050505;
+ color:#fff;
+ font-family:Arial,sans-serif;
+ padding-bottom:80px
+}
+header{
+ height:60px;
+ display:flex;
+ align-items:center;
+ padding:0 15px;
+ background:#090909;
+ border-bottom:1px solid #222;
+ position:sticky;
+ top:0;
+ z-index:10
+}
+.logo{font-size:22px;font-weight:900}
+.logo span{color:#e50914}
+.search{
+ margin:14px;
+ display:flex;
+ background:#151515;
+ border:1px solid #252525;
+ border-radius:10px;
+ overflow:hidden
+}
+.search input{
+ flex:1;
+ background:none;
+ border:0;
+ outline:0;
+ color:white;
+ padding:13px;
+ font-size:14px
+}
+.search button{
+ border:0;
+ background:#e50914;
+ color:white;
+ padding:0 16px
+}
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:12px;
+ padding:0 12px
+}
+.card{
+ background:#111;
+ border-radius:10px;
+ overflow:hidden;
+ border:1px solid #202020;
+ cursor:pointer
+}
+.poster{
+ width:100%;
+ aspect-ratio:2/3;
+ object-fit:cover;
+ background:#181818;
+ display:block
+}
+.no-poster{
+ width:100%;
+ aspect-ratio:2/3;
+ background:linear-gradient(145deg,#191919,#080808);
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ color:#e50914;
+ font-size:28px;
+ font-weight:900
+}
+.card-info{padding:10px}
+.card-title{
+ font-size:14px;
+ font-weight:700;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis
+}
+.card-meta{
+ color:#888;
+ font-size:11px;
+ margin-top:5px
+}
+.message{
+ text-align:center;
+ padding:50px 20px;
+ color:#888
+}
+.spinner{
+ width:34px;
+ height:34px;
+ border:4px solid #333;
+ border-top-color:#e50914;
+ border-radius:50%;
+ animation:spin .8s linear infinite;
+ margin:auto auto 15px
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.bottom{
+ position:fixed;
+ bottom:0;
+ left:0;
+ right:0;
+ height:65px;
+ background:#090909;
+ border-top:1px solid #222;
+ display:flex;
+ z-index:20
+}
+.bottom a{
+ flex:1;
+ color:#777;
+ text-decoration:none;
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ font-size:11px;
+ gap:4px
+}
+.bottom a.active{color:#fff}
+.bottom .icon{font-size:20px}
+</style>
 </head>
 
 <body>
 
-  <div class="topbar">
-    <button class="back" onclick="goBack()">‹</button>
-    <div class="brand">NEX <span>BOX</span></div>
-  </div>
+<header>
+ <div class="logo">NEX <span>BOX</span></div>
+</header>
 
-  <div class="player">
+<div class="search">
+ <input id="searchInput" placeholder="Search movies...">
+ <button onclick="searchMovies()">Search</button>
+</div>
 
-    <video
-      id="videoPlayer"
-      controls
-      playsinline
-      webkit-playsinline
-      preload="metadata"
-      controlsList="nodownload"
-    ></video>
+<div id="movieGrid" class="grid">
+ <div class="message" style="grid-column:1/-1">
+  <div class="spinner"></div>
+  Loading movies...
+ </div>
+</div>
 
-    <div class="loading" id="loading">
-      <div class="spinner"></div>
-      <div>Loading movie...</div>
+<nav class="bottom">
+ <a href="index.html?v=31">
+  <div class="icon">⌂</div>
+  Home
+ </a>
+ <a href="movies.html?v=31" class="active">
+  <div class="icon">🎬</div>
+  Movies
+ </a>
+ <a href="library.html?v=31">
+  <div class="icon">♡</div>
+  My List
+ </a>
+</nav>
+
+<script>
+const SUPABASE_URL =
+ "https://jacxlmcwwedertcaizdj.supabase.co";
+
+const SUPABASE_KEY =
+ "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+
+const db =
+ window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+ );
+
+let allMovies=[];
+
+async function loadMovies(){
+
+ const grid=document.getElementById("movieGrid");
+
+ try{
+
+  const {data,error}=await db
+   .from("movies")
+   .select("*")
+   .order("created_at",{ascending:false});
+
+  if(error) throw error;
+
+  allMovies=data || [];
+
+  renderMovies(allMovies);
+
+ }catch(error){
+
+  console.error("NEX BOX movies error:",error);
+
+  grid.innerHTML=`
+   <div class="message" style="grid-column:1/-1">
+    <h3>Movies could not be loaded</h3>
+    <p>Database connection error.</p>
+    <button onclick="loadMovies()" style="
+     background:#e50914;
+     border:0;
+     color:white;
+     padding:12px 20px;
+     border-radius:8px;
+     font-weight:bold">
+     Try Again
+    </button>
+   </div>
+  `;
+ }
+}
+
+function renderMovies(movies){
+
+ const grid=document.getElementById("movieGrid");
+
+ if(!movies.length){
+
+  grid.innerHTML=`
+   <div class="message" style="grid-column:1/-1">
+    No movies found.
+   </div>
+  `;
+
+  return;
+ }
+
+ grid.innerHTML=movies.map(movie=>{
+
+  const poster=movie.poster_url;
+
+  const posterHTML=poster
+   ? `<img class="poster"
+       src="${escapeAttr(poster)}"
+       onerror="this.outerHTML='<div class=&quot;no-poster&quot;>NEX</div>'">`
+   : `<div class="no-poster">NEX</div>`;
+
+  return `
+   <article class="card"
+    onclick='openMovie(${JSON.stringify(movie).replace(/'/g,"&#39;")})'>
+
+    ${posterHTML}
+
+    <div class="card-info">
+     <div class="card-title">
+      ${escapeHTML(movie.title || "Untitled")}
+     </div>
+
+     <div class="card-meta">
+      ${escapeHTML(movie.year || "Movie")}
+      ${movie.genre ? " • "+escapeHTML(movie.genre) : ""}
+     </div>
     </div>
 
-    <div class="error" id="error">
-      <div class="error-icon">⚠️</div>
-      <h2>Movie couldn't play</h2>
-      <p id="errorText">
-        The video could not be loaded.
-      </p>
-      <button class="retry" onclick="retryMovie()">Try Again</button>
-    </div>
-
-  </div>
-
-  <div class="info">
-
-    <h1 class="title" id="movieTitle">Loading...</h1>
-
-    <div class="meta">
-      <div class="pill" id="movieYear">—</div>
-      <div class="pill" id="movieGenre">Movie</div>
-    </div>
-
-    <div class="description" id="movieDescription">
-      Loading movie information...
-    </div>
-
-    <div class="actions">
-
-      <button class="action primary" onclick="playMovie()">
-        ▶ Play
-      </button>
-
-      <button class="action" onclick="toggleList()" id="listButton">
-        ＋ My List
-      </button>
-
-      <button class="action" onclick="shareMovie()">
-        ↗ Share
-      </button>
-
-      <button class="action" onclick="downloadMovie()">
-        ↓ Download
-      </button>
-
-    </div>
-
-    <div class="status" id="status"></div>
-
-    <div class="archive" id="archiveBox">
-      Internet Archive source detected.
-    </div>
-
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-
-    const SUPABASE_URL =
-      "https://jacxlmcwwedertcaizdj.supabase.co";
-
-    const SUPABASE_KEY =
-      "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
-
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
-      );
-
-    const video =
-      document.getElementById("videoPlayer");
-
-    let currentMovie = null;
-    let currentVideoUrl = "";
-
-    const loading =
-      document.getElementById("loading");
-
-    const errorBox =
-      document.getElementById("error");
-
-    const errorText =
-      document.getElementById("errorText");
-
-    const statusBox =
-      document.getElementById("status");
-
-    function getMovieFromURL() {
-
-      const params =
-        new URLSearchParams(window.location.search);
-
-      const movieParam =
-        params.get("movie");
-
-      if (!movieParam) {
-        return null;
-      }
-
-      try {
-
-        return JSON.parse(
-          decodeURIComponent(movieParam)
-        );
-
-      } catch (e) {
-
-        try {
-
-          return JSON.parse(movieParam);
-
-        } catch (e2) {
-
-          console.error(
-            "Movie data error:",
-            e2
-          );
-
-          return null;
-        }
-      }
-    }
-
-
-    async function loadMovie() {
-
-      hideError();
-
-      loading.style.display = "flex";
-
-      currentMovie =
-        getMovieFromURL();
-
-      /*
-        If the movie object was not passed,
-        try finding it using ?id=
-      */
-
-      if (!currentMovie) {
-
-        const params =
-          new URLSearchParams(
-            window.location.search
-          );
-
-        const id =
-          params.get("id");
-
-        if (id) {
-
-          const { data, error } =
-            await supabaseClient
-              .from("movies")
-              .select("*")
-              .eq("id", id)
-              .single();
-
-          if (!error && data) {
-            currentMovie = data;
-          }
-        }
-      }
-
-
-      if (!currentMovie) {
-
-        showError(
-          "No movie information was found."
-        );
-
-        return;
-      }
-
-
-      document.getElementById("movieTitle")
-        .textContent =
-        currentMovie.title ||
-        "Untitled Movie";
-
-      document.getElementById("movieYear")
-        .textContent =
-        currentMovie.year ||
-        "Movie";
-
-      document.getElementById("movieGenre")
-        .textContent =
-        currentMovie.genre ||
-        "Movie";
-
-      document.getElementById("movieDescription")
-        .textContent =
-        currentMovie.description ||
-        "No description available.";
-
-
-      /*
-        SUPABASE MOVIE
-      */
-
-      if (currentMovie.video_url) {
-
-        currentVideoUrl =
-          currentMovie.video_url;
-
-        setVideo(currentVideoUrl);
-
-        return;
-      }
-
-
-      /*
-        INTERNET ARCHIVE MOVIE
-      */
-
-      if (
-        currentMovie.source === "archive" ||
-        currentMovie.identifier
-      ) {
-
-        await loadArchiveMovie(
-          currentMovie.identifier
-        );
-
-        return;
-      }
-
-
-      showError(
-        "This movie does not have a playable video URL."
-      );
-    }
-
-
-    function setVideo(url) {
-
-      if (!url) {
-
-        showError(
-          "The video URL is empty."
-        );
-
-        return;
-      }
-
-      currentVideoUrl = url;
-
-      console.log(
-        "NEX BOX VIDEO URL:",
-        url
-      );
-
-      statusBox.textContent =
-        "Preparing video...";
-
-      video.pause();
-
-      video.removeAttribute("src");
-
-      video.load();
-
-      video.src = url;
-
-      video.load();
-
-      video.addEventListener(
-        "loadedmetadata",
-        function onLoaded() {
-
-          loading.style.display =
-            "none";
-
-          hideError();
-
-          statusBox.textContent =
-            "Video ready.";
-
-          video.removeEventListener(
-            "loadedmetadata",
-            onLoaded
-          );
-
-        }
-      );
-
-      video.addEventListener(
-        "canplay",
-        function onCanPlay() {
-
-          loading.style.display =
-            "none";
-
-          hideError();
-
-          statusBox.textContent =
-            "Ready to play.";
-
-          video.removeEventListener(
-            "canplay",
-            onCanPlay
-          );
-
-        }
-      );
-
-      video.addEventListener(
-        "error",
-        function onError() {
-
-          console.error(
-            "VIDEO ERROR:",
-            video.error
-          );
-
-          loading.style.display =
-            "none";
-
-          showError(
-            "The video server did not provide a playable video. Check that the video URL is a direct MP4/WebM file and that you have permission to stream it."
-          );
-
-          video.removeEventListener(
-            "error",
-            onError
-          );
-
-        }
-      );
-
-      /*
-        Give the browser time to load.
-      */
-
-      setTimeout(() => {
-
-        if (
-          video.readyState === 0
-        ) {
-
-          statusBox.textContent =
-            "Waiting for video server...";
-        }
-
-      }, 3000);
-    }
-
-
-    async function loadArchiveMovie(
-      identifier
-    ) {
-
-      if (!identifier) {
-
-        showError(
-          "Internet Archive identifier is missing."
-        );
-
-        return;
-      }
-
-      loading.style.display =
-        "flex";
-
-      statusBox.textContent =
-        "Finding video file...";
-
-      try {
-
-        const response =
-          await fetch(
-            "https://archive.org/metadata/" +
-            encodeURIComponent(identifier)
-          );
-
-        if (!response.ok) {
-          throw new Error(
-            "Archive metadata request failed"
-          );
-        }
-
-        const data =
-          await response.json();
-
-        if (
-          !data.files ||
-          !Array.isArray(data.files)
-        ) {
-
-          throw new Error(
-            "No files found"
-          );
-        }
-
-        /*
-          Find an MP4 file.
-          Prefer larger video files.
-        */
-
-        const mp4Files =
-          data.files.filter(file => {
-
-            const name =
-              String(
-                file.name || ""
-              ).toLowerCase();
-
-            return (
-              name.endsWith(".mp4") &&
-              !name.includes("_thumb")
-            );
-
-          });
-
-
-        if (!mp4Files.length) {
-
-          throw new Error(
-            "No MP4 video was found"
-          );
-        }
-
-
-        mp4Files.sort(
-          (a, b) => {
-
-            const sizeA =
-              Number(a.size || 0);
-
-            const sizeB =
-              Number(b.size || 0);
-
-            return sizeB - sizeA;
-          }
-        );
-
-
-        const filename =
-          mp4Files[0].name;
-
-
-        const url =
-          "https://archive.org/download/" +
-          encodeURIComponent(identifier) +
-          "/" +
-          encodeURIComponent(filename);
-
-
-        currentVideoUrl = url;
-
-        document.getElementById(
-          "archiveBox"
-        ).style.display = "block";
-
-
-        setVideo(url);
-
-      } catch (error) {
-
-        console.error(
-          "Archive error:",
-          error
-        );
-
-        showError(
-          "This Internet Archive movie does not have a compatible MP4 file."
-        );
-      }
-    }
-
-
-    function playMovie() {
-
-      if (!currentVideoUrl) {
-
-        showError(
-          "There is no video loaded."
-        );
-
-        return;
-      }
-
-      video.play()
-        .then(() => {
-
-          loading.style.display =
-            "none";
-
-          hideError();
-
-        })
-        .catch(error => {
-
-          console.log(
-            "Play requires user interaction:",
-            error
-          );
-
-          /*
-            Browser may require the user
-            to tap the native play button.
-          */
-
-          video.controls = true;
-
-        });
-    }
-
-
-    function
+   </article>
+  `;
+
+ }).join("");
+}
+
+function openMovie(movie){
+
+ const encoded=
+  encodeURIComponent(
+   JSON.stringify(movie)
+  );
+
+ window.location.href=
+  "watch.html?movie="+encoded;
+}
+
+function searchMovies(){
+
+ const term=
+  document.getElementById("searchInput")
+   .value
+   .trim()
+   .toLowerCase();
+
+ if(!term){
+
+  renderMovies(allMovies);
+  return;
+ }
+
+ renderMovies(
+  allMovies.filter(movie=>
+   String(movie.title||"")
+    .toLowerCase()
+    .includes(term) ||
+
+   String(movie.genre||"")
+    .toLowerCase()
+    .includes(term) ||
+
+   String(movie.year||"")
+    .includes(term)
+  )
+ );
+}
+
+document.getElementById("searchInput")
+ .addEventListener("input",searchMovies);
+
+function escapeHTML(value){
+
+ return String(value)
+  .replace(/&/g,"&amp;")
+  .replace(/</g,"&lt;")
+  .replace(/>/g,"&gt;")
+  .replace(/"/g,"&quot;")
+  .replace(/'/g,"&#039;");
+}
+
+function escapeAttr(value){
+ return escapeHTML(value);
+}
+
+loadMovies();
+</script>
+
+</body>
+</html>
