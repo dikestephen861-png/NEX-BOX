@@ -1,122 +1,1102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEX BOX Admin</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<style>
-*{
-  box-sizing:border-box;
-}
+  <meta name="theme-color" content="#050505">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
 
-html,body{
-  margin:0;
-  width:100%;
-  min-height:100%;
-  background:#050505;
-  color:white;
-  font-family:Arial,sans-serif;
-}
+  <title>NEX BOX Admin</title>
 
-body{
-  padding:20px;
-}
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-.box{
-  max-width:500px;
-  margin:30px auto;
-  background:#111;
-  border:1px solid #333;
-  border-radius:16px;
-  padding:25px;
-}
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
 
-h1{
-  margin:0 0 10px;
-}
+    html {
+      background: #050505;
+    }
 
-p{
-  color:#999;
-  line-height:1.5;
-}
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top, #1b0808 0%, #050505 35%),
+        #050505;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-input{
-  width:100%;
-  padding:14px;
-  margin-top:12px;
-  border-radius:10px;
-  border:1px solid #333;
-  background:#1b1b1b;
-  color:white;
-}
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
 
-button{
-  width:100%;
-  padding:15px;
-  margin-top:15px;
-  border:0;
-  border-radius:10px;
-  background:#e50914;
-  color:white;
-  font-weight:bold;
-  font-size:15px;
-}
+    button {
+      cursor: pointer;
+    }
 
-button:active{
-  transform:scale(.98);
-}
+    .hidden {
+      display: none !important;
+    }
 
-#test{
-  margin-top:20px;
-  padding:12px;
-  background:#182018;
-  border-radius:10px;
-  color:#72e08c;
-}
-</style>
+    /* HEADER */
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      background: rgba(5, 5, 5, 0.94);
+      border-bottom: 1px solid #252525;
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+
+    .brand span {
+      color: #e50914;
+    }
+
+    .logout-btn {
+      border: 1px solid #333;
+      background: #151515;
+      color: #fff;
+      border-radius: 9px;
+      padding: 9px 13px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .logout-btn:active {
+      transform: scale(.97);
+    }
+
+    /* PAGE */
+
+    .page {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 22px 15px 50px;
+    }
+
+    .hero {
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: 29px;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      margin: 8px 0 0;
+      color: #999;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    /* CARDS */
+
+    .card {
+      background: #101010;
+      border: 1px solid #292929;
+      border-radius: 17px;
+      padding: 18px;
+      margin-bottom: 18px;
+      box-shadow: 0 12px 40px rgba(0,0,0,.2);
+    }
+
+    .card-title {
+      margin: 0 0 15px;
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    /* LOGIN */
+
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 430px;
+      background: #101010;
+      border: 1px solid #292929;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 20px 70px rgba(0,0,0,.45);
+    }
+
+    .login-logo {
+      text-align: center;
+      font-size: 30px;
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .login-logo span {
+      color: #e50914;
+    }
+
+    .login-subtitle {
+      text-align: center;
+      color: #888;
+      margin: 0 0 24px;
+      font-size: 14px;
+    }
+
+    /* FORMS */
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      color: #cfcfcf;
+      font-weight: 700;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid #333;
+      outline: none;
+      border-radius: 11px;
+      padding: 13px 14px;
+      background: #181818;
+      color: #fff;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #666;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: #e50914;
+      box-shadow: 0 0 0 2px rgba(229,9,20,.12);
+    }
+
+    textarea {
+      min-height: 105px;
+      resize: vertical;
+    }
+
+    select {
+      appearance: auto;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* FILE INPUT */
+
+    .file-box {
+      border: 1px dashed #444;
+      border-radius: 12px;
+      padding: 14px;
+      background: #151515;
+    }
+
+    .file-box input {
+      border: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    .file-info {
+      color: #777;
+      font-size: 12px;
+      margin-top: 7px;
+      line-height: 1.4;
+    }
+
+    /* BUTTONS */
+
+    .primary-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 15px;
+      background: #e50914;
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      margin-top: 5px;
+    }
+
+    .primary-btn:hover {
+      background: #f20b17;
+    }
+
+    .primary-btn:active {
+      transform: scale(.99);
+    }
+
+    .primary-btn:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+    }
+
+    .secondary-btn {
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 11px 14px;
+      background: #181818;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    /* STATUS */
+
+    .status {
+      margin-top: 15px;
+      padding: 13px;
+      border-radius: 11px;
+      display: none;
+      font-size: 13px;
+      line-height: 1.5;
+      word-break: break-word;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.info {
+      background: #102035;
+      color: #8fc5ff;
+      border: 1px solid #21456e;
+    }
+
+    .status.success {
+      background: #102317;
+      color: #8de5a3;
+      border: 1px solid #245a31;
+    }
+
+    .status.error {
+      background: #2a1111;
+      color: #ff9292;
+      border: 1px solid #6b2929;
+    }
+
+    /* PROGRESS */
+
+    .progress-wrap {
+      margin-top: 14px;
+      display: none;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 99px;
+      background: #292929;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      background: #e50914;
+      transition: width .2s ease;
+    }
+
+    .progress-text {
+      margin-top: 7px;
+      color: #999;
+      font-size: 12px;
+    }
+
+    /* CHECKBOX */
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 5px;
+      padding: 10px 0;
+    }
+
+    .check-row input {
+      width: 19px;
+      height: 19px;
+      accent-color: #e50914;
+    }
+
+    .check-row label {
+      margin: 0;
+      color: #ddd;
+    }
+
+    /* MOVIE LIST */
+
+    .movie-list {
+      display: grid;
+      gap: 11px;
+    }
+
+    .movie-item {
+      display: flex;
+      gap: 13px;
+      align-items: center;
+      padding: 11px;
+      background: #171717;
+      border: 1px solid #282828;
+      border-radius: 13px;
+    }
+
+    .movie-poster {
+      width: 58px;
+      height: 78px;
+      flex: 0 0 58px;
+      object-fit: cover;
+      border-radius: 8px;
+      background: #222;
+    }
+
+    .movie-info {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .movie-title {
+      font-size: 14px;
+      font-weight: 800;
+      margin-bottom: 5px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .movie-meta {
+      color: #888;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+
+    .delete-btn {
+      flex: 0 0 auto;
+      border: 1px solid #512020;
+      background: #241010;
+      color: #ff7777;
+      border-radius: 8px;
+      padding: 8px 9px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    /* LOGIN ERROR */
+
+    .login-error {
+      margin-top: 13px;
+      color: #ff7777;
+      font-size: 13px;
+      line-height: 1.4;
+      display: none;
+    }
+
+    .login-error.show {
+      display: block;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      text-align: center;
+      color: #555;
+      font-size: 11px;
+      margin-top: 25px;
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding-left: 12px;
+        padding-right: 12px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .hero h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="box">
+  <!-- LOGIN SCREEN -->
+  <section id="loginScreen" class="login-wrap">
 
-<h1>NEX <span style="color:#e50914">BOX</span></h1>
+    <div class="login-card">
 
-<p>
-Admin page is loading correctly.
-</p>
+      <div class="login-logo">
+        NEX <span>BOX</span>
+      </div>
 
-<input
-id="email"
-type="email"
-placeholder="Admin email">
+      <p class="login-subtitle">
+        Administrator access
+      </p>
 
-<input
-id="password"
-type="password"
-placeholder="Password">
+      <div class="field">
+        <label for="loginEmail">Email</label>
+        <input
+          id="loginEmail"
+          type="email"
+          autocomplete="email"
+          placeholder="Enter admin email"
+        >
+      </div>
 
-<button onclick="testButton()">
-TEST ADMIN
-</button>
+      <div class="field">
+        <label for="loginPassword">Password</label>
+        <input
+          id="loginPassword"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Enter password"
+        >
+      </div>
 
-<div id="test">
-Waiting for test...
-</div>
+      <button
+        id="loginButton"
+        class="primary-btn"
+        type="button"
+        onclick="loginAdmin()"
+      >
+        SIGN IN
+      </button>
 
-</div>
+      <div id="loginError" class="login-error"></div>
 
-<script>
+    </div>
 
-function testButton(){
+  </section>
 
-document.getElementById("test").innerHTML =
-"✓ BUTTON IS WORKING";
 
-}
+  <!-- ADMIN APP -->
+  <section id="adminScreen" class="hidden">
 
-</script>
+    <header class="topbar">
 
-</body>
-</html>
+      <div class="brand">
+        NEX <span>BOX</span>
+      </div>
+
+      <button
+        class="logout-btn"
+        type="button"
+        onclick="logoutAdmin()"
+      >
+        Logout
+      </button>
+
+    </header>
+
+
+    <main class="page">
+
+      <div class="hero">
+        <h1>Admin Dashboard</h1>
+        <p>
+          Add movies, upload posters and MP4 videos, and manage your NEX BOX library.
+        </p>
+      </div>
+
+
+      <!-- ADD MOVIE -->
+      <div class="card">
+
+        <h2 class="card-title">
+          Add New Movie
+        </h2>
+
+        <form id="movieForm" onsubmit="submitMovie(event)">
+
+          <div class="field">
+            <label for="movieTitle">
+              Movie Title *
+            </label>
+
+            <input
+              id="movieTitle"
+              type="text"
+              placeholder="Example: My First NEX BOX Movie"
+              required
+            >
+          </div>
+
+
+          <div class="field">
+            <label for="movieDescription">
+              Description
+            </label>
+
+            <textarea
+              id="movieDescription"
+              placeholder="Write a short description of the movie..."
+            ></textarea>
+          </div>
+
+
+          <div class="two-col">
+
+            <div class="field">
+              <label for="movieGenre">
+                Genre
+              </label>
+
+              <input
+                id="movieGenre"
+                type="text"
+                placeholder="Action, Drama..."
+              >
+            </div>
+
+
+            <div class="field">
+              <label for="movieYear">
+                Year
+              </label>
+
+              <input
+                id="movieYear"
+                type="number"
+                min="1900"
+                max="2100"
+                placeholder="2026"
+              >
+            </div>
+
+          </div>
+
+
+          <!-- POSTER -->
+          <div class="field">
+
+            <label for="posterFile">
+              Poster Image *
+            </label>
+
+            <div class="file-box">
+
+              <input
+                id="posterFile"
+                type="file"
+                accept="image/jpeg,image/png,image/webp"
+                required
+              >
+
+              <div class="file-info">
+                JPG, PNG or WEBP recommended.
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- VIDEO -->
+          <div class="field">
+
+            <label for="videoFile">
+              Movie Video *
+            </label>
+
+            <div class="file-box">
+
+              <input
+                id="videoFile"
+                type="file"
+                accept="video/mp4,video/webm,video/quicktime"
+                required
+              >
+
+              <div class="file-info">
+                MP4 is strongly recommended for browser playback.
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="check-row">
+
+            <input
+              id="downloadable"
+              type="checkbox"
+            >
+
+            <label for="downloadable">
+              Allow users to download this movie
+            </label>
+
+          </div>
+
+
+          <button
+            id="uploadButton"
+            class="primary-btn"
+            type="submit"
+          >
+            ADD MOVIE TO NEX BOX
+          </button>
+
+
+          <div
+            id="progressWrap"
+            class="progress-wrap"
+          >
+
+            <div class="progress-bar">
+              <div
+                id="progressFill"
+                class="progress-fill"
+              ></div>
+            </div>
+
+            <div
+              id="progressText"
+              class="progress-text"
+            >
+              Preparing upload...
+            </div>
+
+          </div>
+
+
+          <div
+            id="uploadStatus"
+            class="status"
+          ></div>
+
+        </form>
+
+      </div>
+
+
+      <!-- MOVIES -->
+      <div class="card">
+
+        <h2 class="card-title">
+          NEX BOX Movie Library
+        </h2>
+
+        <button
+          class="secondary-btn"
+          type="button"
+          onclick="loadMovies()"
+        >
+          Refresh Movies
+        </button>
+
+        <div
+          id="movieList"
+          class="movie-list"
+          style="margin-top:15px;"
+        >
+          <div style="color:#777;font-size:13px;">
+            Loading movies...
+          </div>
+        </div>
+
+      </div>
+
+
+      <div class="footer">
+        NEX BOX Admin • Supabase powered
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <script>
+
+    /* =========================================================
+       NEX BOX SUPABASE CONFIGURATION
+       ========================================================= */
+
+    const SUPABASE_URL =
+      "https://jacxlmcwwedertcaizdj.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+
+
+    const supabaseClient =
+      window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY
+      );
+
+
+    /* =========================================================
+       ELEMENTS
+       ========================================================= */
+
+    const loginScreen =
+      document.getElementById("loginScreen");
+
+    const adminScreen =
+      document.getElementById("adminScreen");
+
+    const loginButton =
+      document.getElementById("loginButton");
+
+    const loginError =
+      document.getElementById("loginError");
+
+    const uploadButton =
+      document.getElementById("uploadButton");
+
+    const uploadStatus =
+      document.getElementById("uploadStatus");
+
+    const progressWrap =
+      document.getElementById("progressWrap");
+
+    const progressFill =
+      document.getElementById("progressFill");
+
+    const progressText =
+      document.getElementById("progressText");
+
+    const movieList =
+      document.getElementById("movieList");
+
+
+    /* =========================================================
+       INITIALIZE
+       ========================================================= */
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      async function () {
+
+        try {
+
+          const {
+            data,
+            error
+          } = await supabaseClient.auth.getSession();
+
+          if (error) {
+            console.error(error);
+            showLogin();
+            return;
+          }
+
+          if (data && data.session) {
+
+            const isAdmin =
+              await checkAdmin(
+                data.session.user.id
+              );
+
+            if (isAdmin) {
+              showAdmin();
+              await loadMovies();
+            } else {
+              await supabaseClient.auth.signOut();
+              showLogin();
+              showLoginError(
+                "This account is not registered as a NEX BOX administrator."
+              );
+            }
+
+          } else {
+
+            showLogin();
+
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+          showLogin();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       AUTH STATE
+       ========================================================= */
+
+    supabaseClient.auth.onAuthStateChange(
+      async function (event, session) {
+
+        if (event === "SIGNED_OUT") {
+
+          showLogin();
+
+        }
+
+      }
+    );
+
+
+    /* =========================================================
+       LOGIN
+       ========================================================= */
+
+    async function loginAdmin() {
+
+      const email =
+        document
+          .getElementById("loginEmail")
+          .value
+          .trim();
+
+      const password =
+        document
+          .getElementById("loginPassword")
+          .value;
+
+      hideLoginError();
+
+      if (!email || !password) {
+
+        showLoginError(
+          "Enter your email and password."
+        );
+
+        return;
+
+      }
+
+
+      loginButton.disabled = true;
+      loginButton.textContent = "SIGNING IN...";
+
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient.auth.signInWithPassword({
+            email: email,
+            password: password
+          });
+
+
+        if (error) {
+
+          console.error(
+            "Supabase login error:",
+            error
+          );
+
+          showLoginError(
+            getErrorMessage(error)
+          );
+
+          return;
+
+        }
+
+
+        if (
+          !data ||
+          !data.user
+        ) {
+
+          showLoginError(
+            "Login succeeded but no user was returned."
+          );
+
+          return;
+
+        }
+
+
+        const isAdmin =
+          await checkAdmin(
+            data.user.id
+          );
+
+
+        if (!isAdmin) {
+
+          await supabaseClient.auth.signOut();
+
+          showLoginError(
+            "Your account is valid, but it is not listed in the NEX BOX admin_users table."
+          );
+
+          return;
+
+        }
+
+
+        showAdmin();
+
+        await loadMovies();
+
+
+      } catch (error) {
+
+        console.error(error);
+
+        showLoginError(
+          getErrorMessage(error)
+        );
+
+      } finally {
+
+        loginButton.disabled = false;
+        loginButton.textContent = "SIGN IN";
+
+      }
+
+    }
+
+
+    /* =========================================================
+       CHECK ADMIN
+       ========================================================= */
+
+    async function checkAdmin(userId) {
+
+      if (!userId) {
+        return false;
+      }
+
+      try {
+
+        const {
+          data,
+          error
+        } =
+          await supabaseClient
+            .from("admin_users")
+            .select("user_id,email")
+            .eq("user_id", userId)
+            .maybeSingle();
+
+
+        if (error) {
+
+          console.error(
+            "Admin check error:",
+            error
+          );
+
+          return false;
+
+        }
+
+
+        return !!data;
+
+      } catch (error) {
+
+        console.error(error);
+
+        return false;
+
+      }
+
+    }
+
+
+    /* =========================================================
+       LOGOUT
+       ========================================================= */
+
+    async function logoutAdmin() {
+
+      try {
+
+        await supabaseClient.auth.signOut();
+
+      } catch (error) {
+
+        console.error(error);
+
+      }
+
+      showLogin();
+
+    }
+
+
+    /* =========================================================
+       SCREEN CONTROL
+       ========================================================= */
+
+    function showLogin() {
+
+      loginScreen.classList.remove("hidden");
+      adminScreen.classList.add("hidden");
+
+      document
+        .getElementById("loginPassword")
+        .value = "";
+
+    }
+
+
+    function showAdmin() {
+
+      loginScreen.classList.add("hidden");
+      adminScreen.classList.remove("hidden");
+
+    }
+
+
+    /* =========================================================
+       STATUS HELPERS
+       ===============================
