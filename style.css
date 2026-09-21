@@ -1,462 +1,1368 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
 
-:root {
-  --bg: #050505;
-  --panel: #111111;
-  --panel2: #181818;
-  --text: #ffffff;
-  --muted: #888888;
-  --line: #252525;
-  --red: #e50914;
-}
+<head>
 
-html {
-  scroll-behavior: smooth;
-}
+<meta charset="UTF-8">
+
+<meta
+  name="viewport"
+  content="width=device-width,initial-scale=1,maximum-scale=1"
+>
+
+<meta name="theme-color" content="#000000">
+
+<title>NEX BOX Player</title>
+
+<link rel="stylesheet" href="./style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
 
 body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #000;
+  padding-bottom: 0;
+}
+
+.watch {
   min-height: 100vh;
-  padding-bottom: 75px;
+  background: #000;
 }
 
-button,
-input {
-  font-family: inherit;
+/* PLAYER */
+
+.player {
+  width: 100%;
+  height: 56.25vw;
+  min-height: 230px;
+  max-height: 75vh;
+
+  position: relative;
+
+  background: #000;
 }
 
-button {
-  border: 0;
-  cursor: pointer;
-}
+.player video {
+  width: 100%;
+  height: 100%;
 
-img {
   display: block;
-  max-width: 100%;
+
+  object-fit: contain;
+
+  background: #000;
 }
 
-/* HEADER */
+.top {
+  position: absolute;
 
-.topbar {
-  height: 62px;
-  position: sticky;
   top: 0;
-  z-index: 1000;
+  left: 0;
+  right: 0;
+
+  z-index: 20;
+
+  height: 60px;
 
   display: flex;
   align-items: center;
-  justify-content: space-between;
 
-  padding: 0 17px;
+  padding: 0 14px;
 
-  background: rgba(5, 5, 5, .96);
-  backdrop-filter: blur(15px);
-
-  border-bottom: 1px solid var(--line);
+  background:
+    linear-gradient(
+      rgba(0,0,0,.9),
+      transparent
+    );
 }
 
-.logo {
-  font-size: 24px;
-  font-weight: 900;
-  letter-spacing: -1px;
-}
-
-.logo span {
-  color: var(--red);
-}
-
-#searchBtn {
-  width: 40px;
-  height: 40px;
+.back {
+  width: 38px;
+  height: 38px;
 
   border-radius: 50%;
 
-  background: #171717;
+  background: rgba(30,30,30,.9);
+
+  color: white;
+
+  font-size: 20px;
+}
+
+.player-logo {
+  margin-left: 12px;
+
+  font-size: 19px;
+  font-weight: 900;
+}
+
+.player-logo span {
+  color: #e50914;
+}
+
+/* LOADING */
+
+.loading-player {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 10;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  background: #000;
+
+  color: #777;
+}
+
+.spinner {
+  width: 35px;
+  height: 35px;
+
+  border: 3px solid #333;
+
+  border-top-color: #e50914;
+
+  border-radius: 50%;
+
+  animation: spin .8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-player p {
+  margin-top: 12px;
+
+  font-size: 12px;
+}
+
+/* ERROR */
+
+.player-error {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 15;
+
+  display: none;
+
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 25px;
+
+  background: #000;
+
+  color: #777;
+}
+
+.player-error strong {
   color: white;
 
   font-size: 17px;
 }
 
-/* SEARCH */
+.player-error p {
+  max-width: 330px;
 
-#searchPanel {
-  display: none;
-
-  padding: 12px 16px;
-
-  background: #080808;
-
-  border-bottom: 1px solid var(--line);
-}
-
-#searchPanel.open {
-  display: block;
-}
-
-#searchInput {
-  width: 100%;
-  height: 46px;
-
-  border: 1px solid #292929;
-  border-radius: 12px;
-
-  outline: none;
-
-  background: #161616;
-  color: white;
-
-  padding: 0 14px;
-
-  font-size: 14px;
-}
-
-#searchInput::placeholder {
-  color: #666;
-}
-
-/* HERO */
-
-.hero {
-  margin: 16px;
-
-  min-height: 180px;
-
-  border-radius: 20px;
-
-  padding: 25px 21px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-
-  position: relative;
-  overflow: hidden;
-
-  background:
-    radial-gradient(
-      circle at 90% 10%,
-      rgba(229,9,20,.35),
-      transparent 35%
-    ),
-    linear-gradient(
-      135deg,
-      #1b1b1b,
-      #080808
-    );
-
-  border: 1px solid #252525;
-}
-
-.hero p:first-child {
-  color: #999;
-
-  font-size: 10px;
-
-  letter-spacing: 2px;
-
-  margin-bottom: 5px;
-}
-
-.hero h1 {
-  font-size: 38px;
-
-  line-height: 1;
-
-  font-weight: 900;
-
-  letter-spacing: -2px;
-}
-
-.hero h1 span {
-  color: var(--red);
-}
-
-#status {
-  margin-top: 14px;
-
-  color: #777;
-
-  font-size: 11px;
-}
-
-/* SECTION */
-
-.section {
-  margin-top: 28px;
-}
-
-.section-head {
-  padding: 0 16px 13px;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.section-head h2 {
-  font-size: 18px;
-  font-weight: 800;
-}
-
-.section-head small {
-  display: block;
-
-  color: #666;
-
-  font-size: 10px;
-
-  margin-top: 3px;
-}
-
-.section-head button {
-  background: transparent;
-  color: var(--red);
-
-  font-size: 12px;
-  font-weight: 700;
-}
-
-/* GRID */
-
-.movie-grid {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, minmax(0, 1fr));
-
-  gap: 13px;
-
-  padding: 0 16px;
-}
-
-.movie-card {
-  min-width: 0;
-  cursor: pointer;
-}
-
-.poster {
-  position: relative;
-
-  width: 100%;
-
-  aspect-ratio: 2 / 3;
-
-  overflow: hidden;
-
-  border-radius: 10px;
-
-  background: #151515;
-}
-
-.poster img {
-  width: 100%;
-  height: 100%;
-
-  object-fit: cover;
-
-  transition: transform .2s ease;
-}
-
-.movie-card:active .poster img {
-  transform: scale(1.04);
-}
-
-.poster > span {
-  position: absolute;
-
-  top: 7px;
-  left: 7px;
-
-  padding: 4px 6px;
-
-  border-radius: 5px;
-
-  background: rgba(0,0,0,.78);
-
-  color: white;
-
-  font-size: 8px;
-
-  font-weight: 800;
-}
-
-.play {
-  position: absolute;
-
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(0,0,0,.12);
-
-  font-size: 30px;
-
-  opacity: 0;
-
-  transition: opacity .2s;
-}
-
-.movie-card:hover .play {
-  opacity: 1;
-}
-
-.movie-card h3 {
   margin-top: 8px;
-
-  font-size: 13px;
-
-  line-height: 1.25;
-
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-
-  overflow: hidden;
-}
-
-.movie-card p {
-  margin-top: 4px;
-
-  color: #707070;
-
-  font-size: 10px;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* LOADING */
-
-.loading {
-  grid-column: 1 / -1;
-
-  min-height: 120px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 20px;
-
-  border-radius: 13px;
-
-  background: #101010;
-
-  color: #777;
-
-  font-size: 12px;
-}
-
-.error {
-  grid-column: 1 / -1;
-
-  padding: 20px;
-
-  border-radius: 13px;
-
-  background: #150707;
-
-  border: 1px solid #351010;
-
-  color: #aaa;
 
   font-size: 12px;
 
   line-height: 1.5;
 }
 
-.error strong {
+.archive-link {
+  display: none;
+
+  margin-top: 15px;
+
+  padding: 10px 15px;
+
+  border-radius: 8px;
+
+  background: #e50914;
+
   color: white;
 
-  display: block;
+  text-decoration: none;
 
-  margin-bottom: 7px;
+  font-size: 11px;
+
+  font-weight: 700;
 }
 
-/* BOTTOM NAV */
+/* INFO */
 
-.bottom-nav {
-  position: fixed;
+.info {
+  padding: 20px 16px 40px;
 
-  left: 0;
-  right: 0;
-  bottom: 0;
-
-  z-index: 2000;
-
-  height: 68px;
-
-  display: flex;
-
-  background: rgba(9,9,9,.97);
-
-  backdrop-filter: blur(18px);
-
-  border-top: 1px solid #222;
+  background:
+    linear-gradient(
+      #0c0c0c,
+      #050505
+    );
 }
 
-.bottom-nav button {
-  flex: 1;
+.source {
+  display: inline-block;
 
-  display: flex;
-  flex-direction: column;
+  padding: 5px 7px;
 
-  align-items: center;
-  justify-content: center;
+  border-radius: 5px;
 
-  gap: 4px;
+  background: #1a1a1a;
 
-  background: transparent;
+  color: #aaa;
+
+  font-size: 9px;
+
+  font-weight: 800;
+}
+
+.title {
+  margin-top: 10px;
+
+  font-size: 23px;
+
+  line-height: 1.2;
+
+  font-weight: 900;
+}
+
+.meta {
+  margin-top: 8px;
+
+  color: #777;
+
+  font-size: 11px;
+}
+
+.description {
+  margin-top: 15px;
+
+  color: #999;
+
+  font-size: 13px;
+
+  line-height: 1.6;
+}
+
+/* ACTIONS */
+
+.actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 9px;
+
+  margin-top: 20px;
+}
+
+.action {
+  min-height: 48px;
+
+  border-radius: 10px;
+
+  background: #181818;
+
+  border: 1px solid #252525;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: 700;
+}
+
+.action.primary {
+  background: #e50914;
+
+  border-color: #e50914;
+}
+
+.action:active {
+  transform: scale(.97);
+}
+
+.note {
+  display: none;
+
+  margin-top: 15px;
+
+  padding: 12px;
+
+  border-radius: 9px;
+
+  background: #111;
 
   color: #666;
-}
 
-.bottom-nav button b {
-  font-size: 20px;
-}
-
-.bottom-nav button small {
   font-size: 10px;
-}
 
-.bottom-nav button.active {
-  color: white;
+  line-height: 1.5;
 }
-
-.bottom-nav button.active b {
-  color: var(--red);
-}
-
-/* DESKTOP */
 
 @media (min-width: 700px) {
 
-  .movie-grid {
-    grid-template-columns:
-      repeat(5, minmax(0, 1fr));
+  .player {
+    height: 65vh;
+  }
 
-    max-width: 1100px;
-
+  .info {
+    max-width: 900px;
     margin: auto;
   }
 
-  .section-head {
-    max-width: 1100px;
-    margin: auto;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+<div class="watch">
+
+
+  <!-- PLAYER -->
+
+  <div class="player">
+
+    <div class="top">
+
+      <button
+        class="back"
+        id="back"
+      >
+        ←
+      </button>
+
+      <div class="player-logo">
+        NEX <span>BOX</span>
+      </div>
+
+    </div>
+
+
+    <video
+      id="video"
+      controls
+      playsinline
+      preload="metadata"
+    ></video>
+
+
+    <div
+      class="loading-player"
+      id="loading"
+    >
+
+      <div class="spinner"></div>
+
+      <p>
+        Preparing movie...
+      </p>
+
+    </div>
+
+
+    <div
+      class="player-error"
+      id="error"
+    >
+
+      <strong>
+        Video unavailable
+      </strong>
+
+      <p id="errorText">
+        The movie could not be played.
+      </p>
+
+      <a
+        class="archive-link"
+        id="archiveLink"
+        target="_blank"
+        rel="noopener"
+      >
+        Open Internet Archive
+      </a>
+
+    </div>
+
+  </div>
+
+
+  <!-- INFORMATION -->
+
+  <section class="info">
+
+    <span
+      class="source"
+      id="source"
+    >
+      NEX BOX
+    </span>
+
+
+    <h1
+      class="title"
+      id="title"
+    >
+      Loading...
+    </h1>
+
+
+    <p
+      class="meta"
+      id="meta"
+    ></p>
+
+
+    <p
+      class="description"
+      id="description"
+    ></p>
+
+
+    <div class="actions">
+
+      <button
+        class="action"
+        id="list"
+      >
+        ♡ My List
+      </button>
+
+      <button
+        class="action primary"
+        id="download"
+      >
+        ↓ Download
+      </button>
+
+      <button
+        class="action"
+        id="share"
+      >
+        ↗ Share
+      </button>
+
+    </div>
+
+
+    <div
+      class="note"
+      id="note"
+    >
+      This movie is being provided through Internet
+      Archive. Download availability depends on the
+      individual item's access and licensing conditions.
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+
+const SUPABASE_URL =
+"https://jacxlmcwwedertcaizdj.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+
+const db =
+window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+
+/* =========================
+   GET MOVIE
+========================= */
+
+const params =
+new URLSearchParams(
+  location.search
+);
+
+const movieParam =
+params.get("movie");
+
+let movie = null;
+
+let archiveVideo = null;
+
+
+/* =========================
+   DEVICE
+========================= */
+
+function device() {
+
+  let id =
+    localStorage.getItem(
+      "nexbox_device_id"
+    );
+
+  if (!id) {
+
+    if (
+      crypto &&
+      crypto.randomUUID
+    ) {
+
+      id =
+        crypto.randomUUID();
+
+    } else {
+
+      id =
+        "device-" +
+        Date.now();
+
+    }
+
+    localStorage.setItem(
+      "nexbox_device_id",
+      id
+    );
+
   }
 
-  .hero {
-    max-width: 1100px;
-    margin: 20px auto;
+  return id;
+}
+
+const deviceId =
+device();
+
+
+/* =========================
+   HTML ESCAPE
+========================= */
+
+function escape(value) {
+
+  if (value == null) {
+    return "";
   }
 
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+
+/* =========================
+   LOAD
+========================= */
+
+async function load() {
+
+  if (!movieParam) {
+
+    showError(
+      "No movie was selected."
+    );
+
+    return;
   }
+
+
+  try {
+
+    movie =
+      JSON.parse(
+        decodeURIComponent(
+          movieParam
+        )
+      );
+
+  }
+
+  catch {
+
+    await loadFromSupabase(
+      movieParam
+    );
+
+  }
+
+
+  if (!movie) {
+
+    showError(
+      "Movie could not be found."
+    );
+
+    return;
+  }
+
+
+  display();
+
+  checkList();
+
+
+  if (
+    movie.archive_id ||
+    movie.source === "ARCHIVE" ||
+    movie.source === "Internet Archive"
+  ) {
+
+    await loadArchive();
+
+  } else {
+
+    loadSupabase();
+
+  }
+
+}
+
+
+/* =========================
+   SUPABASE MOVIE
+========================= */
+
+async function loadFromSupabase(id) {
+
+  try {
+
+    const result =
+      await db
+        .from("movies")
+        .select("*")
+        .eq("id",id)
+        .maybeSingle();
+
+    if (result.error) {
+      throw result.error;
+    }
+
+    movie =
+      result.data;
+
+  }
+
+  catch(error) {
+
+    console.error(error);
+
+    movie = null;
+
+  }
+
+}
+
+
+/* =========================
+   DISPLAY
+========================= */
+
+function display() {
+
+  document.title =
+    (
+      movie.title ||
+      "NEX BOX"
+    ) +
+    " - NEX BOX";
+
+
+  document
+    .getElementById("title")
+    .textContent =
+      movie.title ||
+      "Untitled Movie";
+
+
+  const meta = [];
+
+  if (movie.year) {
+    meta.push(movie.year);
+  }
+
+  if (movie.genre) {
+    meta.push(movie.genre);
+  }
+
+  if (movie.creator) {
+    meta.push(movie.creator);
+  }
+
+
+  document
+    .getElementById("meta")
+    .textContent =
+      meta.join(" • ");
+
+
+  document
+    .getElementById("description")
+    .textContent =
+      movie.description ||
+      "Enjoy this movie on NEX BOX.";
+
+
+  document
+    .getElementById("source")
+    .textContent =
+      movie.source ||
+      "NEX BOX";
+
+
+  if (
+    movie.archive_id ||
+    movie.source === "ARCHIVE" ||
+    movie.source === "Internet Archive"
+  ) {
+
+    document
+      .getElementById("note")
+      .style.display =
+        "block";
+
+  }
+
+}
+
+
+/* =========================
+   SUPABASE VIDEO
+========================= */
+
+function loadSupabase() {
+
+  if (!movie.video_url) {
+
+    showError(
+      "This movie does not have a video file."
+    );
+
+    return;
+  }
+
+
+  const video =
+    document.getElementById(
+      "video"
+    );
+
+  video.src =
+    movie.video_url;
+
+  video.load();
+
+}
+
+
+/* =========================
+   ARCHIVE VIDEO
+========================= */
+
+async function loadArchive() {
+
+  const id =
+    movie.archive_id;
+
+
+  if (!id) {
+
+    showError(
+      "Internet Archive movie ID is missing."
+    );
+
+    return;
+  }
+
+
+  try {
+
+    const response =
+      await fetch(
+        "https://archive.org/metadata/" +
+        encodeURIComponent(id)
+      );
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        "Archive metadata unavailable."
+      );
+
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const files =
+      data.files || [];
+
+
+    const mp4 =
+      files
+        .filter(file => {
+
+          const name =
+            String(
+              file.name || ""
+            ).toLowerCase();
+
+          return (
+            name.endsWith(".mp4")
+          );
+
+        })
+        .sort(
+          (a,b) =>
+            Number(b.size || 0) -
+            Number(a.size || 0)
+        );
+
+
+    if (!mp4.length) {
+
+      showError(
+        "No playable MP4 file was found."
+      );
+
+      showArchiveLink(id);
+
+      return;
+    }
+
+
+    const file =
+      mp4[0];
+
+
+    archiveVideo =
+      "https://archive.org/download/" +
+      encodeURIComponent(id) +
+      "/" +
+      file.name
+        .split("/")
+        .map(
+          x =>
+            encodeURIComponent(x)
+        )
+        .join("/");
+
+
+    const video =
+      document.getElementById(
+        "video"
+      );
+
+
+    video.src =
+      archiveVideo;
+
+    video.load();
+
+
+    document
+      .getElementById(
+        "download"
+      )
+      .onclick =
+        () => {
+
+          window.open(
+            archiveVideo,
+            "_blank"
+          );
+
+        };
+
+
+    showArchiveLink(id);
+
+  }
+
+  catch(error) {
+
+    console.error(
+      error
+    );
+
+    showError(
+      "Unable to load the Internet Archive video."
+    );
+
+    showArchiveLink(id);
+
+  }
+
+}
+
+
+/* =========================
+   ARCHIVE LINK
+========================= */
+
+function showArchiveLink(id) {
+
+  const link =
+    document.getElementById(
+      "archiveLink"
+    );
+
+  link.href =
+    "https://archive.org/details/" +
+    encodeURIComponent(id);
+
+  link.style.display =
+    "inline-block";
+
+}
+
+
+/* =========================
+   VIDEO
+========================= */
+
+const video =
+document.getElementById(
+  "video"
+);
+
+
+video.addEventListener(
+  "loadedmetadata",
+  () => {
+
+    document
+      .getElementById(
+        "loading"
+      )
+      .style.display =
+        "none";
+
+  }
+);
+
+
+video.addEventListener(
+  "canplay",
+  () => {
+
+    document
+      .getElementById(
+        "loading"
+      )
+      .style.display =
+        "none";
+
+  }
+);
+
+
+video.addEventListener(
+  "error",
+  () => {
+
+    showError(
+      "This video cannot be played by your browser."
+    );
+
+  }
+);
+
+
+/* =========================
+   ERROR
+========================= */
+
+function showError(message) {
+
+  document
+    .getElementById(
+      "loading"
+    )
+    .style.display =
+      "none";
+
+
+  document
+    .getElementById(
+      "error"
+    )
+    .style.display =
+      "flex";
+
+
+  document
+    .getElementById(
+      "errorText"
+    )
+    .textContent =
+      message;
+
+}
+
+
+/* =========================
+   MY LIST
+========================= */
+
+async function checkList() {
+
+  if (!movie) {
+    return;
+  }
+
+
+  const movieId =
+    String(
+      movie.id ||
+      movie.archive_id
+    );
+
+
+  try {
+
+    const result =
+      await db
+        .from("nexbox_my_list")
+        .select("id")
+        .eq(
+          "device_id",
+          deviceId
+        )
+        .eq(
+          "movie_id",
+          movieId
+        )
+        .maybeSingle();
+
+
+    if (result.error) {
+      throw result.error;
+    }
+
+
+    updateList(
+      !!result.data
+    );
+
+  }
+
+  catch(error) {
+
+    console.error(
+      "My List error:",
+      error
+    );
+
+  }
+
+}
+
+
+function updateList(saved) {
+
+  const button =
+    document.getElementById(
+      "list"
+    );
+
+  button.textContent =
+    saved
+      ? "✓ In My List"
+      : "♡ My List";
+
+  button.dataset.saved =
+    saved
+      ? "true"
+      : "false";
+
+}
+
+
+document
+  .getElementById("list")
+  .onclick =
+  async () => {
+
+    if (!movie) {
+      return;
+    }
+
+
+    const button =
+      document.getElementById(
+        "list"
+      );
+
+
+    const saved =
+      button.dataset.saved ===
+      "true";
+
+
+    const movieId =
+      String(
+        movie.id ||
+        movie.archive_id
+      );
+
+
+    try {
+
+      if (saved) {
+
+        const result =
+          await db
+            .from(
+              "nexbox_my_list"
+            )
+            .delete()
+            .eq(
+              "device_id",
+              deviceId
+            )
+            .eq(
+              "movie_id",
+              movieId
+            );
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        updateList(false);
+
+      }
+
+      else {
+
+        const result =
+          await db
+            .from(
+              "nexbox_my_list"
+            )
+            .upsert(
+              {
+                device_id:
+                  deviceId,
+
+                movie_id:
+                  movieId,
+
+                movie_data:
+                  movie
+
+              },
+              {
+                onConflict:
+                  "device_id,movie_id"
+              }
+            );
+
+
+        if (result.error) {
+          throw result.error;
+        }
+
+
+        updateList(true);
+
+      }
+
+    }
+
+    catch(error) {
+
+      console.error(
+        error
+      );
+
+      alert(
+        "Could not update My List."
+      );
+
+    }
+
+  };
+
+
+/* =========================
+   DOWNLOAD
+========================= */
+
+document
+  .getElementById(
+    "download"
+  )
+  .onclick =
+  () => {
+
+    const url =
+      movie?.video_url ||
+      archiveVideo;
+
+
+    if (!url) {
+
+      if (
+        movie?.archive_id
+      ) {
+
+        window.open(
+          "https://archive.org/details/" +
+          encodeURIComponent(
+            movie.archive_id
+          ),
+          "_blank"
+        );
+
+      } else {
+
+        alert(
+          "No downloadable video is available."
+        );
+
+      }
+
+      return;
+    }
+
+
+    window.open(
+      url,
+      "_blank"
+    );
+
+  };
+
+
+/* =========================
+   SHARE
+========================= */
+
+document
+  .getElementById(
+    "share"
+  )
+  .onclick =
+  async () => {
+
+    try {
+
+      if (
+        navigator.share
+      ) {
+
+        await navigator.share({
+
+          title:
+            movie.title ||
+            "NEX BOX",
+
+          text:
+            "Watch " +
+            (
+              movie.title ||
+              "this movie"
+            ) +
+            " on NEX BOX.",
+
+          url:
+            location.href
+
+        });
+
+      }
+
+      else {
+
+        await navigator.clipboard.writeText(
+          location.href
+        );
+
+        alert(
+          "Movie link copied."
+        );
+
+      }
+
+    }
+
+    catch {
+
+      console.log(
+        "Share cancelled."
+      );
+
+    }
+
+  };
+
+
+/* =========================
+   BACK
+========================= */
+
+document
+  .getElementById("back")
+  .onclick =
+  () => {
+
+    if (
+      history.length > 1
+    ) {
+
+      history.back();
+
+    } else {
+
+      location.href =
+        "./index.html";
+
+    }
+
+  };
+
+
+/* =========================
+   START
+========================= */
+
+load();
+
+</script>
+
+</body>
+</html>
