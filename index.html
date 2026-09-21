@@ -1,26 +1,542 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>NEX BOX TEST</title>
-</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
-<body style="
+<meta name="theme-color" content="#080808">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="NEX BOX">
+
+<title>NEX BOX</title>
+
+<style>
+*{
+  box-sizing:border-box;
   margin:0;
-  background:red;
-  color:white;
-  min-height:100vh;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+  background:#080808;
+  color:#fff;
+  font-family:Arial,Helvetica,sans-serif;
+  min-height:100%;
+}
+
+body{
+  padding-bottom:75px;
+}
+
+button{
+  font-family:inherit;
+}
+
+.header{
+  position:sticky;
+  top:0;
+  z-index:50;
+  height:62px;
+  background:rgba(8,8,8,.96);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 16px;
+  border-bottom:1px solid #1b1b1b;
+}
+
+.logo{
+  font-size:23px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+
+.logo span{
+  color:#e50914;
+}
+
+.header-right{
+  display:flex;
+  gap:8px;
+}
+
+.icon-btn{
+  width:40px;
+  height:40px;
+  border:0;
+  border-radius:50%;
+  background:#181818;
+  color:#fff;
+  font-size:19px;
   display:flex;
   align-items:center;
   justify-content:center;
-  font-family:Arial;
-">
+}
 
-  <div style="text-align:center">
-    <h1>NEX BOX TEST</h1>
-    <p>NEW INDEX FILE IS WORKING</p>
+.hero{
+  padding:20px 16px 10px;
+}
+
+.hero h1{
+  font-size:27px;
+  font-weight:900;
+  margin-bottom:7px;
+}
+
+.hero p{
+  color:#929292;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.section{
+  padding:15px 14px;
+}
+
+.section-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:13px;
+}
+
+.section-title{
+  font-size:18px;
+  font-weight:800;
+}
+
+.status{
+  font-size:12px;
+  color:#777;
+}
+
+.movie-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px 10px;
+}
+
+.movie-card{
+  min-width:0;
+  background:#111;
+  border-radius:10px;
+  overflow:hidden;
+  border:1px solid #1c1c1c;
+  cursor:pointer;
+  transition:transform .15s ease;
+}
+
+.movie-card:active{
+  transform:scale(.97);
+}
+
+.poster{
+  width:100%;
+  aspect-ratio:2/3;
+  background:#171717;
+  position:relative;
+  overflow:hidden;
+}
+
+.poster img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
+.poster-placeholder{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#555;
+  font-size:35px;
+}
+
+.play-badge{
+  position:absolute;
+  left:8px;
+  bottom:8px;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#e50914;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:14px;
+  box-shadow:0 3px 10px rgba(0,0,0,.5);
+}
+
+.movie-info{
+  padding:9px;
+}
+
+.movie-title{
+  font-size:14px;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.movie-meta{
+  margin-top:5px;
+  color:#777;
+  font-size:11px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+.loading,
+.empty,
+.error{
+  grid-column:1/-1;
+  min-height:180px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:10px;
+  color:#777;
+  text-align:center;
+  padding:20px;
+}
+
+.loading-spinner{
+  width:30px;
+  height:30px;
+  border:3px solid #292929;
+  border-top-color:#e50914;
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+
+@keyframes spin{
+  to{transform:rotate(360deg)}
+}
+
+.error{
+  color:#e57373;
+}
+
+.retry{
+  border:0;
+  background:#e50914;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:7px;
+  font-weight:700;
+}
+
+.bottom-nav{
+  position:fixed;
+  left:0;
+  right:0;
+  bottom:0;
+  height:68px;
+  z-index:100;
+  background:rgba(12,12,12,.98);
+  border-top:1px solid #202020;
+  display:flex;
+  justify-content:space-around;
+  align-items:center;
+}
+
+.nav-item{
+  border:0;
+  background:none;
+  color:#777;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:4px;
+  font-size:10px;
+  min-width:65px;
+}
+
+.nav-icon{
+  font-size:21px;
+}
+
+.nav-item.active{
+  color:#fff;
+}
+
+.nav-item.active .nav-icon{
+  color:#e50914;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:82px;
+  transform:translateX(-50%) translateY(20px);
+  background:#222;
+  color:#fff;
+  padding:11px 17px;
+  border-radius:8px;
+  font-size:13px;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:200;
+  white-space:nowrap;
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+
+.search-box{
+  display:none;
+  padding:10px 14px;
+  background:#0b0b0b;
+}
+
+.search-box.show{
+  display:block;
+}
+
+.search-input{
+  width:100%;
+  height:44px;
+  border:1px solid #292929;
+  border-radius:8px;
+  background:#151515;
+  color:#fff;
+  padding:0 13px;
+  outline:none;
+  font-size:14px;
+}
+
+.search-input:focus{
+  border-color:#e50914;
+}
+
+@media(min-width:600px){
+  .movie-grid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+  }
+
+  .section,.hero{
+    max-width:1000px;
+    margin:auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+  <div class="logo">NEX <span>BOX</span></div>
+
+  <div class="header-right">
+    <button class="icon-btn" onclick="toggleSearch()" aria-label="Search">⌕</button>
   </div>
+</header>
 
-</body>
-</html>
+<div class="search-box" id="searchBox">
+  <input
+    id="searchInput"
+    class="search-input"
+    type="search"
+    placeholder="Search movies..."
+    oninput="searchMovies()"
+  >
+</div>
+
+<main>
+
+  <section class="hero">
+    <h1>Watch Movies</h1>
+    <p>Discover movies in your NEX BOX library.</p>
+  </section>
+
+  <section class="section">
+
+    <div class="section-head">
+      <div class="section-title">Latest Movies</div>
+      <div class="status" id="movieStatus">Loading...</div>
+    </div>
+
+    <div class="movie-grid" id="movieGrid">
+
+      <div class="loading">
+        <div class="loading-spinner"></div>
+        <div>Loading movies...</div>
+      </div>
+
+    </div>
+
+  </section>
+
+</main>
+
+<nav class="bottom-nav">
+
+  <button class="nav-item active" onclick="goHome()">
+    <span class="nav-icon">⌂</span>
+    <span>Home</span>
+  </button>
+
+  <button class="nav-item" onclick="scrollToMovies()">
+    <span class="nav-icon">▣</span>
+    <span>Movies</span>
+  </button>
+
+  <button class="nav-item" onclick="showSaved()">
+    <span class="nav-icon">♡</span>
+    <span>My List</span>
+  </button>
+
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL =
+"https://jacxlmcwwedertcaizdj.supabase.co";
+
+const SUPABASE_KEY =
+"sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+
+let movies = [];
+let savedMovies = JSON.parse(localStorage.getItem("nexbox_saved") || "[]");
+
+async function loadMovies(){
+
+  const grid = document.getElementById("movieGrid");
+  const status = document.getElementById("movieStatus");
+
+  grid.innerHTML = `
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      <div>Loading movies...</div>
+    </div>
+  `;
+
+  try{
+
+    const response = await fetch(
+      SUPABASE_URL +
+      "/rest/v1/movies?select=*&order=created_at.desc",
+      {
+        method:"GET",
+        headers:{
+          "apikey":SUPABASE_KEY,
+          "Authorization":"Bearer " + SUPABASE_KEY,
+          "Content-Type":"application/json"
+        }
+      }
+    );
+
+    if(!response.ok){
+
+      const errorText = await response.text();
+
+      throw new Error(
+        "Supabase error " +
+        response.status +
+        ": " +
+        errorText
+      );
+    }
+
+    movies = await response.json();
+
+    console.log("NEX BOX movies:",movies);
+
+    if(!Array.isArray(movies) || movies.length === 0){
+
+      status.textContent = "0 movies";
+
+      grid.innerHTML = `
+        <div class="empty">
+          <div style="font-size:42px">🎬</div>
+          <div>No movies available yet.</div>
+          <small>Add a movie from the NEX BOX Admin.</small>
+        </div>
+      `;
+
+      return;
+    }
+
+    status.textContent =
+      movies.length +
+      (movies.length === 1 ? " movie" : " movies");
+
+    renderMovies(movies);
+
+  }catch(error){
+
+    console.error("NEX BOX loading error:",error);
+
+    status.textContent = "Error";
+
+    grid.innerHTML = `
+      <div class="error">
+        <div style="font-size:35px">⚠</div>
+        <strong>Could not load movies</strong>
+        <small>${escapeHtml(error.message)}</small>
+        <button class="retry" onclick="loadMovies()">Try Again</button>
+      </div>
+    `;
+  }
+}
+
+function renderMovies(list){
+
+  const grid = document.getElementById("movieGrid");
+
+  if(!list.length){
+
+    grid.innerHTML = `
+      <div class="empty">
+        <div style="font-size:40px">🔎</div>
+        <div>No matching movies found.</div>
+      </div>
+    `;
+
+    return;
+  }
+
+  grid.innerHTML = list.map(movie => {
+
+    const poster =
+      movie.poster_url ||
+      "";
+
+    const title =
+      movie.title ||
+      "Untitled Movie";
+
+    const year =
+      movie.year ||
+      "";
+
+    const genre =
+      movie.genre ||
+      "Movie";
+
+    return `
+      <article
+        class="movie-card"
+        onclick="openMovie('${escapeAttribute(movie.id)}')"
+      >
+
+        <div class="poster">
+
+          ${
+            poster
+            ?
+            `<img
+              src="${escapeAttribute(poster)}"
+              alt="${escapeAttribute(title
