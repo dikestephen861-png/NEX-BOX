@@ -3,575 +3,120 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#050505">
 <title>NEX BOX Admin</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 *{
   box-sizing:border-box;
+}
+
+html,body{
   margin:0;
-  padding:0;
+  width:100%;
+  min-height:100%;
+  background:#050505;
+  color:white;
+  font-family:Arial,sans-serif;
 }
 
 body{
-  background:#050505;
-  color:#fff;
-  font-family:Arial,Helvetica,sans-serif;
-  min-height:100vh;
-}
-
-header{
-  height:64px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 18px;
-  border-bottom:1px solid #202020;
-  background:#080808;
-  position:sticky;
-  top:0;
-  z-index:10;
-}
-
-.logo{
-  font-size:21px;
-  font-weight:900;
-  letter-spacing:1px;
-}
-
-.logo span{
-  color:#e50914;
-}
-
-.back{
-  color:#fff;
-  text-decoration:none;
-  font-size:14px;
-}
-
-.container{
-  width:100%;
-  max-width:650px;
-  margin:auto;
-  padding:20px 16px 50px;
-}
-
-.card{
-  background:#101010;
-  border:1px solid #222;
-  border-radius:16px;
   padding:20px;
-  margin-bottom:18px;
+}
+
+.box{
+  max-width:500px;
+  margin:30px auto;
+  background:#111;
+  border:1px solid #333;
+  border-radius:16px;
+  padding:25px;
 }
 
 h1{
-  font-size:24px;
-  margin-bottom:7px;
+  margin:0 0 10px;
 }
 
-h2{
-  font-size:18px;
-  margin-bottom:16px;
-}
-
-.sub{
+p{
   color:#999;
-  font-size:13px;
   line-height:1.5;
-  margin-bottom:20px;
 }
 
-label{
-  display:block;
-  color:#ccc;
-  font-size:13px;
-  margin:15px 0 7px;
-}
-
-input,
-textarea,
-select{
+input{
   width:100%;
-  border:1px solid #2b2b2b;
-  background:#181818;
-  color:#fff;
+  padding:14px;
+  margin-top:12px;
   border-radius:10px;
-  padding:13px;
-  font-size:14px;
-  outline:none;
-}
-
-input:focus,
-textarea:focus{
-  border-color:#e50914;
-}
-
-textarea{
-  min-height:90px;
-  resize:vertical;
-}
-
-input[type="file"]{
-  padding:10px;
+  border:1px solid #333;
+  background:#1b1b1b;
+  color:white;
 }
 
 button{
   width:100%;
+  padding:15px;
+  margin-top:15px;
   border:0;
   border-radius:10px;
-  padding:14px;
-  margin-top:18px;
   background:#e50914;
-  color:#fff;
-  font-weight:800;
-  font-size:14px;
-  cursor:pointer;
+  color:white;
+  font-weight:bold;
+  font-size:15px;
 }
 
-button:disabled{
-  opacity:.5;
-  cursor:not-allowed;
+button:active{
+  transform:scale(.98);
 }
 
-.secondary{
-  background:#242424;
-}
-
-.logout{
-  background:#242424;
-  margin-top:10px;
-}
-
-.status{
-  display:none;
+#test{
+  margin-top:20px;
   padding:12px;
+  background:#182018;
   border-radius:10px;
-  margin-top:15px;
-  font-size:13px;
-  line-height:1.5;
-}
-
-.status.show{
-  display:block;
-}
-
-.status.success{
-  background:#092b16;
-  color:#70e49a;
-  border:1px solid #145f30;
-}
-
-.status.error{
-  background:#300b0b;
-  color:#ff8585;
-  border:1px solid #6d1919;
-}
-
-.status.info{
-  background:#101d30;
-  color:#8ebeff;
-  border:1px solid #1c477d;
-}
-
-#adminPanel{
-  display:none;
-}
-
-.userBox{
-  background:#151515;
-  border-radius:10px;
-  padding:12px;
-  font-size:12px;
-  color:#aaa;
-  margin-bottom:18px;
-  word-break:break-word;
-}
-
-.check{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  margin-top:15px;
-  color:#ccc;
-  font-size:13px;
-}
-
-.check input{
-  width:auto;
-}
-
-.file-note{
-  color:#777;
-  font-size:11px;
-  margin-top:6px;
-  line-height:1.4;
-}
-
-.progress{
-  display:none;
-  margin-top:16px;
-}
-
-.progress.show{
-  display:block;
-}
-
-.progress-track{
-  width:100%;
-  height:7px;
-  background:#252525;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.progress-bar{
-  width:0%;
-  height:100%;
-  background:#e50914;
-}
-
-.progress-text{
-  color:#aaa;
-  font-size:12px;
-  margin-top:7px;
-}
-
-.successBox{
-  display:none;
-  background:#0b2414;
-  border:1px solid #175f30;
-  color:#8bf0ae;
-  padding:15px;
-  border-radius:12px;
-  margin-top:15px;
-  line-height:1.6;
-  font-size:13px;
-}
-
-.successBox.show{
-  display:block;
-}
-
-.small{
-  font-size:11px;
-  color:#777;
-  margin-top:18px;
-  line-height:1.5;
-  text-align:center;
+  color:#72e08c;
 }
 </style>
 </head>
 
 <body>
 
-<header>
-  <div class="logo">NEX <span>BOX</span></div>
-  <a class="back" href="index.html">← Home</a>
-</header>
+<div class="box">
 
-<div class="container">
+<h1>NEX <span style="color:#e50914">BOX</span></h1>
 
-  <!-- LOGIN -->
-  <section id="loginPanel" class="card">
+<p>
+Admin page is loading correctly.
+</p>
 
-    <h1>Admin Login</h1>
+<input
+id="email"
+type="email"
+placeholder="Admin email">
 
-    <p class="sub">
-      Sign in with your NEX BOX administrator account to upload movies.
-    </p>
+<input
+id="password"
+type="password"
+placeholder="Password">
 
-    <label>Email</label>
-    <input
-      id="email"
-      type="email"
-      placeholder="Admin email"
-      autocomplete="email"
-    >
+<button onclick="testButton()">
+TEST ADMIN
+</button>
 
-    <label>Password</label>
-    <input
-      id="password"
-      type="password"
-      placeholder="Password"
-      autocomplete="current-password"
-    >
-
-    <button id="loginBtn" onclick="login()">
-      LOGIN
-    </button>
-
-    <div id="loginStatus" class="status"></div>
-
-  </section>
-
-
-  <!-- ADMIN PANEL -->
-  <section id="adminPanel">
-
-    <div class="card">
-
-      <h1>Movie Admin</h1>
-
-      <p class="sub">
-        Upload a poster and MP4 video. NEX BOX will save the files to
-        Supabase Storage and create the movie record automatically.
-      </p>
-
-      <div class="userBox">
-        Signed in as:
-        <strong id="adminEmail">Checking...</strong>
-      </div>
-
-      <h2>Add Movie</h2>
-
-      <label>Movie Title *</label>
-      <input
-        id="title"
-        type="text"
-        placeholder="Example: The Last Mission"
-      >
-
-      <label>Description</label>
-      <textarea
-        id="description"
-        placeholder="Write a short description about the movie..."
-      ></textarea>
-
-      <label>Genre</label>
-      <input
-        id="genre"
-        type="text"
-        placeholder="Action, Drama, Comedy"
-      >
-
-      <label>Year</label>
-      <input
-        id="year"
-        type="number"
-        placeholder="2026"
-        min="1900"
-        max="2100"
-      >
-
-      <label>Movie Poster *</label>
-      <input
-        id="poster"
-        type="file"
-        accept="image/*"
-      >
-
-      <div class="file-note">
-        JPG, PNG or WebP recommended.
-      </div>
-
-      <label>Movie Video *</label>
-      <input
-        id="video"
-        type="file"
-        accept="video/mp4,.mp4,video/webm,.webm"
-      >
-
-      <div class="file-note">
-        MP4 is strongly recommended for browser playback.
-      </div>
-
-      <label class="check">
-        <input id="downloadable" type="checkbox" checked>
-        Allow movie download
-      </label>
-
-      <button id="uploadBtn" onclick="uploadMovie()">
-        UPLOAD MOVIE
-      </button>
-
-      <button class="logout" onclick="logout()">
-        LOG OUT
-      </button>
-
-      <div id="uploadStatus" class="status"></div>
-
-      <div id="progress" class="progress">
-        <div class="progress-track">
-          <div id="progressBar" class="progress-bar"></div>
-        </div>
-        <div id="progressText" class="progress-text">
-          Preparing upload...
-        </div>
-      </div>
-
-      <div id="successBox" class="successBox"></div>
-
-    </div>
-
-  </section>
-
-  <div class="small">
-    NEX BOX Admin • Upload only movies and artwork you have permission to distribute.
-  </div>
+<div id="test">
+Waiting for test...
+</div>
 
 </div>
 
-
 <script>
 
-const SUPABASE_URL =
-  "https://jacxlmcwwedertcaizdj.supabase.co";
+function testButton(){
 
-const SUPABASE_KEY =
-  "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
-
-const supabaseClient =
-  window.supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-
-function showStatus(id, message, type){
-
-  const box = document.getElementById(id);
-
-  box.textContent = message;
-
-  box.className =
-    "status show " + type;
-}
-
-
-function setProgress(percent, text){
-
-  document.getElementById("progress").classList.add("show");
-
-  document.getElementById("progressBar").style.width =
-    percent + "%";
-
-  document.getElementById("progressText").textContent =
-    text;
-}
-
-
-/* =========================
-   CHECK EXISTING SESSION
-========================= */
-
-async function checkSession(){
-
-  const {
-    data,
-    error
-  } = await supabaseClient.auth.getSession();
-
-  if(error){
-    console.error(error);
-    return;
-  }
-
-  if(data.session){
-
-    await checkAdmin(data.session.user);
-
-  }
+document.getElementById("test").innerHTML =
+"✓ BUTTON IS WORKING";
 
 }
 
+</script>
 
-/* =========================
-   LOGIN
-========================= */
-
-async function login(){
-
-  const email =
-    document.getElementById("email").value.trim();
-
-  const password =
-    document.getElementById("password").value;
-
-  if(!email || !password){
-
-    showStatus(
-      "loginStatus",
-      "Enter your email and password.",
-      "error"
-    );
-
-    return;
-  }
-
-  const button =
-    document.getElementById("loginBtn");
-
-  button.disabled = true;
-  button.textContent = "LOGGING IN...";
-
-  showStatus(
-    "loginStatus",
-    "Signing in...",
-    "info"
-  );
-
-  const {
-    data,
-    error
-  } = await supabaseClient.auth.signInWithPassword({
-    email,
-    password
-  });
-
-  if(error){
-
-    button.disabled = false;
-    button.textContent = "LOGIN";
-
-    showStatus(
-      "loginStatus",
-      error.message,
-      "error"
-    );
-
-    return;
-  }
-
-  await checkAdmin(data.user);
-
-  button.disabled = false;
-  button.textContent = "LOGIN";
-}
-
-
-/* =========================
-   CHECK ADMIN TABLE
-========================= */
-
-async function checkAdmin(user){
-
-  if(!user){
-
-    return;
-  }
-
-  showStatus(
-    "loginStatus",
-    "Checking administrator access...",
-    "info"
-  );
-
-  const {
-    data,
-    error
-  } = await supabaseClient
-    .from("admin_users")
-    .select("user_id,email")
-    .eq("user_id", user.id)
-    .maybeSingle();
-
-  if(error){
-
-    console.error(error);
-
-    await supabaseClient.auth.signOut();
-
-    showStatus(
-      "
+</body>
+</html>
