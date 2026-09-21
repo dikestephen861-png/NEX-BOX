@@ -35,16 +35,16 @@ button{
 }
 
 .header{
-  position:sticky;
-  top:0;
-  z-index:50;
   height:62px;
-  background:rgba(8,8,8,.96);
+  background:#080808;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 16px;
-  border-bottom:1px solid #1b1b1b;
+  border-bottom:1px solid #1c1c1c;
+  position:sticky;
+  top:0;
+  z-index:20;
 }
 
 .logo{
@@ -57,48 +57,67 @@ button{
   color:#e50914;
 }
 
-.header-right{
+.header-buttons{
   display:flex;
   gap:8px;
 }
 
-.icon-btn{
+.icon-button{
   width:40px;
   height:40px;
   border:0;
   border-radius:50%;
   background:#181818;
   color:#fff;
-  font-size:19px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  font-size:20px;
+}
+
+.search-area{
+  display:none;
+  padding:10px 14px;
+  background:#0b0b0b;
+}
+
+.search-area.show{
+  display:block;
+}
+
+.search-input{
+  width:100%;
+  height:44px;
+  border:1px solid #292929;
+  border-radius:8px;
+  outline:none;
+  background:#151515;
+  color:#fff;
+  padding:0 13px;
+  font-size:14px;
 }
 
 .hero{
-  padding:20px 16px 10px;
+  padding:22px 16px 12px;
 }
 
 .hero h1{
-  font-size:27px;
+  font-size:28px;
   font-weight:900;
   margin-bottom:7px;
 }
 
 .hero p{
-  color:#929292;
+  color:#8d8d8d;
   font-size:13px;
   line-height:1.5;
 }
 
 .section{
-  padding:15px 14px;
+  padding:14px;
 }
 
-.section-head{
+.section-header{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   margin-bottom:13px;
 }
 
@@ -107,25 +126,23 @@ button{
   font-weight:800;
 }
 
-.status{
-  font-size:12px;
+.movie-count{
   color:#777;
+  font-size:12px;
 }
 
 .movie-grid{
   display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-columns:repeat(2,1fr);
   gap:14px 10px;
 }
 
 .movie-card{
-  min-width:0;
   background:#111;
+  border:1px solid #1d1d1d;
   border-radius:10px;
   overflow:hidden;
-  border:1px solid #1c1c1c;
   cursor:pointer;
-  transition:transform .15s ease;
 }
 
 .movie-card:active{
@@ -143,33 +160,32 @@ button{
 .poster img{
   width:100%;
   height:100%;
-  display:block;
   object-fit:cover;
+  display:block;
 }
 
-.poster-placeholder{
+.poster-fallback{
   width:100%;
   height:100%;
   display:flex;
   align-items:center;
   justify-content:center;
+  font-size:40px;
   color:#555;
-  font-size:35px;
 }
 
-.play-badge{
+.play{
   position:absolute;
-  left:8px;
   bottom:8px;
+  left:8px;
   width:34px;
   height:34px;
   border-radius:50%;
   background:#e50914;
   display:flex;
-  align-items:center;
   justify-content:center;
-  font-size:14px;
-  box-shadow:0 3px 10px rgba(0,0,0,.5);
+  align-items:center;
+  font-size:13px;
 }
 
 .movie-info{
@@ -185,9 +201,9 @@ button{
 }
 
 .movie-meta{
-  margin-top:5px;
   color:#777;
   font-size:11px;
+  margin-top:5px;
   white-space:nowrap;
   overflow:hidden;
   text-overflow:ellipsis;
@@ -197,20 +213,20 @@ button{
 .empty,
 .error{
   grid-column:1/-1;
-  min-height:180px;
+  min-height:200px;
   display:flex;
-  align-items:center;
-  justify-content:center;
   flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
   gap:10px;
   color:#777;
-  text-align:center;
   padding:20px;
 }
 
-.loading-spinner{
-  width:30px;
-  height:30px;
+.spinner{
+  width:32px;
+  height:32px;
   border:3px solid #292929;
   border-top-color:#e50914;
   border-radius:50%;
@@ -218,57 +234,55 @@ button{
 }
 
 @keyframes spin{
-  to{transform:rotate(360deg)}
-}
-
-.error{
-  color:#e57373;
+  to{
+    transform:rotate(360deg);
+  }
 }
 
 .retry{
   border:0;
   background:#e50914;
-  color:#fff;
-  padding:10px 18px;
+  color:white;
   border-radius:7px;
-  font-weight:700;
+  padding:10px 18px;
+  font-weight:bold;
 }
 
 .bottom-nav{
   position:fixed;
+  bottom:0;
   left:0;
   right:0;
-  bottom:0;
   height:68px;
-  z-index:100;
-  background:rgba(12,12,12,.98);
+  background:#0d0d0d;
   border-top:1px solid #202020;
   display:flex;
   justify-content:space-around;
   align-items:center;
+  z-index:100;
 }
 
-.nav-item{
-  border:0;
+.nav-button{
   background:none;
+  border:0;
   color:#777;
+  min-width:70px;
   display:flex;
   flex-direction:column;
   align-items:center;
   gap:4px;
   font-size:10px;
-  min-width:65px;
+}
+
+.nav-button.active{
+  color:white;
 }
 
 .nav-icon{
   font-size:21px;
 }
 
-.nav-item.active{
-  color:#fff;
-}
-
-.nav-item.active .nav-icon{
+.nav-button.active .nav-icon{
   color:#e50914;
 }
 
@@ -278,15 +292,14 @@ button{
   bottom:82px;
   transform:translateX(-50%) translateY(20px);
   background:#222;
-  color:#fff;
-  padding:11px 17px;
+  color:white;
+  padding:11px 16px;
   border-radius:8px;
   font-size:13px;
   opacity:0;
   pointer-events:none;
   transition:.25s;
   z-index:200;
-  white-space:nowrap;
 }
 
 .toast.show{
@@ -294,38 +307,14 @@ button{
   transform:translateX(-50%) translateY(0);
 }
 
-.search-box{
-  display:none;
-  padding:10px 14px;
-  background:#0b0b0b;
-}
-
-.search-box.show{
-  display:block;
-}
-
-.search-input{
-  width:100%;
-  height:44px;
-  border:1px solid #292929;
-  border-radius:8px;
-  background:#151515;
-  color:#fff;
-  padding:0 13px;
-  outline:none;
-  font-size:14px;
-}
-
-.search-input:focus{
-  border-color:#e50914;
-}
-
 @media(min-width:600px){
+
   .movie-grid{
-    grid-template-columns:repeat(4,minmax(0,1fr));
+    grid-template-columns:repeat(4,1fr);
   }
 
-  .section,.hero{
+  .hero,
+  .section{
     max-width:1000px;
     margin:auto;
   }
@@ -336,14 +325,25 @@ button{
 <body>
 
 <header class="header">
-  <div class="logo">NEX <span>BOX</span></div>
 
-  <div class="header-right">
-    <button class="icon-btn" onclick="toggleSearch()" aria-label="Search">⌕</button>
+  <div class="logo">
+    NEX <span>BOX</span>
   </div>
+
+  <div class="header-buttons">
+    <button
+      class="icon-button"
+      onclick="toggleSearch()"
+      aria-label="Search"
+    >
+      🔍
+    </button>
+  </div>
+
 </header>
 
-<div class="search-box" id="searchBox">
+<div class="search-area" id="searchArea">
+
   <input
     id="searchInput"
     class="search-input"
@@ -351,192 +351,654 @@ button{
     placeholder="Search movies..."
     oninput="searchMovies()"
   >
+
 </div>
 
 <main>
 
-  <section class="hero">
-    <h1>Watch Movies</h1>
-    <p>Discover movies in your NEX BOX library.</p>
-  </section>
+<section class="hero">
 
-  <section class="section">
+  <h1>Watch Movies</h1>
 
-    <div class="section-head">
-      <div class="section-title">Latest Movies</div>
-      <div class="status" id="movieStatus">Loading...</div>
+  <p>
+    Discover and watch movies in your NEX BOX library.
+  </p>
+
+</section>
+
+<section class="section">
+
+  <div class="section-header">
+
+    <div class="section-title" id="sectionTitle">
+      Latest Movies
     </div>
 
-    <div class="movie-grid" id="movieGrid">
+    <div class="movie-count" id="movieCount">
+      Loading...
+    </div>
 
-      <div class="loading">
-        <div class="loading-spinner"></div>
-        <div>Loading movies...</div>
+  </div>
+
+  <div class="movie-grid" id="movieGrid">
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+      <div>
+        Connecting to NEX BOX...
       </div>
 
     </div>
 
-  </section>
+  </div>
+
+</section>
 
 </main>
 
 <nav class="bottom-nav">
 
-  <button class="nav-item active" onclick="goHome()">
+  <button
+    class="nav-button active"
+    onclick="goHome()"
+  >
     <span class="nav-icon">⌂</span>
     <span>Home</span>
   </button>
 
-  <button class="nav-item" onclick="scrollToMovies()">
+  <button
+    class="nav-button"
+    onclick="goMovies()"
+  >
     <span class="nav-icon">▣</span>
     <span>Movies</span>
   </button>
 
-  <button class="nav-item" onclick="showSaved()">
+  <button
+    class="nav-button"
+    onclick="showMyList()"
+  >
     <span class="nav-icon">♡</span>
     <span>My List</span>
   </button>
 
 </nav>
 
-<div class="toast" id="toast"></div>
+<div
+  class="toast"
+  id="toast"
+></div>
 
 <script>
+
+/* =====================================================
+   NEX BOX SUPABASE CONNECTION
+   ===================================================== */
+
 const SUPABASE_URL =
 "https://jacxlmcwwedertcaizdj.supabase.co";
 
 const SUPABASE_KEY =
-"sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphY3hsbWN3edertcaizdjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk1ODc5MTMsImV4cCI6MjEwNTE2MzkxM30.eie-QJrohLznkWvb6b1lFj9uyNr2Bw4gIUWlwr8VVHc";
 
 let movies = [];
-let savedMovies = JSON.parse(localStorage.getItem("nexbox_saved") || "[]");
+
+let savedMovies =
+JSON.parse(
+  localStorage.getItem("nexbox_saved") || "[]"
+);
+
+
+/* =====================================================
+   LOAD MOVIES
+   ===================================================== */
 
 async function loadMovies(){
 
-  const grid = document.getElementById("movieGrid");
-  const status = document.getElementById("movieStatus");
+  const grid =
+    document.getElementById("movieGrid");
+
+  const count =
+    document.getElementById("movieCount");
 
   grid.innerHTML = `
     <div class="loading">
-      <div class="loading-spinner"></div>
+      <div class="spinner"></div>
       <div>Loading movies...</div>
     </div>
   `;
 
   try{
 
-    const response = await fetch(
+    const url =
       SUPABASE_URL +
-      "/rest/v1/movies?select=*&order=created_at.desc",
-      {
-        method:"GET",
-        headers:{
-          "apikey":SUPABASE_KEY,
-          "Authorization":"Bearer " + SUPABASE_KEY,
-          "Content-Type":"application/json"
+      "/rest/v1/movies?select=*&order=created_at.desc";
+
+    console.log("NEX BOX requesting:",url);
+
+    const response =
+      await fetch(
+        url,
+        {
+          method:"GET",
+
+          headers:{
+            "apikey":SUPABASE_KEY,
+            "Authorization":
+              "Bearer " + SUPABASE_KEY,
+            "Content-Type":
+              "application/json"
+          }
         }
-      }
+      );
+
+    console.log(
+      "Supabase status:",
+      response.status
+    );
+
+    const text =
+      await response.text();
+
+    console.log(
+      "Supabase response:",
+      text
     );
 
     if(!response.ok){
 
-      const errorText = await response.text();
-
       throw new Error(
-        "Supabase error " +
+        "Supabase returned HTTP " +
         response.status +
         ": " +
-        errorText
+        text
       );
+
     }
 
-    movies = await response.json();
+    try{
 
-    console.log("NEX BOX movies:",movies);
+      movies =
+        JSON.parse(text);
 
-    if(!Array.isArray(movies) || movies.length === 0){
+    }catch(parseError){
 
-      status.textContent = "0 movies";
+      throw new Error(
+        "Supabase returned invalid JSON: " +
+        text
+      );
+
+    }
+
+    if(!Array.isArray(movies)){
+
+      throw new Error(
+        "Movie data is not an array."
+      );
+
+    }
+
+    console.log(
+      "NEX BOX movies found:",
+      movies.length
+    );
+
+    if(movies.length === 0){
+
+      count.textContent =
+        "0 movies";
 
       grid.innerHTML = `
         <div class="empty">
-          <div style="font-size:42px">🎬</div>
-          <div>No movies available yet.</div>
-          <small>Add a movie from the NEX BOX Admin.</small>
+
+          <div style="font-size:45px">
+            🎬
+          </div>
+
+          <strong>
+            No movies yet
+          </strong>
+
+          <small>
+            Add a movie from NEX BOX Admin.
+          </small>
+
         </div>
       `;
 
       return;
     }
 
-    status.textContent =
+    count.textContent =
       movies.length +
-      (movies.length === 1 ? " movie" : " movies");
+      (
+        movies.length === 1
+        ? " movie"
+        : " movies"
+      );
 
     renderMovies(movies);
 
   }catch(error){
 
-    console.error("NEX BOX loading error:",error);
+    console.error(
+      "NEX BOX ERROR:",
+      error
+    );
 
-    status.textContent = "Error";
+    count.textContent =
+      "Connection error";
 
     grid.innerHTML = `
       <div class="error">
-        <div style="font-size:35px">⚠</div>
-        <strong>Could not load movies</strong>
-        <small>${escapeHtml(error.message)}</small>
-        <button class="retry" onclick="loadMovies()">Try Again</button>
+
+        <div style="font-size:40px">
+          ⚠️
+        </div>
+
+        <strong>
+          Could not load movies
+        </strong>
+
+        <small>
+          ${escapeHtml(error.message)}
+        </small>
+
+        <button
+          class="retry"
+          onclick="loadMovies()"
+        >
+          Try Again
+        </button>
+
       </div>
     `;
+
   }
+
 }
+
+
+/* =====================================================
+   DISPLAY MOVIES
+   ===================================================== */
 
 function renderMovies(list){
 
-  const grid = document.getElementById("movieGrid");
+  const grid =
+    document.getElementById("movieGrid");
 
   if(!list.length){
 
     grid.innerHTML = `
       <div class="empty">
-        <div style="font-size:40px">🔎</div>
-        <div>No matching movies found.</div>
+
+        <div style="font-size:40px">
+          🔎
+        </div>
+
+        <strong>
+          No movies found
+        </strong>
+
       </div>
     `;
 
     return;
   }
 
-  grid.innerHTML = list.map(movie => {
+  grid.innerHTML =
+    list.map(movie => {
 
-    const poster =
-      movie.poster_url ||
-      "";
+      const title =
+        movie.title ||
+        "Untitled Movie";
 
-    const title =
-      movie.title ||
-      "Untitled Movie";
+      const poster =
+        movie.poster_url ||
+        "";
 
-    const year =
-      movie.year ||
-      "";
+      const year =
+        movie.year ||
+        "";
 
-    const genre =
-      movie.genre ||
-      "Movie";
+      const genre =
+        movie.genre ||
+        "Movie";
 
-    return `
-      <article
-        class="movie-card"
-        onclick="openMovie('${escapeAttribute(movie.id)}')"
-      >
+      const id =
+        movie.id;
 
-        <div class="poster">
+      return `
 
-          ${
-            poster
-            ?
-            `<img
-              src="${escapeAttribute(poster)}"
-              alt="${escapeAttribute(title
+        <article
+          class="movie-card"
+          onclick="openMovie('${escapeAttribute(id)}')"
+        >
+
+          <div class="poster">
+
+            ${
+              poster
+              ?
+              `
+              <img
+                src="${escapeAttribute(poster)}"
+                alt="${escapeAttribute(title)}"
+                loading="lazy"
+                onerror="
+                  this.style.display='none';
+                  this.nextElementSibling.style.display='flex';
+                "
+              >
+              `
+              :
+              ""
+            }
+
+            <div
+              class="poster-fallback"
+              style="${
+                poster
+                ? "display:none"
+                : "display:flex"
+              }"
+            >
+              🎬
+            </div>
+
+            <div class="play">
+              ▶
+            </div>
+
+          </div>
+
+          <div class="movie-info">
+
+            <div class="movie-title">
+              ${escapeHtml(title)}
+            </div>
+
+            <div class="movie-meta">
+
+              ${
+                year
+                ? escapeHtml(year) + " • "
+                : ""
+              }
+
+              ${escapeHtml(genre)}
+
+            </div>
+
+          </div>
+
+        </article>
+
+      `;
+
+    }).join("");
+
+}
+
+
+/* =====================================================
+   OPEN MOVIE
+   ===================================================== */
+
+function openMovie(id){
+
+  const movie =
+    movies.find(
+      item =>
+        String(item.id) === String(id)
+    );
+
+  if(!movie){
+
+    showToast(
+      "Movie could not be found"
+    );
+
+    return;
+  }
+
+  localStorage.setItem(
+    "nexbox_selected_movie",
+    JSON.stringify(movie)
+  );
+
+  window.location.href =
+    "watch.html?id=" +
+    encodeURIComponent(movie.id);
+
+}
+
+
+/* =====================================================
+   SEARCH
+   ===================================================== */
+
+function toggleSearch(){
+
+  const area =
+    document.getElementById("searchArea");
+
+  const input =
+    document.getElementById("searchInput");
+
+  area.classList.toggle("show");
+
+  if(area.classList.contains("show")){
+
+    setTimeout(
+      () => input.focus(),
+      100
+    );
+
+  }
+
+}
+
+
+function searchMovies(){
+
+  const query =
+    document
+      .getElementById("searchInput")
+      .value
+      .trim()
+      .toLowerCase();
+
+  if(!query){
+
+    renderMovies(movies);
+
+    document.getElementById(
+      "sectionTitle"
+    ).textContent =
+      "Latest Movies";
+
+    return;
+  }
+
+  const results =
+    movies.filter(movie => {
+
+      const title =
+        String(
+          movie.title || ""
+        ).toLowerCase();
+
+      const genre =
+        String(
+          movie.genre || ""
+        ).toLowerCase();
+
+      const description =
+        String(
+          movie.description || ""
+        ).toLowerCase();
+
+      return (
+        title.includes(query) ||
+        genre.includes(query) ||
+        description.includes(query)
+      );
+
+    });
+
+  document.getElementById(
+    "sectionTitle"
+  ).textContent =
+    "Search Results";
+
+  renderMovies(results);
+
+}
+
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+
+function goHome(){
+
+  document.getElementById(
+    "sectionTitle"
+  ).textContent =
+    "Latest Movies";
+
+  renderMovies(movies);
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+
+function goMovies(){
+
+  window.scrollTo({
+    top:170,
+    behavior:"smooth"
+  });
+
+}
+
+
+function showMyList(){
+
+  const saved =
+    movies.filter(
+      movie =>
+        savedMovies.includes(
+          movie.id
+        )
+    );
+
+  document.getElementById(
+    "sectionTitle"
+  ).textContent =
+    "My List";
+
+  if(!saved.length){
+
+    document.getElementById(
+      "movieGrid"
+    ).innerHTML = `
+      <div class="empty">
+
+        <div style="font-size:45px">
+          ♡
+        </div>
+
+        <strong>
+          Your My List is empty
+        </strong>
+
+        <small>
+          Your saved movies will appear here.
+        </small>
+
+      </div>
+    `;
+
+    return;
+  }
+
+  renderMovies(saved);
+
+  window.scrollTo({
+    top:150,
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =====================================================
+   TOAST
+   ===================================================== */
+
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent =
+    message;
+
+  toast.classList.add("show");
+
+  setTimeout(
+    () =>
+      toast.classList.remove("show"),
+    2200
+  );
+
+}
+
+
+/* =====================================================
+   SECURITY / HTML HELPERS
+   ===================================================== */
+
+function escapeHtml(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function escapeAttribute(value){
+
+  return String(value)
+    .replace(/&/g,"&amp;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;");
+
+}
+
+
+/* =====================================================
+   START NEX BOX
+   ===================================================== */
+
+loadMovies();
+
+</script>
+
+</body>
+  </html>
