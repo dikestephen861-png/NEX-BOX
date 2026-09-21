@@ -2,13 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-  >
-
-  <meta name="theme-color" content="#080808">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <title>NEX BOX ADMIN</title>
 
@@ -20,305 +14,274 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    html,
     body {
       margin: 0;
-      padding: 0;
-      min-height: 100%;
       background: #080808;
       color: #fff;
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    body {
-      min-height: 100vh;
-    }
-
     button,
-    input,
-    textarea,
-    select {
+    input {
       font: inherit;
     }
 
     button {
       cursor: pointer;
+      touch-action: manipulation;
     }
 
     .hidden {
       display: none !important;
     }
 
-    /* =========================
-       LOGIN
-    ========================= */
+    /* LOGIN */
 
-    #loginScreen {
+    #loginPage {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
       background:
-        radial-gradient(
-          circle at top,
-          #292929 0%,
-          #0b0b0b 45%,
-          #000 100%
-        );
+        radial-gradient(circle at top, #292929 0%, #080808 45%, #000 100%);
     }
 
     .login-box {
       width: 100%;
-      max-width: 430px;
-      background: #111;
-      border: 1px solid #292929;
-      border-radius: 20px;
-      padding: 28px 22px;
-      box-shadow: 0 25px 70px rgba(0, 0, 0, .6);
+      max-width: 420px;
+      background: #151515;
+      border: 1px solid #303030;
+      border-radius: 18px;
+      padding: 30px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.6);
     }
 
     .logo {
       text-align: center;
-      font-size: 35px;
+      font-size: 32px;
       font-weight: 900;
-      letter-spacing: 3px;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
     }
 
-    .admin-label {
+    .logo span {
+      color: #e50914;
+    }
+
+    .subtitle {
       text-align: center;
-      color: #999;
-      margin-top: 6px;
+      color: #aaa;
       margin-bottom: 28px;
       font-size: 14px;
     }
 
-    .field {
-      margin-bottom: 16px;
-    }
-
-    .field label {
+    label {
       display: block;
-      color: #aaa;
-      font-size: 13px;
-      margin-bottom: 7px;
-    }
-
-    input,
-    textarea,
-    select {
-      width: 100%;
-      border: 1px solid #333;
-      border-radius: 11px;
-      background: #1a1a1a;
-      color: #fff;
-      outline: none;
-      padding: 14px;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: #666;
-    }
-
-    input:focus,
-    textarea:focus,
-    select:focus {
-      border-color: #777;
-    }
-
-    .primary-btn {
-      width: 100%;
-      border: 0;
-      border-radius: 11px;
-      background: #fff;
-      color: #000;
-      font-weight: 800;
-      padding: 15px;
-    }
-
-    .primary-btn:disabled {
-      opacity: .55;
-      cursor: not-allowed;
-    }
-
-    .message {
-      display: none;
-      margin-top: 15px;
-      padding: 13px;
-      border-radius: 10px;
+      margin: 15px 0 7px;
+      color: #ddd;
       font-size: 14px;
-      line-height: 1.5;
-      word-break: break-word;
     }
 
-    .message.error {
-      display: block;
-      background: #351111;
-      color: #ffaaaa;
-      border: 1px solid #682323;
+    input {
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      border-radius: 10px;
+      border: 1px solid #3a3a3a;
+      background: #090909;
+      color: white;
+      outline: none;
     }
 
-    .message.success {
-      display: block;
-      background: #102d1a;
-      color: #9cffb5;
-      border: 1px solid #205e35;
+    input:focus {
+      border-color: #e50914;
     }
 
-    .small-note {
+    .login-button {
+      width: 100%;
+      height: 52px;
+      margin-top: 22px;
+      border: 0;
+      border-radius: 10px;
+      background: #e50914;
+      color: white;
+      font-weight: 800;
+      font-size: 16px;
+    }
+
+    .login-button:active {
+      transform: scale(.98);
+    }
+
+    .login-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    #loginMessage {
       margin-top: 15px;
-      text-align: center;
-      color: #666;
-      font-size: 11px;
-      line-height: 1.5;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      line-height: 1.4;
+      display: none;
     }
 
-    /* =========================
-       ADMIN
-    ========================= */
+    #loginMessage.error {
+      display: block;
+      background: #351010;
+      color: #ff8c8c;
+      border: 1px solid #762020;
+    }
 
-    #adminScreen {
+    #loginMessage.success {
+      display: block;
+      background: #103518;
+      color: #8cff9a;
+      border: 1px solid #20762b;
+    }
+
+    /* ADMIN */
+
+    #adminPage {
       min-height: 100vh;
-      background: #080808;
+      background: #090909;
     }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 20;
+      height: 64px;
+      background: #111;
+      border-bottom: 1px solid #292929;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 14px 15px;
-      background: rgba(8, 8, 8, .96);
-      border-bottom: 1px solid #242424;
-      backdrop-filter: blur(15px);
+      padding: 0 16px;
     }
 
     .top-title {
-      font-size: 19px;
       font-weight: 900;
-      letter-spacing: .5px;
+      font-size: 20px;
+      letter-spacing: 1px;
     }
 
-    .logout-btn {
-      background: #202020;
-      border: 1px solid #383838;
-      color: #fff;
-      border-radius: 9px;
-      padding: 9px 13px;
+    .top-title span {
+      color: #e50914;
+    }
+
+    .logout-button {
+      border: 1px solid #444;
+      background: #1d1d1d;
+      color: white;
+      padding: 9px 14px;
+      border-radius: 8px;
     }
 
     .container {
       width: 100%;
       max-width: 900px;
-      margin: 0 auto;
-      padding: 20px 15px 60px;
+      margin: auto;
+      padding: 20px 16px 50px;
     }
 
-    .welcome {
-      margin-bottom: 20px;
-    }
-
-    .welcome h1 {
-      margin: 0 0 6px;
-      font-size: 27px;
-    }
-
-    .welcome p {
-      margin: 0;
-      color: #888;
-      font-size: 14px;
-    }
-
-    .card {
-      background: #111;
-      border: 1px solid #242424;
-      border-radius: 17px;
+    .panel {
+      background: #151515;
+      border: 1px solid #292929;
+      border-radius: 15px;
       padding: 18px;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
 
-    .card h2 {
-      margin: 0 0 18px;
+    .panel h2 {
+      margin: 0 0 16px;
       font-size: 19px;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
       gap: 14px;
     }
 
-    .full {
-      grid-column: 1 / -1;
-    }
-
-    .file-box {
-      border: 1px dashed #444;
-      border-radius: 12px;
-      padding: 15px;
-      background: #151515;
-    }
-
-    .file-box label {
-      display: block;
-      color: #aaa;
-      font-size: 13px;
-      margin-bottom: 9px;
-    }
-
-    input[type="file"] {
-      padding: 10px;
-    }
-
-    .upload-status {
-      margin-top: 8px;
-      color: #888;
-      font-size: 12px;
-      line-height: 1.4;
-      overflow-wrap: anywhere;
-    }
-
-    .progress {
-      display: none;
+    textarea {
       width: 100%;
-      height: 6px;
-      margin-top: 10px;
-      background: #242424;
-      border-radius: 20px;
-      overflow: hidden;
+      min-height: 100px;
+      resize: vertical;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #3a3a3a;
+      background: #090909;
+      color: white;
+      outline: none;
     }
 
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: #fff;
-      transition: width .2s;
+    textarea:focus {
+      border-color: #e50914;
     }
 
-    .publish-btn {
-      margin-top: 3px;
+    .upload-box {
+      border: 1px dashed #444;
+      border-radius: 10px;
+      padding: 15px;
+      background: #0c0c0c;
     }
 
-    .loading {
-      text-align: center;
-      color: #777;
-      padding: 25px;
+    .upload-box input {
+      height: auto;
+      padding: 10px;
+      border: 0;
+      background: transparent;
     }
 
-    .empty {
-      text-align: center;
-      color: #777;
-      padding: 25px;
+    .main-button {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      border-radius: 10px;
+      background: #e50914;
+      color: white;
+      font-weight: 800;
+      margin-top: 16px;
+    }
+
+    .main-button:disabled {
+      opacity: .6;
+      cursor: wait;
+    }
+
+    .status {
+      display: none;
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 8px;
+      line-height: 1.4;
+      font-size: 14px;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .status.error {
+      background: #351010;
+      border: 1px solid #762020;
+      color: #ff9696;
+    }
+
+    .status.success {
+      background: #103518;
+      border: 1px solid #20762b;
+      color: #91ff9b;
     }
 
     .movie-item {
       display: flex;
-      gap: 13px;
-      padding: 13px 0;
-      border-bottom: 1px solid #252525;
+      gap: 14px;
+      padding: 12px 0;
+      border-bottom: 1px solid #292929;
     }
 
     .movie-item:last-child {
@@ -328,52 +291,40 @@
     .movie-poster {
       width: 70px;
       height: 95px;
-      flex-shrink: 0;
+      border-radius: 7px;
       object-fit: cover;
-      border-radius: 8px;
       background: #222;
+      flex-shrink: 0;
     }
 
     .movie-info {
-      flex: 1;
       min-width: 0;
     }
 
     .movie-title {
-      font-size: 15px;
       font-weight: 800;
-      margin-bottom: 6px;
-      overflow-wrap: anywhere;
+      margin-bottom: 7px;
     }
 
     .movie-meta {
       color: #999;
-      font-size: 12px;
-      margin-bottom: 7px;
+      font-size: 13px;
+      line-height: 1.5;
     }
 
-    .movie-url {
-      color: #666;
-      font-size: 10px;
-      line-height: 1.4;
-      overflow-wrap: anywhere;
+    .empty {
+      color: #888;
+      text-align: center;
+      padding: 20px 0;
     }
 
-    @media (max-width: 650px) {
+    @media (min-width: 650px) {
       .grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
       }
 
       .full {
-        grid-column: auto;
-      }
-
-      .card {
-        padding: 15px;
-      }
-
-      .welcome h1 {
-        font-size: 24px;
+        grid-column: 1 / -1;
       }
     }
   </style>
@@ -381,99 +332,72 @@
 
 <body>
 
-  <!-- =========================
-       LOGIN SCREEN
-  ========================= -->
+  <!-- LOGIN PAGE -->
 
-  <section id="loginScreen">
+  <section id="loginPage">
 
     <div class="login-box">
 
       <div class="logo">
-        NEX BOX
+        NEX <span>BOX</span>
       </div>
 
-      <div class="admin-label">
+      <div class="subtitle">
         Administrator Login
       </div>
 
       <form id="loginForm">
 
-        <div class="field">
+        <label for="email">Email</label>
 
-          <label for="email">
-            Admin Email
-          </label>
+        <input
+          id="email"
+          type="email"
+          autocomplete="username"
+          placeholder="Enter admin email"
+          required
+        >
 
-          <input
-            id="email"
-            type="email"
-            autocomplete="email"
-            placeholder="Enter admin email"
-            required
-          >
+        <label for="password">Password</label>
 
-        </div>
-
-        <div class="field">
-
-          <label for="password">
-            Password
-          </label>
-
-          <input
-            id="password"
-            type="password"
-            autocomplete="current-password"
-            placeholder="Enter your Supabase password"
-            required
-          >
-
-        </div>
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Enter password"
+          required
+        >
 
         <button
           id="loginButton"
-          class="primary-btn"
+          class="login-button"
           type="submit"
         >
-          LOGIN
+          SIGN IN
         </button>
 
-        <div
-          id="loginMessage"
-          class="message"
-        ></div>
-
-        <div class="small-note">
-          Use the email and password belonging to your
-          NEX BOX Supabase administrator account.
-        </div>
-
       </form>
+
+      <div id="loginMessage"></div>
 
     </div>
 
   </section>
 
 
-  <!-- =========================
-       ADMIN SCREEN
-  ========================= -->
+  <!-- ADMIN PAGE -->
 
-  <section
-    id="adminScreen"
-    class="hidden"
-  >
+  <section id="adminPage" class="hidden">
 
     <header class="topbar">
 
       <div class="top-title">
-        NEX BOX ADMIN
+        NEX <span>BOX</span> ADMIN
       </div>
 
       <button
         id="logoutButton"
-        class="logout-btn"
+        class="logout-button"
         type="button"
       >
         Logout
@@ -484,672 +408,918 @@
 
     <main class="container">
 
-      <div class="welcome">
-
-        <h1>
-          Movie Manager
-        </h1>
-
-        <p>
-          Add authorized movies to your NEX BOX library.
-        </p>
-
-      </div>
-
-
       <!-- ADD MOVIE -->
 
-      <div class="card">
+      <section class="panel">
 
-        <h2>
-          Add New Movie
-        </h2>
+        <h2>Add Movie</h2>
 
-        <form id="movieForm">
+        <div class="grid">
 
-          <div class="grid">
+          <div>
+            <label for="movieTitle">Movie Title</label>
 
-            <div class="field">
-
-              <label for="movieTitle">
-                Movie Title
-              </label>
-
-              <input
-                id="movieTitle"
-                type="text"
-                placeholder="Enter movie title"
-                required
-              >
-
-            </div>
+            <input
+              id="movieTitle"
+              type="text"
+              placeholder="Movie title"
+            >
+          </div>
 
 
-            <div class="field">
+          <div>
+            <label for="movieGenre">Genre</label>
 
-              <label for="movieYear">
-                Release Year
-              </label>
-
-              <input
-                id="movieYear"
-                type="number"
-                min="1900"
-                max="2100"
-                placeholder="2026"
-              >
-
-            </div>
+            <input
+              id="movieGenre"
+              type="text"
+              placeholder="Action, Drama..."
+            >
+          </div>
 
 
-            <div class="field">
+          <div>
+            <label for="movieYear">Year</label>
 
-              <label for="movieGenre">
-                Genre
-              </label>
-
-              <input
-                id="movieGenre"
-                type="text"
-                placeholder="Action, Drama, Comedy..."
-              >
-
-            </div>
+            <input
+              id="movieYear"
+              type="number"
+              placeholder="2026"
+            >
+          </div>
 
 
-            <div class="field">
+          <div>
+            <label for="downloadable">Downloadable</label>
 
-              <label for="downloadable">
-                Download Available
-              </label>
-
-              <select id="downloadable">
-
-                <option value="true">
-                  Yes
-                </option>
-
-                <option value="false">
-                  No
-                </option>
-
-              </select>
-
-            </div>
-
-
-            <div class="field full">
-
-              <label for="movieDescription">
-                Description
-              </label>
-
-              <textarea
-                id="movieDescription"
-                placeholder="Write a short movie description..."
-              ></textarea>
-
-            </div>
+            <select
+              id="downloadable"
+              style="
+                width:100%;
+                height:50px;
+                padding:0 12px;
+                border-radius:10px;
+                border:1px solid #3a3a3a;
+                background:#090909;
+                color:white;
+              "
+            >
+              <option value="true">Yes</option>
+              <option value="false">No</option>
+            </select>
+          </div>
 
 
-            <div class="file-box">
+          <div class="full">
 
-              <label for="posterFile">
-                Movie Poster
-              </label>
+            <label for="movieDescription">
+              Description
+            </label>
+
+            <textarea
+              id="movieDescription"
+              placeholder="Write a short movie description..."
+            ></textarea>
+
+          </div>
+
+
+          <div>
+
+            <label>Movie Poster</label>
+
+            <div class="upload-box">
 
               <input
                 id="posterFile"
                 type="file"
                 accept="image/*"
-                required
               >
-
-              <div
-                id="posterStatus"
-                class="upload-status"
-              >
-                No poster selected.
-              </div>
 
             </div>
 
+          </div>
 
-            <div class="file-box">
 
-              <label for="videoFile">
-                Movie Video
-              </label>
+          <div>
+
+            <label>Movie Video</label>
+
+            <div class="upload-box">
 
               <input
                 id="videoFile"
                 type="file"
                 accept="video/mp4,video/webm,video/*"
-                required
               >
-
-              <div
-                id="videoStatus"
-                class="upload-status"
-              >
-                No video selected.
-              </div>
-
-            </div>
-
-
-            <div class="full">
-
-              <button
-                id="publishButton"
-                class="primary-btn"
-                type="submit"
-              >
-                PUBLISH MOVIE
-              </button>
 
             </div>
 
           </div>
 
-          <div
-            id="movieMessage"
-            class="message"
-          ></div>
+        </div>
 
-        </form>
 
-      </div>
+        <button
+          id="addMovieButton"
+          class="main-button"
+          type="button"
+        >
+          ADD MOVIE
+        </button>
+
+        <div
+          id="movieStatus"
+          class="status"
+        ></div>
+
+      </section>
 
 
       <!-- MOVIES -->
 
-      <div class="card">
+      <section class="panel">
 
-        <h2>
-          Published Movies
-        </h2>
+        <h2>Movies in NEX BOX</h2>
 
         <div id="movieList">
 
-          <div class="loading">
+          <div class="empty">
             Loading movies...
           </div>
 
         </div>
 
-      </div>
+      </section>
 
     </main>
 
   </section>
 
 
-  <script>
+<script>
 
-    /* =====================================================
-       SUPABASE
-    ===================================================== */
+  /*
+   * NEX BOX SUPABASE
+   */
 
-    const SUPABASE_URL =
-      "https://jacxlmcwwedertcaizdj.supabase.co";
+  const SUPABASE_URL =
+    "https://jacxlmcwwedertcaizdj.supabase.co";
 
-    const SUPABASE_KEY =
-      "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
+  const SUPABASE_KEY =
+    "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
 
-    const supabaseClient =
-      window.supabase.createClient(
-        SUPABASE_URL,
-        SUPABASE_KEY
+  const supabaseClient =
+    window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+  /*
+   * ELEMENTS
+   */
+
+  const loginPage =
+    document.getElementById("loginPage");
+
+  const adminPage =
+    document.getElementById("adminPage");
+
+  const loginForm =
+    document.getElementById("loginForm");
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const loginMessage =
+    document.getElementById("loginMessage");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+  const addMovieButton =
+    document.getElementById("addMovieButton");
+
+  const movieStatus =
+    document.getElementById("movieStatus");
+
+  const movieList =
+    document.getElementById("movieList");
+
+
+  /*
+   * MESSAGE HELPERS
+   */
+
+  function showLoginMessage(message, type) {
+
+    loginMessage.textContent = message;
+
+    loginMessage.className = "";
+
+    loginMessage.classList.add(type);
+
+  }
+
+
+  function clearLoginMessage() {
+
+    loginMessage.textContent = "";
+
+    loginMessage.className = "";
+
+  }
+
+
+  function showMovieStatus(message, type) {
+
+    movieStatus.textContent = message;
+
+    movieStatus.className = "status show " + type;
+
+  }
+
+
+  /*
+   * LOGIN
+   */
+
+  loginForm.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    clearLoginMessage();
+
+    const email =
+      document.getElementById("email")
+      .value
+      .trim();
+
+    const password =
+      document.getElementById("password")
+      .value;
+
+
+    if (!email || !password) {
+
+      showLoginMessage(
+        "Please enter your email and password.",
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    loginButton.disabled = true;
+
+    loginButton.textContent = "SIGNING IN...";
+
+
+    try {
+
+      const result =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+
+      if (result.error) {
+
+        console.error(
+          "Supabase login error:",
+          result.error
+        );
+
+        showLoginMessage(
+          result.error.message ||
+          "Login failed.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!result.data || !result.data.user) {
+
+        showLoginMessage(
+          "Login completed, but no user session was returned.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      showLoginMessage(
+        "Login successful. Checking admin access...",
+        "success"
       );
 
 
-    /* =====================================================
-       ELEMENTS
-    ===================================================== */
-
-    const loginScreen =
-      document.getElementById("loginScreen");
-
-    const adminScreen =
-      document.getElementById("adminScreen");
-
-    const loginForm =
-      document.getElementById("loginForm");
-
-    const loginButton =
-      document.getElementById("loginButton");
-
-    const loginMessage =
-      document.getElementById("loginMessage");
-
-    const logoutButton =
-      document.getElementById("logoutButton");
-
-    const movieForm =
-      document.getElementById("movieForm");
-
-    const publishButton =
-      document.getElementById("publishButton");
-
-    const movieMessage =
-      document.getElementById("movieMessage");
-
-    const movieList =
-      document.getElementById("movieList");
-
-    const posterFile =
-      document.getElementById("posterFile");
-
-    const videoFile =
-      document.getElementById("videoFile");
-
-    const posterStatus =
-      document.getElementById("posterStatus");
-
-    const videoStatus =
-      document.getElementById("videoStatus");
+      const user =
+        result.data.user;
 
 
-    /* =====================================================
-       MESSAGE
-    ===================================================== */
+      /*
+       * CHECK ADMIN TABLE
+       */
 
-    function showMessage(
-      element,
-      message,
-      type
-    ) {
-
-      element.textContent =
-        message;
-
-      element.className =
-        "message " + type;
-
-    }
+      const adminCheck =
+        await supabaseClient
+          .from("admin_users")
+          .select("user_id,email")
+          .eq("user_id", user.id)
+          .maybeSingle();
 
 
-    function clearMessage(element) {
+      if (adminCheck.error) {
 
-      element.textContent = "";
-
-      element.className =
-        "message";
-
-    }
-
-
-    /* =====================================================
-       FILE INFORMATION
-    ===================================================== */
-
-    posterFile.addEventListener(
-      "change",
-      function () {
-
-        const file =
-          posterFile.files[0];
-
-        if (!file) {
-
-          posterStatus.textContent =
-            "No poster selected.";
-
-          return;
-
-        }
-
-        posterStatus.textContent =
-          file.name +
-          " — " +
-          formatBytes(file.size);
-
-      }
-    );
-
-
-    videoFile.addEventListener(
-      "change",
-      function () {
-
-        const file =
-          videoFile.files[0];
-
-        if (!file) {
-
-          videoStatus.textContent =
-            "No video selected.";
-
-          return;
-
-        }
-
-        videoStatus.textContent =
-          file.name +
-          " — " +
-          formatBytes(file.size);
-
-      }
-    );
-
-
-    function formatBytes(bytes) {
-
-      if (!bytes) {
-        return "0 Bytes";
-      }
-
-      const sizes = [
-        "Bytes",
-        "KB",
-        "MB",
-        "GB"
-      ];
-
-      const i =
-        Math.floor(
-          Math.log(bytes) /
-          Math.log(1024)
+        console.error(
+          "Admin check error:",
+          adminCheck.error
         );
 
-      return (
-        Math.round(
-          bytes /
-          Math.pow(1024, i) *
-          100
-        ) / 100
-      ) +
-      " " +
-      sizes[i];
+        await supabaseClient.auth.signOut();
+
+        showLoginMessage(
+          "Admin check failed: " +
+          adminCheck.error.message,
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!adminCheck.data) {
+
+        await supabaseClient.auth.signOut();
+
+        showLoginMessage(
+          "This account is not registered as a NEX BOX administrator.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      showLoginMessage(
+        "Welcome to NEX BOX Admin.",
+        "success"
+      );
+
+
+      setTimeout(function() {
+
+        loginPage.classList.add("hidden");
+
+        adminPage.classList.remove("hidden");
+
+        loadMovies();
+
+      }, 500);
+
+
+    } catch (error) {
+
+      console.error(
+        "Unexpected login error:",
+        error
+      );
+
+      showLoginMessage(
+        "Unexpected error: " +
+        (error.message || error),
+        "error"
+      );
+
+    } finally {
+
+      loginButton.disabled = false;
+
+      loginButton.textContent = "SIGN IN";
 
     }
 
+  });
 
-    /* =====================================================
-       LOGIN
-    ===================================================== */
 
-    loginForm.addEventListener(
-      "submit",
-      async function (event) {
+  /*
+   * LOGOUT
+   */
 
-        event.preventDefault();
+  logoutButton.addEventListener(
+    "click",
+    async function() {
 
-        clearMessage(loginMessage);
+      await supabaseClient.auth.signOut();
 
-        loginButton.disabled = true;
+      adminPage.classList.add("hidden");
 
-        loginButton.textContent =
-          "CHECKING...";
+      loginPage.classList.remove("hidden");
 
+      document.getElementById("password").value = "";
 
-        const email =
-          document
-            .getElementById("email")
-            .value
-            .trim();
+      clearLoginMessage();
 
-        const password =
-          document
-            .getElementById("password")
-            .value;
+    }
+  );
 
 
-        if (!email || !password) {
+  /*
+   * CHECK EXISTING SESSION
+   */
 
-          showMessage(
-            loginMessage,
-            "Enter your email and password.",
-            "error"
-          );
+  async function checkSession() {
 
-          loginButton.disabled = false;
+    try {
 
-          loginButton.textContent =
-            "LOGIN";
+      const result =
+        await supabaseClient.auth.getSession();
 
-          return;
+      if (
+        result.data &&
+        result.data.session &&
+        result.data.session.user
+      ) {
 
-        }
+        const user =
+          result.data.session.user;
 
 
-        try {
-
-          console.log(
-            "NEX BOX: starting login..."
-          );
-
-
-          /* SUPABASE AUTH */
-
-          const {
-            data,
-            error
-          } =
-            await supabaseClient.auth
-              .signInWithPassword({
-                email: email,
-                password: password
-              });
-
-
-          console.log(
-            "Supabase response:",
-            data,
-            error
-          );
-
-
-          if (error) {
-
-            throw new Error(
-              error.message ||
-              "Supabase sign-in failed."
-            );
-
-          }
-
-
-          if (
-            !data ||
-            !data.user
-          ) {
-
-            throw new Error(
-              "Login did not return a user session."
-            );
-
-          }
-
-
-          console.log(
-            "Authenticated:",
-            data.user.id
-          );
-
-
-          /* ADMIN CHECK */
-
-          const {
-            data: admin,
-            error: adminError
-          } =
-            await supabaseClient
-              .from("admin_users")
-              .select(
-                "user_id,email"
-              )
-              .eq(
-                "user_id",
-                data.user.id
-              )
-              .maybeSingle();
-
-
-          console.log(
-            "Admin check:",
-            admin,
-            adminError
-          );
-
-
-          if (adminError) {
-
-            throw new Error(
-              "Login succeeded, but NEX BOX could not verify administrator access: " +
-              adminError.message
-            );
-
-          }
-
-
-          if (!admin) {
-
-            await supabaseClient
-              .auth
-              .signOut();
-
-            throw new Error(
-              "This account is not registered as a NEX BOX administrator."
-            );
-
-          }
-
-
-          /* OPEN DASHBOARD */
-
-          loginScreen.classList.add(
-            "hidden"
-          );
-
-          adminScreen.classList.remove(
-            "hidden"
-          );
-
-
-          await loadMovies();
-
-
-        } catch (error) {
-
-          console.error(
-            "NEX BOX LOGIN ERROR:",
-            error
-          );
-
-
-          showMessage(
-            loginMessage,
-            error.message ||
-            "Login failed.",
-            "error"
-          );
-
-
-        } finally {
-
-          loginButton.disabled =
-            false;
-
-          loginButton.textContent =
-            "LOGIN";
-
-        }
-
-      }
-    );
-
-
-    /* =====================================================
-       SESSION
-    ===================================================== */
-
-    async function checkSession() {
-
-      try {
-
-        const {
-          data,
-          error
-        } =
-          await supabaseClient.auth
-            .getSession();
-
-
-        if (error) {
-
-          console.error(
-            "Session error:",
-            error
-          );
-
-          return;
-
-        }
-
-
-        if (!data.session) {
-
-          return;
-
-        }
-
-
-        const {
-          data: admin,
-          error: adminError
-        } =
+        const adminCheck =
           await supabaseClient
             .from("admin_users")
-            .select(
-              "user_id,email"
-            )
-            .eq(
-              "user_id",
-              data.session.user.id
-            )
+            .select("user_id")
+            .eq("user_id", user.id)
             .maybeSingle();
 
 
         if (
-          adminError ||
-          !admin
+          !adminCheck.error &&
+          adminCheck.data
         ) {
 
-          await supabaseClient
-            .auth
-            .signOut();
+          loginPage.classList.add("hidden");
 
-          return;
+          adminPage.classList.remove("hidden");
+
+          loadMovies();
+
+        }
+
+      }
+
+    } catch (error) {
+
+      console.error(
+        "Session check error:",
+        error
+      );
+
+    }
+
+  }
+
+
+  /*
+   * ADD MOVIE
+   */
+
+  addMovieButton.addEventListener(
+    "click",
+    async function() {
+
+      movieStatus.className = "status";
+
+      const title =
+        document.getElementById("movieTitle")
+        .value
+        .trim();
+
+      const description =
+        document.getElementById("movieDescription")
+        .value
+        .trim();
+
+      const genre =
+        document.getElementById("movieGenre")
+        .value
+        .trim();
+
+      const yearValue =
+        document.getElementById("movieYear")
+        .value;
+
+      const downloadable =
+        document.getElementById("downloadable")
+        .value === "true";
+
+      const posterFile =
+        document.getElementById("posterFile")
+        .files[0];
+
+      const videoFile =
+        document.getElementById("videoFile")
+        .files[0];
+
+
+      if (!title) {
+
+        showMovieStatus(
+          "Enter the movie title.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!posterFile) {
+
+        showMovieStatus(
+          "Select a movie poster.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      if (!videoFile) {
+
+        showMovieStatus(
+          "Select a movie video.",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      addMovieButton.disabled = true;
+
+      addMovieButton.textContent =
+        "UPLOADING...";
+
+
+      try {
+
+        /*
+         * POSTER
+         */
+
+        const posterPath =
+          Date.now() +
+          "_" +
+          cleanFileName(posterFile.name);
+
+
+        const posterUpload =
+          await supabaseClient
+            .storage
+            .from("Posters")
+            .upload(
+              posterPath,
+              posterFile,
+              {
+                cacheControl: "3600",
+                upsert: false
+              }
+            );
+
+
+        if (posterUpload.error) {
+
+          throw new Error(
+            "Poster upload failed: " +
+            posterUpload.error.message
+          );
 
         }
 
 
-        loginScreen.classList.add(
-          "hidden"
+        const posterUrl =
+          supabaseClient
+            .storage
+            .from("Posters")
+            .getPublicUrl(
+              posterPath
+            )
+            .data
+            .publicUrl;
+
+
+        /*
+         * VIDEO
+         */
+
+        addMovieButton.textContent =
+          "UPLOADING VIDEO...";
+
+
+        const videoPath =
+          Date.now() +
+          "_" +
+          cleanFileName(videoFile.name);
+
+
+        const videoUpload =
+          await supabaseClient
+            .storage
+            .from("Videos")
+            .upload(
+              videoPath,
+              videoFile,
+              {
+                cacheControl: "3600",
+                upsert: false
+              }
+            );
+
+
+        if (videoUpload.error) {
+
+          throw new Error(
+            "Video upload failed: " +
+            videoUpload.error.message
+          );
+
+        }
+
+
+        const videoUrl =
+          supabaseClient
+            .storage
+            .from("Videos")
+            .getPublicUrl(
+              videoPath
+            )
+            .data
+            .publicUrl;
+
+
+        /*
+         * DATABASE
+         */
+
+        addMovieButton.textContent =
+          "SAVING MOVIE...";
+
+
+        const movieInsert =
+          await supabaseClient
+            .from("movies")
+            .insert({
+              title: title,
+              description: description || null,
+              genre: genre || null,
+              year: yearValue
+                ? Number(yearValue)
+                : null,
+              poster_url: posterUrl,
+              video_url: videoUrl,
+              downloadable: downloadable
+            })
+            .select()
+            .single();
+
+
+        if (movieInsert.error) {
+
+          throw new Error(
+            "Database error: " +
+            movieInsert.error.message
+          );
+
+        }
+
+
+        showMovieStatus(
+          "Movie added successfully!",
+          "success"
         );
 
-        adminScreen.classList.remove(
-          "hidden"
-        );
+
+        /*
+         * CLEAR FORM
+         */
+
+        document.getElementById("movieTitle").value = "";
+
+        document.getElementById("movieDescription").value = "";
+
+        document.getElementById("movieGenre").value = "";
+
+        document.getElementById("movieYear").value = "";
+
+        document.getElementById("posterFile").value = "";
+
+        document.getElementById("videoFile").value = "";
 
 
-        await loadMovies();
+        loadMovies();
 
 
       } catch (error) {
 
         console.error(
-          "Session check error:",
+          "Add movie error:",
           error
         );
+
+        showMovieStatus(
+          error.message ||
+          "Failed to add movie.",
+          "error"
+        );
+
+      } finally {
+
+        addMovieButton.disabled = false;
+
+        addMovieButton.textContent =
+          "ADD MOVIE";
 
       }
 
     }
+  );
 
 
-    /* =====================================================
-       LOGOUT
-    ========================================
+  /*
+   * CLEAN FILE NAME
+   */
+
+  function cleanFileName(name) {
+
+    return name
+      .replace(/[^a-zA-Z0-9._-]/g, "_");
+
+  }
+
+
+  /*
+   * LOAD MOVIES
+   */
+
+  async function loadMovies() {
+
+    movieList.innerHTML =
+      '<div class="empty">Loading movies...</div>';
+
+
+    try {
+
+      const result =
+        await supabaseClient
+          .from("movies")
+          .select("*")
+          .order(
+            "created_at",
+            {
+              ascending: false
+            }
+          );
+
+
+      if (result.error) {
+
+        movieList.innerHTML =
+          '<div class="empty">' +
+          escapeHtml(result.error.message) +
+          "</div>";
+
+        return;
+
+      }
+
+
+      const movies =
+        result.data || [];
+
+
+      if (!movies.length) {
+
+        movieList.innerHTML =
+          '<div class="empty">' +
+          "No movies have been added yet." +
+          "</div>";
+
+        return;
+
+      }
+
+
+      movieList.innerHTML =
+        movies
+          .map(function(movie) {
+
+            return `
+              <div class="movie-item">
+
+                <img
+                  class="movie-poster"
+                  src="${escapeAttribute(movie.poster_url || "")}"
+                  alt=""
+                  onerror="this.style.display='none'"
+                >
+
+                <div class="movie-info">
+
+                  <div class="movie-title">
+                    ${escapeHtml(movie.title || "Untitled")}
+                  </div>
+
+                  <div class="movie-meta">
+                    Genre:
+                    ${escapeHtml(movie.genre || "Not set")}
+                    <br>
+
+                    Year:
+                    ${escapeHtml(
+                      movie.year
+                        ? String(movie.year)
+                        : "Not set"
+                    )}
+                    <br>
+
+                    Download:
+                    ${movie.downloadable ? "Yes" : "No"}
+                  </div>
+
+                </div>
+
+              </div>
+            `;
+
+          })
+          .join("");
+
+
+    } catch (error) {
+
+      console.error(
+        "Load movies error:",
+        error
+      );
+
+      movieList.innerHTML =
+        '<div class="empty">' +
+        escapeHtml(
+          error.message ||
+          "Could not load movies."
+        ) +
+        "</div>";
+
+    }
+
+  }
+
+
+  /*
+   * BASIC HTML SAFETY
+   */
+
+  function escapeHtml(value) {
+
+    return String(value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+
+  }
+
+
+  function escapeAttribute(value) {
+
+    return escapeHtml(value);
+
+  }
+
+
+  /*
+   * START
+   */
+
+  checkSession();
+
+</script>
+
+</body>
+</html>
