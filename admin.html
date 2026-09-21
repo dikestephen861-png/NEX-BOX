@@ -2,25 +2,29 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NEX BOX Admin</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  >
+
+  <meta name="theme-color" content="#050505">
+
+  <title>NEX BOX ADMIN</title>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       margin: 0;
       background: #080808;
       color: #fff;
-      font-family: Arial, sans-serif;
-    }
-
-    .hidden {
-      display: none !important;
+      font-family: Arial, Helvetica, sans-serif;
     }
 
     button,
@@ -30,134 +34,227 @@
       font: inherit;
     }
 
+    .hidden {
+      display: none !important;
+    }
+
     /* LOGIN */
 
-    #loginPage {
+    #loginScreen {
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
-      background: #080808;
+      background:
+        radial-gradient(circle at top, #252525 0%, #080808 45%, #000 100%);
     }
 
     .login-box {
       width: 100%;
-      max-width: 400px;
-      background: #151515;
-      border: 1px solid #303030;
-      border-radius: 18px;
-      padding: 30px;
+      max-width: 430px;
+      background: #111;
+      border: 1px solid #292929;
+      border-radius: 20px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.55);
     }
 
     .logo {
       text-align: center;
-      font-size: 32px;
+      font-size: 34px;
       font-weight: 900;
       letter-spacing: 2px;
+      margin-bottom: 5px;
     }
 
-    .subtitle {
+    .admin-label {
       text-align: center;
       color: #999;
-      margin: 8px 0 28px;
+      margin-bottom: 28px;
+      font-size: 14px;
     }
 
-    label {
+    .field {
+      margin-bottom: 16px;
+    }
+
+    .field label {
       display: block;
-      margin: 15px 0 7px;
-      color: #ccc;
-      font-size: 14px;
+      color: #aaa;
+      font-size: 13px;
+      margin-bottom: 7px;
     }
 
     input,
     textarea,
     select {
       width: 100%;
-      background: #0b0b0b;
-      border: 1px solid #333;
+      background: #1b1b1b;
       color: white;
-      border-radius: 10px;
-      padding: 13px;
+      border: 1px solid #333;
+      border-radius: 11px;
+      padding: 14px;
       outline: none;
-    }
-
-    textarea {
-      min-height: 100px;
-      resize: vertical;
     }
 
     input:focus,
     textarea:focus,
     select:focus {
-      border-color: white;
+      border-color: #fff;
     }
 
-    .login-btn,
-    .add-btn {
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    .primary-btn {
       width: 100%;
       border: 0;
-      border-radius: 10px;
+      border-radius: 11px;
       padding: 15px;
-      margin-top: 20px;
-      background: white;
-      color: black;
-      font-weight: 900;
+      background: #fff;
+      color: #000;
+      font-weight: 800;
       cursor: pointer;
     }
 
-    button:disabled {
-      opacity: .5;
+    .primary-btn:active {
+      transform: scale(.98);
     }
 
     .message {
-      display: none;
       margin-top: 15px;
       padding: 12px;
-      border-radius: 9px;
-      background: #252525;
-      color: #ddd;
-      line-height: 1.5;
+      border-radius: 10px;
+      display: none;
       font-size: 14px;
+      line-height: 1.4;
     }
 
-    .message.show {
+    .message.error {
       display: block;
+      background: #351111;
+      color: #ff9d9d;
+      border: 1px solid #652020;
     }
 
-    /* DASHBOARD */
+    .message.success {
+      display: block;
+      background: #102d1b;
+      color: #9cffb7;
+      border: 1px solid #205c34;
+    }
 
-    #dashboard {
+    /* ADMIN */
+
+    #adminScreen {
       min-height: 100vh;
+      background: #080808;
     }
 
     .topbar {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 50;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 10px;
       padding: 15px;
-      background: #090909;
-      border-bottom: 1px solid #292929;
+      background: rgba(8,8,8,.94);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid #222;
     }
 
-    .topbar-title {
+    .top-title {
       font-size: 20px;
       font-weight: 900;
     }
 
     .logout-btn {
       background: #222;
-      border: 1px solid #444;
       color: white;
+      border: 1px solid #3a3a3a;
       border-radius: 9px;
-      padding: 9px 14px;
+      padding: 9px 13px;
       cursor: pointer;
     }
 
     .container {
       width: 100%;
       max-width: 900px;
-      margin
+      margin: auto;
+      padding: 20px 15px 50px;
+    }
+
+    .welcome {
+      margin-bottom: 20px;
+    }
+
+    .welcome h1 {
+      margin: 0 0 7px;
+      font-size: 27px;
+    }
+
+    .welcome p {
+      margin: 0;
+      color: #999;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #242424;
+      border-radius: 17px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin: 0 0 18px;
+      font-size: 19px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .file-box {
+      border: 1px dashed #444;
+      border-radius: 12px;
+      padding: 15px;
+      background: #151515;
+    }
+
+    .file-box label {
+      display: block;
+      color: #aaa;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    input[type="file"] {
+      padding: 10px;
+    }
+
+    .upload-status {
+      margin-top: 8px;
+      color: #999;
+      font-size: 12px;
+      word-break: break-word;
+    }
+
+    .publish-btn {
+      margin-top: 5px;
+    }
+
+    .loading {
+      text-align: center;
+      color: #
