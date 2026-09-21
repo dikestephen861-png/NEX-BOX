@@ -1,25 +1,93 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NEX BOX TEST</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>NEX BOX TEST</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: red;
+      color: white;
+      font-family: Arial, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .box {
+      width: 90%;
+      max-width: 500px;
+    }
+
+    h1 {
+      font-size: 42px;
+      margin: 0 0 15px;
+    }
+
+    h2 {
+      font-size: 24px;
+      margin: 10px 0 30px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      background: white;
+      color: red;
+      padding: 20px 45px;
+      font-size: 20px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:active {
+      transform: scale(0.96);
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 25px;
+    }
+  </style>
 </head>
 
-<body style="margin:0;background:red;color:white;font-family:Arial;text-align:center;padding:50px;">
+<body>
 
-<h1>NEX BOX</h1>
+  <div class="box">
 
-<h2>NEW ADMIN TEST</h2>
+    <h1>NEX BOX</h1>
 
-<button
-style="padding:25px 50px;font-size:20px;"
-onclick="document.getElementById('result').innerHTML='BUTTON CLICKED ✓';"
->
-CLICK ME
-</button>
+    <h2>NEW ADMIN TEST</h2>
 
-<h2 id="result"></h2>
+    <button id="testButton">
+      CLICK ME
+    </button>
+
+    <div id="result"></div>
+
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const button = document.getElementById("testButton");
+      const result = document.getElementById("result");
+
+      button.addEventListener("click", function () {
+        result.textContent = "BUTTON CLICKED ✓";
+      });
+
+    });
+  </script>
 
 </body>
 </html>
