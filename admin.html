@@ -14,8 +14,23 @@ body{
   margin:0;
   background:#050505;
   color:#fff;
-  font-family:Arial,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
 }
+
+button,input,textarea,select{
+  font:inherit;
+}
+
+button{
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* LOGIN */
 
 #loginPage{
   min-height:100vh;
@@ -23,22 +38,25 @@ body{
   align-items:center;
   justify-content:center;
   padding:20px;
+  background:
+    radial-gradient(circle at top,#292929,#050505 55%);
 }
 
-.box{
+.login-box{
   width:100%;
-  max-width:400px;
+  max-width:420px;
   background:#151515;
-  padding:25px;
-  border-radius:18px;
   border:1px solid #333;
+  border-radius:18px;
+  padding:28px 22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
 }
 
 .logo{
   text-align:center;
   font-size:32px;
-  font-weight:bold;
-  margin-bottom:8px;
+  font-weight:900;
+  letter-spacing:2px;
 }
 
 .logo span{
@@ -47,105 +65,143 @@ body{
 
 .subtitle{
   text-align:center;
-  color:#aaa;
-  margin-bottom:25px;
+  color:#999;
+  margin:8px 0 25px;
 }
 
 label{
   display:block;
   margin:15px 0 7px;
   color:#ddd;
+  font-size:14px;
 }
 
-input{
+input,
+textarea,
+select{
   width:100%;
-  height:52px;
-  background:#080808;
-  border:1px solid #444;
+  background:#090909;
+  color:#fff;
+  border:1px solid #3a3a3a;
   border-radius:10px;
-  padding:0 14px;
-  color:white;
-  font-size:16px;
   outline:none;
 }
 
-input:focus{
+input{
+  height:50px;
+  padding:0 14px;
+}
+
+textarea{
+  min-height:110px;
+  padding:13px;
+  resize:vertical;
+}
+
+select{
+  height:50px;
+  padding:0 12px;
+}
+
+input:focus,
+textarea:focus,
+select:focus{
   border-color:#e50914;
 }
 
-button{
+.login-btn,
+.primary-btn{
   width:100%;
-  height:54px;
+  height:52px;
   margin-top:20px;
-  background:#e50914;
   border:0;
   border-radius:10px;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
+  background:#e50914;
+  color:#fff;
+  font-weight:800;
 }
 
-button:active{
-  transform:scale(.97);
+.login-btn:active,
+.primary-btn:active{
+  transform:scale(.98);
 }
 
-#message{
+.login-btn:disabled,
+.primary-btn:disabled{
+  opacity:.55;
+  cursor:wait;
+}
+
+.message{
+  display:none;
   margin-top:15px;
   padding:12px;
-  border-radius:8px;
-  display:none;
-  line-height:1.5;
+  border-radius:9px;
+  font-size:14px;
+  line-height:1.45;
 }
 
-.error{
-  display:block !important;
+.message.show{
+  display:block;
+}
+
+.message.error{
   background:#350d0d;
-  color:#ff8f8f;
+  border:1px solid #762020;
+  color:#ff9494;
 }
 
-.success{
-  display:block !important;
+.message.success{
   background:#0d3515;
-  color:#8cff99;
+  border:1px solid #20762b;
+  color:#91ff9c;
 }
+
+/* ADMIN */
 
 #adminPage{
-  display:none;
   min-height:100vh;
+  background:#080808;
 }
 
 .header{
-  height:65px;
+  position:sticky;
+  top:0;
+  z-index:20;
+  height:64px;
   background:#111;
-  border-bottom:1px solid #333;
+  border-bottom:1px solid #292929;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 15px;
 }
 
-.headerTitle{
+.header-title{
   font-size:20px;
-  font-weight:bold;
+  font-weight:900;
 }
 
-.headerTitle span{
+.header-title span{
   color:#e50914;
 }
 
-.logout{
+.logout-btn{
   width:auto;
   height:40px;
   margin:0;
-  padding:0 15px;
+  padding:0 14px;
   background:#222;
   border:1px solid #444;
+  color:#fff;
+  border-radius:8px;
 }
 
-.content{
+.container{
+  width:100%;
   max-width:900px;
   margin:auto;
-  padding:20px 15px;
+  padding:20px 15px 60px;
 }
 
 .card{
@@ -157,15 +213,143 @@ button:active{
 }
 
 .card h2{
-  margin-top:0;
+  margin:0 0 17px;
+  font-size:19px;
 }
 
-.red{
+.grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:5px 15px;
+}
+
+.full{
+  grid-column:1/-1;
+}
+
+.file-box{
+  background:#090909;
+  border:1px dashed #444;
+  border-radius:10px;
+  padding:10px;
+}
+
+.file-box input{
+  height:auto;
+  border:0;
+  padding:8px;
+}
+
+.preview{
+  display:none;
+  width:100px;
+  height:140px;
+  object-fit:cover;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+.progress{
+  display:none;
+  margin-top:15px;
+}
+
+.progress-bar{
+  height:8px;
+  background:#292929;
+  border-radius:20px;
+  overflow:hidden;
+}
+
+.progress-inner{
+  width:0%;
+  height:100%;
   background:#e50914;
 }
 
-#movies{
+.progress-text{
   color:#aaa;
+  font-size:13px;
+  margin-top:6px;
+}
+
+.movie-item{
+  display:flex;
+  gap:13px;
+  padding:13px 0;
+  border-bottom:1px solid #292929;
+}
+
+.movie-item:last-child{
+  border-bottom:0;
+}
+
+.movie-poster{
+  width:70px;
+  height:95px;
+  object-fit:cover;
+  border-radius:7px;
+  background:#222;
+  flex-shrink:0;
+}
+
+.movie-info{
+  flex:1;
+  min-width:0;
+}
+
+.movie-title{
+  font-weight:800;
+  margin-bottom:6px;
+}
+
+.movie-meta{
+  color:#999;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.delete-btn{
+  width:auto;
+  height:38px;
+  padding:0 12px;
+  margin-top:8px;
+  border:1px solid #762020;
+  background:#250b0b;
+  color:#ff8888;
+  border-radius:7px;
+}
+
+.refresh-btn{
+  width:auto;
+  height:40px;
+  padding:0 14px;
+  margin:0 0 15px;
+  border:1px solid #444;
+  background:#222;
+  color:#fff;
+  border-radius:8px;
+}
+
+.empty{
+  text-align:center;
+  color:#888;
+  padding:20px 0;
+}
+
+.hint{
+  color:#888;
+  font-size:12px;
+  line-height:1.5;
+  margin-top:8px;
+}
+
+@media(min-width:650px){
+
+  .grid{
+    grid-template-columns:1fr 1fr;
+  }
+
 }
 </style>
 </head>
@@ -174,9 +358,9 @@ button:active{
 
 <!-- LOGIN -->
 
-<div id="loginPage">
+<section id="loginPage">
 
-  <div class="box">
+  <div class="login-box">
 
     <div class="logo">
       NEX <span>BOX</span>
@@ -191,8 +375,8 @@ button:active{
     <input
       id="email"
       type="email"
-      value=""
       placeholder="Admin email"
+      autocomplete="username"
     >
 
     <label>Password</label>
@@ -201,71 +385,235 @@ button:active{
       id="password"
       type="password"
       placeholder="Password"
+      autocomplete="current-password"
     >
 
-    <!-- IMPORTANT: DIRECT CLICK HANDLER -->
     <button
       type="button"
+      class="login-btn"
       onclick="loginNow()"
     >
       SIGN IN
     </button>
 
-    <div id="message"></div>
+    <div id="loginMessage" class="message"></div>
 
   </div>
 
-</div>
+</section>
 
 
 <!-- ADMIN -->
 
-<div id="adminPage">
+<section id="adminPage" class="hidden">
 
-  <div class="header">
+  <header class="header">
 
-    <div class="headerTitle">
+    <div class="header-title">
       NEX <span>BOX</span> ADMIN
     </div>
 
     <button
-      class="logout"
       type="button"
+      class="logout-btn"
       onclick="logoutNow()"
     >
       LOGOUT
     </button>
 
-  </div>
+  </header>
 
-  <div class="content">
 
-    <div class="card">
+  <main class="container">
 
-      <h2>Admin Dashboard</h2>
+    <!-- ADD MOVIE -->
 
-      <p>
-        You are successfully signed in to NEX BOX Admin.
-      </p>
+    <section class="card">
 
-    </div>
+      <h2>🎬 Add New Movie</h2>
 
-    <div class="card">
+      <div class="grid">
 
-      <h2>Movies</h2>
+        <div>
+          <label>Movie Title</label>
 
-      <div id="movies">
-        Loading movies...
+          <input
+            id="movieTitle"
+            type="text"
+            placeholder="Enter movie title"
+          >
+        </div>
+
+
+        <div>
+          <label>Genre</label>
+
+          <input
+            id="movieGenre"
+            type="text"
+            placeholder="Action, Drama, Comedy..."
+          >
+        </div>
+
+
+        <div>
+          <label>Release Year</label>
+
+          <input
+            id="movieYear"
+            type="number"
+            placeholder="2026"
+          >
+        </div>
+
+
+        <div>
+          <label>Allow Download</label>
+
+          <select id="downloadable">
+
+            <option value="true">
+              Yes
+            </option>
+
+            <option value="false">
+              No
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="full">
+
+          <label>Description</label>
+
+          <textarea
+            id="movieDescription"
+            placeholder="Write a description for the movie..."
+          ></textarea>
+
+        </div>
+
+
+        <div>
+
+          <label>Movie Poster</label>
+
+          <div class="file-box">
+
+            <input
+              id="posterFile"
+              type="file"
+              accept="image/*"
+              onchange="previewPoster()"
+            >
+
+            <img
+              id="posterPreview"
+              class="preview"
+              alt="Poster preview"
+            >
+
+          </div>
+
+          <div class="hint">
+            JPG, PNG or WEBP recommended.
+          </div>
+
+        </div>
+
+
+        <div>
+
+          <label>Movie Video</label>
+
+          <div class="file-box">
+
+            <input
+              id="videoFile"
+              type="file"
+              accept="video/mp4,video/webm,video/*"
+            >
+
+          </div>
+
+          <div class="hint">
+            MP4 is recommended for browser playback.
+          </div>
+
+        </div>
+
       </div>
 
-    </div>
 
-  </div>
+      <button
+        type="button"
+        id="uploadButton"
+        class="primary-btn"
+        onclick="addMovie()"
+      >
+        ADD MOVIE
+      </button>
 
-</div>
+
+      <div id="uploadMessage" class="message"></div>
+
+
+      <div id="progress" class="progress">
+
+        <div class="progress-bar">
+          <div
+            id="progressInner"
+            class="progress-inner"
+          ></div>
+        </div>
+
+        <div
+          id="progressText"
+          class="progress-text"
+        >
+          Preparing upload...
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- MOVIES -->
+
+    <section class="card">
+
+      <h2>📚 NEX BOX Movies</h2>
+
+      <button
+        type="button"
+        class="refresh-btn"
+        onclick="loadMovies()"
+      >
+        🔄 Refresh
+      </button>
+
+      <div id="movieList">
+        <div class="empty">
+          Loading movies...
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+</section>
 
 
 <script>
+
+/* ================================
+   SUPABASE
+================================ */
 
 const SUPABASE_URL =
 "https://jacxlmcwwedertcaizdj.supabase.co";
@@ -274,35 +622,87 @@ const SUPABASE_KEY =
 "sb_publishable_LZQ6oY0ReQ5uerLsHOtYIQ_llOyeB94";
 
 
-function showMessage(text,type){
+let accessToken = null;
 
-  const box =
-    document.getElementById("message");
 
-  box.textContent = text;
+/* ================================
+   HELPERS
+================================ */
 
-  box.className = type || "";
+function message(elementId,text,type){
+
+  const element =
+    document.getElementById(elementId);
+
+  element.textContent = text;
+
+  element.className =
+    "message show " + type;
 
 }
 
 
+function clearMessage(elementId){
+
+  const element =
+    document.getElementById(elementId);
+
+  element.textContent = "";
+
+  element.className = "message";
+
+}
+
+
+function safe(value){
+
+  return String(value || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+function cleanFileName(name){
+
+  return name.replace(
+    /[^a-zA-Z0-9._-]/g,
+    "_"
+  );
+
+}
+
+
+/* ================================
+   LOGIN
+================================ */
+
 async function loginNow(){
 
-  showMessage(
-    "LOGIN BUTTON CLICKED. Connecting...",
+  message(
+    "loginMessage",
+    "Connecting to NEX BOX...",
     "success"
   );
 
+
   const email =
-    document.getElementById("email").value.trim();
+    document.getElementById("email")
+    .value
+    .trim();
 
   const password =
-    document.getElementById("password").value;
+    document.getElementById("password")
+    .value;
 
 
   if(!email){
 
-    showMessage(
+    message(
+      "loginMessage",
       "Enter your email.",
       "error"
     );
@@ -313,7 +713,8 @@ async function loginNow(){
 
   if(!password){
 
-    showMessage(
+    message(
+      "loginMessage",
       "Enter your password.",
       "error"
     );
@@ -350,7 +751,8 @@ async function loginNow(){
 
     if(!response.ok){
 
-      showMessage(
+      message(
+        "loginMessage",
         data.msg ||
         data.message ||
         data.error_description ||
@@ -362,52 +764,42 @@ async function loginNow(){
     }
 
 
-    if(!data.access_token){
-
-      showMessage(
-        "Supabase did not return a login session.",
-        "error"
-      );
-
-      return;
-    }
-
-
-    showMessage(
-      "Login successful. Opening Admin...",
-      "success"
-    );
+    accessToken =
+      data.access_token;
 
 
     localStorage.setItem(
       "nexbox_access_token",
-      data.access_token
+      accessToken
     );
 
-    localStorage.setItem(
-      "nexbox_refresh_token",
-      data.refresh_token || ""
+
+    message(
+      "loginMessage",
+      "Login successful.",
+      "success"
     );
 
 
     setTimeout(function(){
 
-      document.getElementById(
-        "loginPage"
-      ).style.display="none";
+      document
+        .getElementById("loginPage")
+        .classList.add("hidden");
 
-      document.getElementById(
-        "adminPage"
-      ).style.display="block";
+      document
+        .getElementById("adminPage")
+        .classList.remove("hidden");
 
-      loadMovies(data.access_token);
+      loadMovies();
 
     },500);
 
 
   }catch(error){
 
-    showMessage(
+    message(
+      "loginMessage",
       "Connection error: " +
       error.message,
       "error"
@@ -418,10 +810,510 @@ async function loginNow(){
 }
 
 
-async function loadMovies(token){
+/* ================================
+   LOGOUT
+================================ */
 
-  const movies =
-    document.getElementById("movies");
+function logoutNow(){
+
+  localStorage.removeItem(
+    "nexbox_access_token"
+  );
+
+  accessToken = null;
+
+  document
+    .getElementById("adminPage")
+    .classList.add("hidden");
+
+  document
+    .getElementById("loginPage")
+    .classList.remove("hidden");
+
+}
+
+
+/* ================================
+   POSTER PREVIEW
+================================ */
+
+function previewPoster(){
+
+  const file =
+    document
+      .getElementById("posterFile")
+      .files[0];
+
+  const preview =
+    document.getElementById(
+      "posterPreview"
+    );
+
+
+  if(!file){
+
+    preview.style.display="none";
+
+    return;
+  }
+
+
+  preview.src =
+    URL.createObjectURL(file);
+
+  preview.style.display="block";
+
+}
+
+
+/* ================================
+   ADD MOVIE
+================================ */
+
+async function addMovie(){
+
+  clearMessage("uploadMessage");
+
+
+  if(!accessToken){
+
+    accessToken =
+      localStorage.getItem(
+        "nexbox_access_token"
+      );
+
+  }
+
+
+  if(!accessToken){
+
+    message(
+      "uploadMessage",
+      "Please sign in again.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const title =
+    document
+      .getElementById("movieTitle")
+      .value
+      .trim();
+
+  const description =
+    document
+      .getElementById("movieDescription")
+      .value
+      .trim();
+
+  const genre =
+    document
+      .getElementById("movieGenre")
+      .value
+      .trim();
+
+  const year =
+    document
+      .getElementById("movieYear")
+      .value;
+
+  const downloadable =
+    document
+      .getElementById("downloadable")
+      .value === "true";
+
+  const poster =
+    document
+      .getElementById("posterFile")
+      .files[0];
+
+  const video =
+    document
+      .getElementById("videoFile")
+      .files[0];
+
+
+  if(!title){
+
+    message(
+      "uploadMessage",
+      "Enter the movie title.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!poster){
+
+    message(
+      "uploadMessage",
+      "Select a movie poster.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  if(!video){
+
+    message(
+      "uploadMessage",
+      "Select the movie video.",
+      "error"
+    );
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      "uploadButton"
+    );
+
+  button.disabled = true;
+
+  button.textContent =
+    "UPLOADING...";
+
+
+  const progress =
+    document.getElementById("progress");
+
+  const progressInner =
+    document.getElementById(
+      "progressInner"
+    );
+
+  const progressText =
+    document.getElementById(
+      "progressText"
+    );
+
+
+  progress.style.display="block";
+
+
+  try{
+
+    /* POSTER */
+
+    progressText.textContent =
+      "Uploading poster...";
+
+    progressInner.style.width =
+      "20%";
+
+
+    const posterPath =
+      "posters/" +
+      Date.now() +
+      "_" +
+      cleanFileName(poster.name);
+
+
+    const posterResponse =
+      await fetch(
+        SUPABASE_URL +
+        "/storage/v1/object/Posters/" +
+        posterPath,
+        {
+          method:"POST",
+
+          headers:{
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Content-Type":
+              poster.type ||
+              "application/octet-stream"
+          },
+
+          body:poster
+        }
+      );
+
+
+    const posterResult =
+      await posterResponse.json();
+
+
+    if(!posterResponse.ok){
+
+      throw new Error(
+        "Poster upload failed: " +
+        (
+          posterResult.message ||
+          posterResult.error ||
+          "Unknown error"
+        )
+      );
+
+    }
+
+
+    const posterUrl =
+      SUPABASE_URL +
+      "/storage/v1/object/public/Posters/" +
+      posterPath;
+
+
+    /* VIDEO */
+
+    progressText.textContent =
+      "Uploading video...";
+
+    progressInner.style.width =
+      "50%";
+
+
+    const videoPath =
+      "videos/" +
+      Date.now() +
+      "_" +
+      cleanFileName(video.name);
+
+
+    const videoResponse =
+      await fetch(
+        SUPABASE_URL +
+        "/storage/v1/object/Videos/" +
+        videoPath,
+        {
+          method:"POST",
+
+          headers:{
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Content-Type":
+              video.type ||
+              "video/mp4"
+          },
+
+          body:video
+        }
+      );
+
+
+    const videoResult =
+      await videoResponse.json();
+
+
+    if(!videoResponse.ok){
+
+      throw new Error(
+        "Video upload failed: " +
+        (
+          videoResult.message ||
+          videoResult.error ||
+          "Unknown error"
+        )
+      );
+
+    }
+
+
+    const videoUrl =
+      SUPABASE_URL +
+      "/storage/v1/object/public/Videos/" +
+      videoPath;
+
+
+    /* DATABASE */
+
+    progressText.textContent =
+      "Saving movie...";
+
+    progressInner.style.width =
+      "80%";
+
+
+    const movieResponse =
+      await fetch(
+        SUPABASE_URL +
+        "/rest/v1/movies",
+        {
+          method:"POST",
+
+          headers:{
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "apikey":
+              SUPABASE_KEY,
+
+            "Content-Type":
+              "application/json",
+
+            "Prefer":
+              "return=representation"
+          },
+
+          body:JSON.stringify({
+
+            title:title,
+
+            description:
+              description || null,
+
+            genre:
+              genre || null,
+
+            year:
+              year
+                ? Number(year)
+                : null,
+
+            poster_url:
+              posterUrl,
+
+            video_url:
+              videoUrl,
+
+            downloadable:
+              downloadable
+
+          })
+        }
+      );
+
+
+    const movieResult =
+      await movieResponse.json();
+
+
+    if(!movieResponse.ok){
+
+      throw new Error(
+        "Database save failed: " +
+        (
+          movieResult.message ||
+          movieResult.error ||
+          "Unknown error"
+        )
+      );
+
+    }
+
+
+    progressInner.style.width =
+      "100%";
+
+    progressText.textContent =
+      "Movie added successfully!";
+
+
+    message(
+      "uploadMessage",
+      "🎉 Movie uploaded and saved to NEX BOX.",
+      "success"
+    );
+
+
+    /* CLEAR */
+
+    document.getElementById(
+      "movieTitle"
+    ).value="";
+
+    document.getElementById(
+      "movieDescription"
+    ).value="";
+
+    document.getElementById(
+      "movieGenre"
+    ).value="";
+
+    document.getElementById(
+      "movieYear"
+    ).value="";
+
+    document.getElementById(
+      "posterFile"
+    ).value="";
+
+    document.getElementById(
+      "videoFile"
+    ).value="";
+
+    document.getElementById(
+      "posterPreview"
+    ).style.display="none";
+
+
+    loadMovies();
+
+
+  }catch(error){
+
+    console.error(error);
+
+    message(
+      "uploadMessage",
+      error.message ||
+      "Movie upload failed.",
+      "error"
+    );
+
+
+  }finally{
+
+    button.disabled=false;
+
+    button.textContent =
+      "ADD MOVIE";
+
+  }
+
+}
+
+
+/* ================================
+   LOAD MOVIES
+================================ */
+
+async function loadMovies(){
+
+  const list =
+    document.getElementById(
+      "movieList"
+    );
+
+
+  if(!accessToken){
+
+    accessToken =
+      localStorage.getItem(
+        "nexbox_access_token"
+      );
+
+  }
+
+
+  if(!accessToken){
+
+    list.innerHTML =
+      '<div class="empty">Please sign in.</div>';
+
+    return;
+  }
+
+
+  list.innerHTML =
+    '<div class="empty">Loading movies...</div>';
 
 
   try{
@@ -433,105 +1325,61 @@ async function loadMovies(token){
         {
           headers:{
             "apikey":SUPABASE_KEY,
+
             "Authorization":
-              "Bearer " + token
+              "Bearer " + accessToken
           }
         }
       );
 
 
-    const data =
+    const movies =
       await response.json();
 
 
     if(!response.ok){
 
-      movies.textContent =
-        "Could not load movies: " +
-        (data.message || "Unknown error");
+      throw new Error(
+        movies.message ||
+        "Could not load movies."
+      );
+
+    }
+
+
+    if(!movies.length){
+
+      list.innerHTML =
+        '<div class="empty">' +
+        'No movies added yet.' +
+        '</div>';
 
       return;
     }
 
 
-    if(!data.length){
-
-      movies.textContent =
-        "No movies have been added yet.";
-
-      return;
-    }
-
-
-    movies.innerHTML =
-      data.map(function(movie){
+    list.innerHTML =
+      movies.map(function(movie){
 
         return `
-          <div style="
-            padding:12px 0;
-            border-bottom:1px solid #333;
-          ">
-            <strong>
-              ${escapeHtml(movie.title || "Untitled")}
-            </strong>
-            <br>
-            <small style="color:#888">
-              ${escapeHtml(movie.genre || "")}
-            </small>
-          </div>
-        `;
 
-      }).join("");
+          <div class="movie-item">
 
+            <img
+              class="movie-poster"
+              src="${safe(movie.poster_url)}"
+              onerror="this.style.display='none'"
+            >
 
-  }catch(error){
+            <div class="movie-info">
 
-    movies.textContent =
-      error.message;
+              <div class="movie-title">
+                ${safe(movie.title)}
+              </div>
 
-  }
+              <div class="movie-meta">
 
-}
+                Genre:
+                ${safe(movie.genre || "Not set")}
 
-
-function escapeHtml(value){
-
-  return String(value)
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
-
-}
-
-
-function logoutNow(){
-
-  localStorage.removeItem(
-    "nexbox_access_token"
-  );
-
-  localStorage.removeItem(
-    "nexbox_refresh_token"
-  );
-
-  document.getElementById(
-    "adminPage"
-  ).style.display="none";
-
-  document.getElementById(
-    "loginPage"
-  ).style.display="flex";
-
-  showMessage(
-    "You have been logged out.",
-    "success"
-  );
-
-}
-
-</script>
-
-</body>
-</html>
+         
